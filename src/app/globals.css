@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* ── Geist font tokens piped into Tailwind ── */
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-nesr-green: #307c4c;
+}
