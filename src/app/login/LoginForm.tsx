@@ -1,0 +1,123 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import { User, Lock, GraduationCap } from 'lucide-react';
+
+export default function LoginForm() {
+  const router = useRouter();
+  const params = useSearchParams();
+  const from = params.get('from') || '/';
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      if (res.ok) {
+        router.replace(from);
+        router.refresh();
+        return;
+      }
+      const data = await res.json().catch(() => ({}));
+      setError(data?.error ?? 'Login failed. Please try again.');
+      setLoading(false);
+    } catch {
+      setError('Something went wrong. Please try again.');
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 font-sans text-slate-900 px-4">
+      <div className="w-full max-w-sm">
+        {/* Brand */}
+        <div className="flex flex-col items-center text-center mb-8">
+          <Image
+            src="/nesr-logo-circle.png"
+            alt="NESR"
+            width={56}
+            height={56}
+            className="rounded-full"
+          />
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 mt-4">NESR AI Learning</h1>
+          <p className="inline-flex items-center gap-1.5 text-sm text-slate-500 mt-1">
+            <GraduationCap className="w-4 h-4 text-[#307c4c]" />
+            Sign in to start the series
+          </p>
+        </div>
+
+        {/* Card */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col gap-4"
+        >
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-slate-700 mb-1.5">
+              Username
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <input
+                id="username"
+                type="text"
+                autoComplete="username"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                required
+                className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#307c4c]/20 focus:border-[#307c4c] transition-colors placeholder-slate-400"
+                placeholder="Enter username"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1.5">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+                className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#307c4c]/20 focus:border-[#307c4c] transition-colors placeholder-slate-400"
+                placeholder="Enter password"
+              />
+            </div>
+          </div>
+
+          {error && (
+            <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading || !username || !password}
+            className="mt-1 w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-[#307c4c] hover:bg-[#276041] disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed transition-colors"
+          >
+            {loading ? 'Signing in…' : 'Sign in'}
+          </button>
+        </form>
+
+        <p className="text-center text-xs text-slate-400 mt-6">NESR Digital Supply Chain</p>
+      </div>
+    </div>
+  );
+}

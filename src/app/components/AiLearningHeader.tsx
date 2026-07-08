@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
+import SignOutButton from './SignOutButton';
 
 /**
  * Slim top bar shared by the landing page and module pages.
@@ -18,9 +19,12 @@ export default function AiLearningHeader() {
         </span>
       </Link>
 
-      <div className="flex items-center gap-2 text-slate-500">
-        <Sparkles className="w-4 h-4 text-[#307c4c]" />
-        <span className="text-sm font-medium">Learning Series</span>
+      <div className="flex items-center gap-4">
+        <span className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-slate-500">
+          <Sparkles className="w-4 h-4 text-[#307c4c]" />
+          Learning Series
+        </span>
+        <SignOutButton />
       </div>
     </header>
   );
