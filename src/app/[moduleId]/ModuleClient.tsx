@@ -179,6 +179,26 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
           </ul>
         </div>
       );
+
+    case 'video':
+      return (
+        <div>
+          {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
+          {/* Responsive 16:9 embed — fills the content column on any screen size. */}
+          <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-gray-200 bg-black">
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src={`https://www.youtube.com/embed/${block.youtubeId}`}
+              title={block.heading ?? 'Lesson video'}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          </div>
+          {block.caption && <p className="mt-2 text-sm text-slate-500">{block.caption}</p>}
+        </div>
+      );
   }
 }
 

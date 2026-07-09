@@ -25,7 +25,8 @@ export type ContentBlock =
   | { kind: 'flow'; heading?: string; body?: string; nodes: string[] }
   | { kind: 'glossary'; heading?: string; terms: { term: string; def: string }[] }
   | { kind: 'list'; heading?: string; items: { title: string; body: string }[] }
-  | { kind: 'checklist'; heading?: string; items: string[] };
+  | { kind: 'checklist'; heading?: string; items: string[] }
+  | { kind: 'video'; youtubeId: string; heading?: string; caption?: string };
 
 /* ─── Quiz ───────────────────────────────────────────────────────────── */
 
@@ -76,124 +77,76 @@ const businessModules: Module[] = [
     id: 'business-1',
     partLabel: 'Part 1 of 3',
     part: 1,
-    title: 'What AI Actually Is',
-    tagline: 'Cutting through the hype: what these systems are, and are not.',
-    minutes: 6,
+    title: 'What Is AI?',
+    tagline: 'A five-minute primer on what artificial intelligence really means.',
+    minutes: 5,
     sections: [
       {
         kind: 'lead',
-        text: 'A pattern-matching system, trained on data.',
-        body: "Large language models learn statistical patterns from huge amounts of text, then use those patterns to predict likely, useful outputs — they don't “think” or “understand” the way people do.",
+        text: 'AI is machines doing things that normally need human intelligence.',
+        body: 'This quick Simplilearn primer defines artificial intelligence, shows everyday examples you already use, and lays out the three broad types of AI.',
       },
       {
-        kind: 'cards',
-        heading: 'Three things that define it',
-        cards: [
-          { title: 'Trained', body: 'Learns from examples, not programmed rule by rule.' },
-          { title: 'Predictive', body: 'Generates the most likely next words, not verified facts.' },
-          { title: 'Generalizable', body: 'One model can help with many different tasks.' },
-        ],
+        kind: 'video',
+        youtubeId: 'ad79nYk2keg',
+        heading: 'Watch: What is AI? (in 5 minutes)',
+        caption: 'Simplilearn (~5 min)',
       },
       {
-        kind: 'cards',
-        heading: "Three terms you'll hear",
-        cards: [
-          {
-            title: 'Generative AI',
-            body: 'Creates new text, images, or code from a prompt — the kind of AI behind most chat assistants.',
-          },
-          {
-            title: 'Machine Learning',
-            body: 'The broader field of training systems to find patterns in data and improve with experience.',
-          },
-          {
-            title: 'Automation (RPA)',
-            body: 'Rule-based software that repeats fixed steps — no learning or generation involved.',
-          },
-        ],
-      },
-      {
-        kind: 'compare',
-        heading: 'Strengths vs. limits',
-        left: {
-          title: 'Where it excels',
-          items: [
-            'Drafting first versions of writing',
-            'Summarizing long documents',
-            'Finding patterns in data',
-            'Personalizing content at scale',
-          ],
-        },
-        right: {
-          title: 'Where it struggles',
-          items: [
-            'Judgment calls with real stakes',
-            'Knowing very recent events',
-            'Guaranteeing factual accuracy',
-            'Working unsupervised on high-stakes tasks',
-          ],
-        },
-      },
-      {
-        kind: 'glossary',
-        heading: 'Key vocabulary',
-        terms: [
-          { term: 'Model', def: 'The trained AI system that generates responses.' },
-          { term: 'Prompt', def: 'The instructions or question you give the model.' },
-          { term: 'Training data', def: 'The examples the model learned from.' },
-          { term: 'Hallucination', def: 'A confident but incorrect or made-up answer.' },
-          { term: 'LLM', def: '“Large language model” — a model trained on huge amounts of text.' },
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'AI, defined', body: 'Machines that simulate human intelligence — learning, reasoning, and problem-solving.' },
+          { title: 'You already use it', body: 'Virtual assistants, recommendations, spam filters, and self-driving cars.' },
+          { title: 'Three types', body: 'Narrow AI (one task), General AI (human-level), and Super AI (beyond human). Today’s AI is Narrow.' },
+          { title: 'Powered by data', body: 'AI systems learn patterns from large amounts of data.' },
         ],
       },
     ],
     quiz: [
       {
-        prompt: 'Which best describes how a large language model produces an answer?',
+        prompt: 'Which is the best short definition of AI?',
         options: [
-          'It looks up verified facts in a database',
-          'It predicts the most likely next words based on patterns in its training data',
-          'It follows a hand-written rule for every possible question',
-          'It reasons and understands exactly the way a person does',
-        ],
-        answer: 1,
-        explanation:
-          'LLMs are predictive pattern-matchers — they generate the most likely next words, which is why they can be wrong even when they sound confident.',
-      },
-      {
-        prompt: 'Which of these is an example of Automation (RPA) rather than Generative AI?',
-        options: [
-          'Drafting an email from a short prompt',
-          'Summarizing a long report',
-          'Software that repeats the same fixed steps with no learning',
-          'Answering a question inside a chat assistant',
-        ],
-        answer: 2,
-        explanation:
-          'RPA is rule-based software that repeats fixed steps — there is no learning or content generation involved.',
-      },
-      {
-        prompt: 'In AI, a “hallucination” is:',
-        options: [
-          'A confident but incorrect or made-up answer',
-          'The model refusing to respond',
-          'A slower-than-usual response',
-          'An image the model generates',
+          'Machines performing tasks that normally require human intelligence',
+          'Any computer program at all',
+          'A faster internet connection',
+          'A type of spreadsheet',
         ],
         answer: 0,
-        explanation:
-          'A hallucination is output that sounds plausible but is factually wrong or invented — a key reason to review AI output.',
+        explanation: 'AI is about machines simulating human intelligence — learning, reasoning, and solving problems.',
       },
       {
-        prompt: 'Which task is AI LEAST suited to handle on its own?',
+        prompt: 'Which is an everyday example of AI in action?',
         options: [
-          'Drafting a first version of a document',
-          'A high-stakes judgment call with real consequences',
-          'Summarizing a long document',
-          'Spotting patterns across data',
+          'A virtual assistant like Siri or Alexa',
+          'A paper calculator',
+          'A light switch',
+          'A printed book',
         ],
-        answer: 1,
-        explanation:
-          'AI struggles with judgment calls that carry real stakes — those need a person accountable for the decision.',
+        answer: 0,
+        explanation: 'Virtual assistants, recommendations, and spam filters are common examples the video highlights.',
+      },
+      {
+        prompt: 'Today’s AI systems are mostly which type?',
+        options: [
+          'Narrow AI — built for a specific task',
+          'General AI — human-level at everything',
+          'Super AI — beyond human ability',
+          'None — AI has no types',
+        ],
+        answer: 0,
+        explanation: 'Current AI is Narrow (or “weak”) AI, designed for specific tasks. General and Super AI are still hypothetical.',
+      },
+      {
+        prompt: 'What do AI systems mainly learn from?',
+        options: [
+          'Large amounts of data',
+          'Hand-written rules only',
+          'Random guessing',
+          'The weather',
+        ],
+        answer: 0,
+        explanation: 'AI learns patterns from large amounts of data rather than being programmed rule by rule.',
       },
     ],
   },
@@ -201,110 +154,76 @@ const businessModules: Module[] = [
     id: 'business-2',
     partLabel: 'Part 2 of 3',
     part: 2,
-    title: 'AI in the Workplace',
-    tagline: 'Where these tools actually fit into everyday work.',
-    minutes: 6,
+    title: 'Generative AI at Work',
+    tagline: 'What generative AI is, how it works, and how to actually use it well.',
+    minutes: 18,
     sections: [
       {
-        kind: 'list',
-        heading: 'Where AI shows up at work',
-        items: [
-          { title: 'Writing assistance', body: 'First drafts of emails, docs, and posts.' },
-          { title: 'Meeting summaries', body: 'Turning notes or transcripts into recaps.' },
-          { title: 'Customer support', body: 'Chatbots handling common questions.' },
-          { title: 'Data analysis', body: 'Spotting trends across spreadsheets.' },
-          { title: 'Coding help', body: 'Drafting, explaining, and debugging code.' },
-        ],
+        kind: 'lead',
+        text: 'Generative AI creates new content — text, images, and code.',
+        body: 'Henrik Kniberg’s popular explainer walks through what generative AI is, why it differs from traditional software, and practical ways to use it as a drafting and thinking partner.',
       },
       {
-        kind: 'steps',
-        heading: 'The “Copilot” model — AI assists, a person decides',
-        steps: [
-          { title: 'AI drafts', body: 'Generates a first pass — text, analysis, or a suggestion.' },
-          { title: 'Person reviews', body: 'Checks accuracy, tone, and judgment calls.' },
-          { title: 'Decision is made', body: 'A human owns the final outcome.' },
-        ],
-      },
-      {
-        kind: 'cards',
-        heading: 'Choosing the right tool',
-        cards: [
-          {
-            title: 'General assistant',
-            body: 'Best for varied, everyday tasks — writing, research, quick analysis.',
-          },
-          {
-            title: 'Specialized tool',
-            body: 'Purpose-built for one job, like transcription or design.',
-          },
-          {
-            title: 'Custom-built',
-            body: 'Tailored to a specific workflow, usually worth it at scale.',
-          },
-        ],
+        kind: 'video',
+        youtubeId: '2IK3DFHRFfw',
+        heading: 'Watch: Generative AI in a Nutshell',
+        caption: 'Henrik Kniberg (~18 min)',
       },
       {
         kind: 'list',
-        heading: 'Avoid these mistakes',
+        heading: 'Key ideas from the video',
         items: [
-          {
-            title: 'Pasting confidential data into public tools',
-            body: 'Sensitive information can be stored or used for training.',
-          },
-          {
-            title: 'Trusting output unchecked',
-            body: 'Always review before sending or acting on AI output.',
-          },
-          {
-            title: 'Expecting one tool to do everything',
-            body: 'Different tasks call for different tools.',
-          },
+          { title: 'It generates new content', body: 'Unlike a search engine, it produces new text, images, or code on request.' },
+          { title: 'It learns patterns from data', body: 'Trained on huge amounts of data, it predicts likely, useful output.' },
+          { title: 'Capable but fallible', body: 'It can be confidently wrong — treat its output as a draft to review, not a final answer.' },
+          { title: 'You steer it with prompts', body: 'Clear instructions and good context lead to much better results.' },
         ],
       },
     ],
     quiz: [
       {
-        prompt: 'In the “copilot” model of using AI at work, who owns the final decision?',
-        options: ['The AI', 'A human', 'The tool vendor', 'Whoever wrote the prompt first'],
-        answer: 1,
-        explanation:
-          'AI drafts and a person reviews, but a human always owns the final outcome — that is the whole point of the copilot model.',
+        prompt: 'What does generative AI mainly do?',
+        options: [
+          'Creates new content such as text, images, or code',
+          'Only searches existing web pages',
+          'Only stores files',
+          'Only fixes spelling mistakes',
+        ],
+        answer: 0,
+        explanation: 'Generative AI produces new content on request, rather than just retrieving what already exists.',
       },
       {
-        prompt: 'When does a custom-built AI tool make the most sense over a general assistant?',
+        prompt: 'Where does a generative AI model get its abilities?',
         options: [
-          'For quick, varied, one-off tasks',
-          'When you need it tailored to a specific workflow, usually at scale',
-          'Whenever you want the cheapest option',
-          'Only when no general assistant exists',
+          'From patterns learned in large amounts of training data',
+          'From a fixed list of hand-written answers',
+          'From the user’s typing speed',
+          'From the device’s battery level',
         ],
-        answer: 1,
-        explanation:
-          'Custom-built tools are tailored to a specific workflow and are usually worth the investment at scale.',
+        answer: 0,
+        explanation: 'It learns patterns from vast training data and uses them to predict useful output.',
       },
       {
-        prompt: 'What is the risk of pasting confidential data into a public AI tool?',
+        prompt: 'What is a smart way to work with generative AI?',
         options: [
-          'The answer will be slower',
-          'Sensitive information can be stored or used for training',
-          'The model will refuse to respond',
-          'It always produces a hallucination',
+          'Treat its output as a draft, review it, and keep a human in the loop',
+          'Publish whatever it produces without checking',
+          'Never give it any instructions',
+          'Assume it is always correct',
         ],
-        answer: 1,
-        explanation:
-          'Public tools may store or reuse what you paste, so confidential data should never go into them without approval.',
+        answer: 0,
+        explanation: 'Because it can be confidently wrong, review its output and keep a person accountable.',
       },
       {
-        prompt: 'Which is a typical everyday workplace use of AI?',
+        prompt: 'What most affects the quality of what you get back?',
         options: [
-          'Making final hiring decisions on its own',
-          'Turning meeting notes or transcripts into a recap',
-          'Approving payments without review',
-          'Signing contracts autonomously',
+          'How clear your prompt and context are',
+          'The color of your screen',
+          'The time of day',
+          'How fast you type',
         ],
-        answer: 1,
-        explanation:
-          'Summarizing meetings is a common, low-risk assist. High-stakes decisions still belong to a person.',
+        answer: 0,
+        explanation: 'Clear instructions and relevant context are the biggest lever on output quality.',
       },
     ],
   },
@@ -312,117 +231,76 @@ const businessModules: Module[] = [
     id: 'business-3',
     partLabel: 'Part 3 of 3',
     part: 3,
-    title: 'Risk, Ethics & Getting Started',
-    tagline: "Adopting AI in a way that's safe, fair, and sustainable.",
-    minutes: 6,
+    title: 'Using AI Responsibly',
+    tagline: 'The ethics questions every team should ask before leaning on AI.',
+    minutes: 7,
     sections: [
       {
+        kind: 'lead',
+        text: 'Powerful tools need guardrails.',
+        body: 'This IBM explainer introduces AI ethics — the principles that help organizations capture AI’s benefits while reducing harms like bias and loss of trust.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'aGwYtUzMQUk',
+        heading: 'Watch: What is AI Ethics?',
+        caption: 'IBM Technology (~7 min)',
+      },
+      {
         kind: 'list',
-        heading: 'Key risks to manage',
+        heading: 'Key ideas from the video',
         items: [
-          {
-            title: 'Data privacy',
-            body: 'Sensitive data sent to third-party tools may be stored or reused.',
-          },
-          { title: 'Bias', body: 'Outputs can reflect skewed patterns in training data.' },
-          {
-            title: 'Over-reliance',
-            body: 'Skipping human review erodes quality and accountability.',
-          },
-          {
-            title: 'IP & copyright',
-            body: "Ownership of AI-assisted content isn't always clear-cut.",
-          },
-        ],
-      },
-      {
-        kind: 'cards',
-        heading: 'Governance basics',
-        cards: [
-          {
-            title: 'Have a written policy',
-            body: 'Define acceptable use before problems come up.',
-          },
-          {
-            title: 'Know what data can go where',
-            body: "Set clear rules for what can and can't be shared with AI tools.",
-          },
-          {
-            title: 'Designate reviewers',
-            body: 'Make sure a person is accountable for checking AI output.',
-          },
-        ],
-      },
-      {
-        kind: 'steps',
-        heading: 'Start small, scale smart',
-        numbered: true,
-        steps: [
-          { title: 'Pick a pilot workflow' },
-          { title: 'Set guardrails' },
-          { title: 'Train the team' },
-          { title: 'Review results' },
-        ],
-      },
-      {
-        kind: 'checklist',
-        heading: 'Getting started checklist',
-        items: [
-          'Pick one workflow to pilot AI on',
-          'Set clear guardrails for data and review',
-          'Train the team on what to check before trusting output',
-          'Review results and decide whether to expand',
+          { title: 'What AI ethics is', body: 'A set of principles for developing and using AI responsibly — maximizing benefit while reducing harm.' },
+          { title: 'Bias is a core risk', body: 'AI trained on skewed data can produce unfair outcomes.' },
+          { title: 'Transparency & explainability', body: 'People should be able to understand and question how AI reaches a decision.' },
+          { title: 'Accountability', body: 'Organizations and people — not the AI — are responsible for outcomes.' },
         ],
       },
     ],
     quiz: [
       {
-        prompt: 'Which of these is a key AI risk to manage?',
+        prompt: 'What is AI ethics mainly about?',
         options: [
-          'Bias — outputs reflecting skewed patterns in the training data',
-          'The model typing too quickly',
-          'Having too many written policies',
-          'Reviewing output too carefully',
+          'Principles for using AI responsibly — maximizing benefit and reducing harm',
+          'Making AI models run faster',
+          'Choosing which hardware to buy',
+          'A new programming language',
         ],
         answer: 0,
-        explanation:
-          'Bias is one of the four key risks (alongside data privacy, over-reliance, and IP/copyright).',
+        explanation: 'AI ethics is about responsible development and use — getting the benefits while limiting harm.',
       },
       {
-        prompt: 'A foundational governance step for adopting AI is:',
+        prompt: 'Why can an AI system produce unfair results?',
         options: [
-          'Letting each person decide their own rules',
-          'Having a written acceptable-use policy before problems arise',
-          'Avoiding any documentation to stay flexible',
-          'Banning all AI tools indefinitely',
+          'It can learn bias from skewed training data',
+          'It runs out of electricity',
+          'It types too quickly',
+          'It has too many users',
         ],
-        answer: 1,
-        explanation:
-          'A written policy defines acceptable use up front, before issues come up.',
+        answer: 0,
+        explanation: 'Bias in the training data can lead to unfair or skewed outcomes — a central AI-ethics concern.',
       },
       {
-        prompt: 'What is the recommended approach to rolling out AI?',
+        prompt: 'What does “transparency” or “explainability” mean for AI?',
         options: [
-          'Deploy it to everyone at once for maximum impact',
-          'Start with a pilot, set guardrails, train the team, then review results',
-          'Wait until a competitor forces your hand',
-          'Let it run unsupervised to see what happens',
+          'People can understand and question how the AI reached a decision',
+          'The AI runs in the cloud',
+          'The model is very large',
+          'Responses appear quickly',
         ],
-        answer: 1,
-        explanation:
-          'Start small and scale smart: pilot → guardrails → training → review.',
+        answer: 0,
+        explanation: 'Explainability means being able to see and challenge how an AI arrived at its output.',
       },
       {
-        prompt: 'Why is over-reliance on AI a risk?',
+        prompt: 'Who is ultimately accountable for how AI is used?',
         options: [
-          'It uses too much electricity',
-          'Skipping human review erodes quality and accountability',
-          'It makes the tool respond more slowly',
-          'It always violates copyright',
+          'The organizations and people using it',
+          'The AI system itself',
+          'No one',
+          'Only the end customer',
         ],
-        answer: 1,
-        explanation:
-          'When people stop reviewing AI output, quality drops and no one is accountable for mistakes.',
+        answer: 0,
+        explanation: 'Accountability stays with the people and organizations deploying AI — not the tool.',
       },
     ],
   },
@@ -437,112 +315,71 @@ const technicalModules: Module[] = [
     id: 'technical-1',
     partLabel: 'Part 1 of 3',
     part: 1,
-    title: 'How Models Actually Work',
-    tagline: 'The mechanics behind language models, from training to inference.',
-    minutes: 7,
+    title: 'What Is a Neural Network?',
+    tagline: 'The building block behind modern AI — built up from scratch, and visualized.',
+    minutes: 20,
     sections: [
       {
         kind: 'lead',
-        text: 'Predict the next token, given context.',
-        body: 'A language model is a neural network trained to estimate the probability of the next token in a sequence. Generation is just repeated sampling from that prediction, one token at a time.',
+        text: 'A neural network learns patterns from examples.',
+        body: 'This 3Blue1Brown video uses the classic task of recognizing handwritten digits to show how a network of simple “neurons,” arranged in layers, turns raw pixels into an answer — without anyone writing the rules by hand.',
       },
       {
-        kind: 'flow',
-        nodes: ['Input tokens', 'Neural network', 'Next-token prediction'],
+        kind: 'video',
+        youtubeId: 'aircAruvnKk',
+        heading: 'Watch: But what is a neural network?',
+        caption: '3Blue1Brown · Deep learning, chapter 1 (~19 min)',
       },
       {
-        kind: 'steps',
-        heading: 'The training pipeline',
-        numbered: true,
-        steps: [
-          {
-            title: 'Pretraining',
-            body: 'Learn general language patterns from massive text corpora.',
-          },
-          {
-            title: 'Fine-tuning',
-            body: 'Adjust the model on narrower, task-specific data.',
-          },
-          {
-            title: 'Alignment',
-            body: 'Shape behavior with human feedback (RLHF) and instructions.',
-          },
-        ],
-      },
-      {
-        kind: 'cards',
-        heading: 'Tokens, context & parameters',
-        cards: [
-          {
-            title: 'Tokens & context window',
-            body: 'Text is broken into tokens — words or word pieces. The context window is how many tokens the model can consider at once when generating a response.',
-          },
-          {
-            title: 'Parameters & scale',
-            body: 'Parameters are the learned weights inside the network. More parameters can mean more capacity, but data quality and training matter just as much as raw scale.',
-          },
-        ],
-      },
-      {
-        kind: 'glossary',
-        heading: 'Key vocabulary',
-        terms: [
-          { term: 'Transformer', def: 'The neural network architecture behind modern LLMs.' },
-          { term: 'Attention', def: 'A mechanism that weighs how relevant tokens are to each other.' },
-          { term: 'Embedding', def: 'A numerical vector representing the meaning of text.' },
-          { term: 'Token', def: 'A chunk of text — a word or word-piece — the model processes.' },
-          { term: 'Inference', def: 'Running a trained model to generate an output.' },
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Neurons hold a number', body: 'Each neuron carries an “activation” — a value between 0 and 1.' },
+          { title: 'Organized in layers', body: 'An input layer, one or more hidden layers, and an output layer.' },
+          { title: 'The digit example', body: 'A 28×28 image feeds 784 input neurons; 10 output neurons score the digits 0–9.' },
+          { title: 'Weights and biases', body: 'Connections have weights and each neuron a bias — the values the network tunes to “learn.”' },
         ],
       },
     ],
     quiz: [
       {
-        prompt: 'Fundamentally, a language model is trained to do what?',
+        prompt: 'What example task does the video use to explain neural networks?',
         options: [
-          'Store and retrieve documents word-for-word',
-          'Predict the next token given the preceding context',
-          'Translate between exactly two fixed languages',
-          'Compress text into a database',
-        ],
-        answer: 1,
-        explanation:
-          'An LM estimates the probability of the next token; generation is repeated sampling from that prediction, one token at a time.',
-      },
-      {
-        prompt: 'What is the correct order of the training pipeline?',
-        options: [
-          'Alignment → Fine-tuning → Pretraining',
-          'Fine-tuning → Pretraining → Alignment',
-          'Pretraining → Fine-tuning → Alignment',
-          'Pretraining → Alignment → Fine-tuning',
-        ],
-        answer: 2,
-        explanation:
-          'Pretraining learns general patterns, fine-tuning narrows to a task, and alignment shapes behavior with human feedback.',
-      },
-      {
-        prompt: 'The “context window” refers to:',
-        options: [
-          'How many tokens the model can consider at once',
-          'The size of the training dataset',
-          'The number of parameters in the network',
-          'How fast the model responds',
+          'Recognizing handwritten digits (0–9)',
+          'Translating between languages',
+          'Playing chess',
+          'Generating images',
         ],
         answer: 0,
-        explanation:
-          'The context window is the number of tokens the model can take into account when generating a response.',
+        explanation: 'The whole video is framed around recognizing a handwritten digit from a 28×28 grayscale image.',
       },
       {
-        prompt: 'In a transformer, “attention” is:',
+        prompt: 'What does a single neuron hold?',
         options: [
-          'A rule that limits response length',
-          'A mechanism that weighs how relevant tokens are to each other',
-          'The step where the model is trained on human feedback',
-          'A cache of previous answers',
+          'A number (its “activation”) between 0 and 1',
+          'A whole word',
+          'A full image',
+          'Only a yes/no flag',
         ],
-        answer: 1,
-        explanation:
-          'Attention lets the model weigh the relevance of tokens to one another — the core idea behind the transformer architecture.',
+        answer: 0,
+        explanation: 'A neuron holds an activation — a number between 0 and 1 representing how “lit up” it is.',
+      },
+      {
+        prompt: 'What are the layers between the input and output layers called?',
+        options: ['Hidden layers', 'Buffer layers', 'Memory layers', 'Token layers'],
+        answer: 0,
+        explanation: 'The layers between input and output are the “hidden layers,” where intermediate patterns form.',
+      },
+      {
+        prompt: 'What does the network actually adjust in order to “learn”?',
+        options: [
+          'Its weights and biases',
+          'The size of the image',
+          'The number of digits',
+          'The screen resolution',
+        ],
+        answer: 0,
+        explanation: 'Learning means finding good values for the weights (on connections) and biases (on neurons).',
       },
     ],
   },
@@ -550,107 +387,76 @@ const technicalModules: Module[] = [
     id: 'technical-2',
     partLabel: 'Part 2 of 3',
     part: 2,
-    title: 'Working With Models',
-    tagline: 'The practical toolkit: prompting, fine-tuning, retrieval, and agents.',
-    minutes: 7,
+    title: 'Large Language Models, Briefly',
+    tagline: 'What an LLM actually does, and how it gets trained — in plain terms.',
+    minutes: 8,
     sections: [
       {
+        kind: 'lead',
+        text: 'At its core, an LLM predicts the next word.',
+        body: 'This short overview explains what large language models are, how they produce text one word at a time, and the two big training steps that turn raw prediction into a helpful assistant.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'LPZh9BOjkQs',
+        heading: 'Watch: Large Language Models explained briefly',
+        caption: '3Blue1Brown (~8 min)',
+      },
+      {
         kind: 'list',
-        heading: 'Prompt engineering',
+        heading: 'Key ideas from the video',
         items: [
-          {
-            title: 'Clear instructions',
-            body: 'State the task, format, and constraints explicitly.',
-          },
-          {
-            title: 'Few-shot examples',
-            body: 'Show the model a couple of examples of what you want.',
-          },
-          {
-            title: 'System prompts',
-            body: 'Set persistent behavior and context for the whole conversation.',
-          },
-          {
-            title: 'Chain-of-thought',
-            body: 'Ask the model to reason step by step before answering.',
-          },
+          { title: 'Next-word prediction', body: 'An LLM takes text and predicts how likely each possible next word is.' },
+          { title: 'Text, one word at a time', body: 'To write a passage it predicts a word, adds it, and repeats.' },
+          { title: '“Large” = many parameters', body: 'Modern models have hundreds of billions of parameters (weights) tuned during training.' },
+          { title: 'Pretraining, then human feedback', body: 'It first learns from enormous amounts of text, then is refined with reinforcement learning from human feedback (RLHF).' },
         ],
-      },
-      {
-        kind: 'cards',
-        heading: 'Prompting vs. fine-tuning',
-        cards: [
-          {
-            title: 'Prompting',
-            body: 'Fast to iterate, no training required. Good for most tasks — adjust instructions, examples, or context instead of the model itself.',
-          },
-          {
-            title: 'Fine-tuning',
-            body: "Adjusts the model's weights on your data. Worth it when you need consistent behavior on a narrow task at a scale prompting can't reliably achieve.",
-          },
-        ],
-      },
-      {
-        kind: 'flow',
-        heading: 'Embeddings & Retrieval (RAG)',
-        body: 'Embeddings turn text into vectors so similar meanings land close together — which is what makes semantic search possible. RAG grounds a model’s answer in retrieved, external, or up-to-date information rather than relying on memory alone.',
-        nodes: ['Query', 'Retrieve relevant docs', 'Add to context', 'Grounded response'],
-      },
-      {
-        kind: 'flow',
-        heading: 'Agents & tool use',
-        body: 'An agent is a model that can call tools or functions and take multi-step actions — not just generate text. This loop can repeat — an agent may call several tools before returning a final answer.',
-        nodes: ['Model reasons', 'Calls a tool', 'Tool returns a result', 'Model continues or answers'],
       },
     ],
     quiz: [
       {
-        prompt: 'What does retrieval-augmented generation (RAG) do?',
+        prompt: 'Fundamentally, what is a large language model trained to do?',
         options: [
-          "Retrains the model on every new question",
-          "Grounds the model's answer in retrieved external or up-to-date documents",
-          'Removes the need for a context window',
-          'Converts the model into an agent automatically',
+          'Predict the next word, given the text so far',
+          'Look answers up in a fixed database',
+          'Store documents word-for-word',
+          'Sort words alphabetically',
         ],
-        answer: 1,
-        explanation:
-          'RAG retrieves relevant documents and adds them to the context so the answer is grounded in external, up-to-date information rather than memory alone.',
+        answer: 0,
+        explanation: 'An LLM is, at heart, a next-word predictor — it outputs how likely each possible next word is.',
       },
       {
-        prompt: 'When is fine-tuning worth choosing over prompting?',
+        prompt: 'How does an LLM produce a whole passage of text?',
         options: [
-          'For quick experiments where you change instructions often',
-          'When you need consistent behavior on a narrow task at a scale prompting cannot reliably achieve',
-          'Whenever you want the fastest possible iteration',
-          'Any time you have a system prompt',
+          'By predicting one word at a time and repeating',
+          'By writing the last word first',
+          'By copying a stored paragraph',
+          'All words at once, then editing',
         ],
-        answer: 1,
-        explanation:
-          "Prompting is fast and fits most tasks; fine-tuning adjusts the model's weights and pays off for consistent behavior on a narrow task at scale.",
+        answer: 0,
+        explanation: 'It predicts a word, appends it to the text, and repeats the process over and over.',
       },
       {
-        prompt: 'Chain-of-thought prompting means:',
+        prompt: 'What does the “large” in “large language model” mainly refer to?',
         options: [
-          'Chaining several models together',
-          'Asking the model to reason step by step before answering',
-          'Sending one token at a time',
-          'Storing the conversation in a database',
+          'The huge number of parameters (weights)',
+          'The physical size of the computer',
+          'The length of your prompt',
+          'The number of languages it speaks',
         ],
-        answer: 1,
-        explanation:
-          'Chain-of-thought asks the model to reason through the steps before giving a final answer.',
+        answer: 0,
+        explanation: '“Large” refers to the enormous number of tunable parameters — often hundreds of billions.',
       },
       {
-        prompt: 'An “agent,” in this context, is best described as:',
+        prompt: 'After learning from huge amounts of text, what extra step helps make the model a helpful assistant?',
         options: [
-          'A model that only generates text',
-          'A model that can call tools or functions and take multi-step actions',
-          'A person who reviews AI output',
-          'A type of training data',
+          'Reinforcement learning with human feedback',
+          'Deleting most of its parameters',
+          'Turning off the internet',
+          'Sorting its training data',
         ],
-        answer: 1,
-        explanation:
-          'An agent reasons, calls tools, uses the results, and can repeat the loop before returning a final answer.',
+        answer: 0,
+        explanation: 'Pretraining is followed by reinforcement learning with human feedback (RLHF) to shape helpful behavior.',
       },
     ],
   },
@@ -658,124 +464,71 @@ const technicalModules: Module[] = [
     id: 'technical-3',
     partLabel: 'Part 3 of 3',
     part: 3,
-    title: 'Deployment, Evaluation & Safety',
-    tagline: 'Shipping models into production without shipping their failure modes.',
-    minutes: 7,
+    title: 'Transformers: The Tech Behind LLMs',
+    tagline: 'A look under the hood at the architecture powering tools like ChatGPT.',
+    minutes: 27,
     sections: [
       {
-        kind: 'list',
-        heading: 'Evaluation',
-        items: [
-          { title: 'Benchmarks', body: 'Standardized tests for comparing model capability.' },
-          { title: 'Human evaluation', body: 'People reviewing outputs benchmarks can miss.' },
-          {
-            title: 'Task-specific tests',
-            body: 'Evaluation sets built around your real use case.',
-          },
-          {
-            title: 'Avoid overfitting to benchmarks',
-            body: "A high score doesn't guarantee real-world quality.",
-          },
-        ],
+        kind: 'lead',
+        text: 'The “T” in GPT stands for Transformer.',
+        body: 'This chapter visualizes how a transformer turns text into a prediction: breaking it into tokens, representing each token as a vector, and letting those vectors share context through “attention.”',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'wjZofJX0v4M',
+        heading: 'Watch: Transformers, the tech behind LLMs',
+        caption: '3Blue1Brown · Deep learning, chapter 5 (~27 min)',
       },
       {
         kind: 'list',
-        heading: 'Latency, cost & scaling',
+        heading: 'Key ideas from the video',
         items: [
-          { title: 'Batching', body: 'Process multiple requests together for efficiency.' },
-          { title: 'Caching', body: 'Reuse results for repeated or similar requests.' },
-          {
-            title: 'Model size tradeoffs',
-            body: 'Bigger models cost more and respond slower.',
-          },
-          {
-            title: 'Streaming',
-            body: "Send tokens as they're generated to cut perceived latency.",
-          },
-        ],
-      },
-      {
-        kind: 'compare',
-        heading: 'Safety & observability',
-        left: {
-          title: 'Guardrails',
-          items: [
-            'Input and output filtering',
-            'Rate limiting',
-            'Red-teaming before launch',
-          ],
-        },
-        right: {
-          title: 'Observability',
-          items: [
-            'Logging every request and response',
-            'Tracing to debug multi-step flows',
-            'Monitoring for drift and failures',
-          ],
-        },
-      },
-      {
-        kind: 'list',
-        heading: 'Common engineering pitfalls',
-        items: [
-          {
-            title: 'No fallback for API failures',
-            body: 'Timeouts and outages will happen — plan for them.',
-          },
-          {
-            title: 'Ignoring prompt injection risk',
-            body: 'Untrusted input can try to override your instructions.',
-          },
-          {
-            title: 'Skipping evaluation before shipping',
-            body: 'Ship with a baseline, not just a good demo.',
-          },
+          { title: 'Text becomes tokens', body: 'Input is broken into small chunks called tokens.' },
+          { title: 'Tokens become vectors', body: 'Each token maps to a list of numbers (an embedding); similar meanings land near each other.' },
+          { title: 'Attention shares context', body: 'The attention step lets tokens pass information to each other, so meaning depends on the surrounding words.' },
+          { title: 'Out comes a prediction', body: 'The model ends by producing a probability distribution over the possible next tokens.' },
         ],
       },
     ],
     quiz: [
       {
-        prompt: 'Why should you not rely only on benchmark scores?',
+        prompt: 'What does “GPT” stand for?',
         options: [
-          'Benchmarks are always wrong',
-          "A high score doesn't guarantee real-world quality",
-          'Benchmarks are too expensive to run',
-          'Benchmarks replace the need for human evaluation',
+          'Generative Pretrained Transformer',
+          'General Purpose Translator',
+          'Graphical Prediction Tool',
+          'Global Pattern Tracker',
         ],
-        answer: 1,
-        explanation:
-          'Overfitting to benchmarks is a trap — a strong score does not guarantee good real-world results, so pair it with human and task-specific evaluation.',
+        answer: 0,
+        explanation: 'GPT = Generative Pretrained Transformer — the transformer is the core architecture.',
       },
       {
-        prompt: 'Which technique cuts *perceived* latency by sending tokens as they are generated?',
-        options: ['Batching', 'Caching', 'Streaming', 'Fine-tuning'],
-        answer: 2,
-        explanation:
-          'Streaming sends tokens as soon as they are produced, so the response feels faster even if total time is unchanged.',
+        prompt: 'Before a transformer processes text, the text is first broken into…',
+        options: ['Tokens', 'Pixels', 'Folders', 'Whole sentences only'],
+        answer: 0,
+        explanation: 'Text is split into tokens — small chunks such as words or word-pieces.',
       },
       {
-        prompt: 'Prompt injection is a risk where:',
+        prompt: 'How does a transformer represent each token?',
         options: [
-          'The model runs out of context',
-          'Untrusted input tries to override your instructions',
-          'Two prompts are sent at once',
-          'The API times out',
+          'As a vector (list of numbers) where similar meanings are close together',
+          'As a single letter',
+          'As an image',
+          'As a row in a spreadsheet',
         ],
-        answer: 1,
-        explanation:
-          'Prompt injection is when untrusted input attempts to override the instructions you gave the model — a key reason to filter inputs.',
+        answer: 0,
+        explanation: 'Each token becomes an embedding — a vector — and vectors with similar meanings sit near each other.',
       },
       {
-        prompt: 'Which of these is part of observability (not a guardrail)?',
+        prompt: 'What does the “attention” mechanism let the model do?',
         options: [
-          'Input and output filtering',
-          'Rate limiting',
-          'Logging every request and response',
-          'Red-teaming before launch',
+          'Let tokens share context with each other',
+          'Delete unimportant words',
+          'Translate to another language',
+          'Compress the text to save space',
         ],
-        answer: 2,
-        explanation:
-          'Guardrails prevent bad behavior (filtering, rate limits, red-teaming); observability is about seeing what happened — logging, tracing, and monitoring.',
+        answer: 0,
+        explanation: 'Attention lets each token pull in information from other tokens, so meaning reflects the surrounding context.',
       },
     ],
   },
@@ -787,9 +540,9 @@ export const TRACKS: Track[] = [
   {
     id: 'business',
     eyebrow: 'Business Track',
-    title: 'AI Basics for Business',
+    title: 'AI for Business: Watch & Learn',
     subtitle:
-      'A practical, three-part introduction to what AI is, where it fits at work, and how to adopt it responsibly.',
+      'A three-part video series — what AI is, using generative AI at work, and using it responsibly — with a short quiz after each.',
     accent: '#307c4c',
     accentSoft: '#f0f9f4',
     modules: businessModules,
@@ -797,9 +550,9 @@ export const TRACKS: Track[] = [
   {
     id: 'technical',
     eyebrow: 'Technical Track',
-    title: 'AI Foundations: A Technical Primer',
+    title: 'AI Foundations: Watch & Learn',
     subtitle:
-      'A three-part walkthrough of how models work, how to build with them, and how to ship them responsibly.',
+      'A three-part video series — neural networks, large language models, and transformers — with a short quiz after each. Videos by 3Blue1Brown.',
     accent: '#4f46e5',
     accentSoft: '#eef2ff',
     modules: technicalModules,
