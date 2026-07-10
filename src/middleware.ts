@@ -1,25 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AUTH_COOKIE } from '@/lib/auth-cookie';
+import { getToken } from 'next-auth/jwt';
 
 /**
- * Simple gate for the whole site: every page requires the `learnai_auth`
- * cookie (set by /api/login). Unauthenticated visitors are bounced to /login.
- * The login page and the auth API are always allowed through.
+ * Gate for the whole site: every page requires a NextAuth session.
+ * Unauthenticated visitors are bounced to /login. The login page and the
+ * NextAuth endpoints are always allowed through.
  */
-
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Always allow the login page and the auth endpoints.
   if (pathname === '/login' || pathname.startsWith('/api/')) {
     return NextResponse.next();
   }
 
-  const authed = req.cookies.get(AUTH_COOKIE)?.value === '1';
-  if (!authed) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token) {
     const url = req.nextUrl.clone();
     url.pathname = '/login';
-    // remember where they were headed so we can send them back after login
     if (pathname !== '/') url.searchParams.set('from', pathname);
     return NextResponse.redirect(url);
   }

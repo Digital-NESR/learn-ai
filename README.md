@@ -1,6 +1,6 @@
-# NESR AI Learning (learnai.nesr.com)
+# NESR UpskillAI (upskillai.nesr.com)
 
-Standalone learning site for the **NESR AI Learning Series** — beginner AI courses
+Standalone learning site for **NESR UpskillAI** — beginner AI courses
 with a short quiz after every part.
 
 - **Business track** — What AI Actually Is · AI in the Workplace · Risk, Ethics & Getting Started
@@ -38,9 +38,22 @@ npm run start
 All content lives in [`src/app/content.ts`](src/app/content.ts) — edit tracks,
 modules, lesson blocks, and quiz questions there.
 
+## Authentication
+
+The whole site is gated by NextAuth (middleware redirects unauthenticated
+visitors to `/login`). Two sign-in methods:
+
+1. **Microsoft Entra ID (SSO)** — OIDC via NextAuth's Azure AD provider. It
+   turns on automatically once `AZURE_AD_CLIENT_ID` / `AZURE_AD_TENANT_ID`
+   (and `AZURE_AD_CLIENT_SECRET`) are set — no code change needed. Redirect URI
+   to register in Entra: `https://upskillai.nesr.com/api/auth/callback/azure-ad`.
+2. **Shared username / password** — an interim + break-glass login via the
+   Credentials provider (`LEARNAI_USER` / `LEARNAI_PASS`), used until SSO is live.
+
+Required env vars are documented in [`.env.example`](.env.example). `NEXTAUTH_SECRET`
+and `NEXTAUTH_URL` are required in every environment.
+
 ## Notes
 
-- **No auth** by default — the site is open. If it should be restricted to NESR
-  staff, add SSO (e.g. NextAuth with the corporate provider) in a root layout gate.
-- The module pages are pre-rendered via `generateStaticParams`, so the whole site
-  can be served as static output.
+- The module pages are pre-rendered via `generateStaticParams`. Note that adding
+  auth middleware means requests pass through the edge gate before reaching them.

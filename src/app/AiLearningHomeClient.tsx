@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowRight, BookOpen, CheckCircle2, Clock, GraduationCap, Cpu, Briefcase } from 'lucide-react';
 import type { Track } from './content';
 import { readProgress, type ProgressMap } from './progress';
-import SignOutButton from './components/SignOutButton';
+import AiLearningHeader from './components/AiLearningHeader';
 
 function TrackIcon({ trackId, className }: { trackId: string; className?: string }) {
   return trackId === 'technical' ? <Cpu className={className} /> : <Briefcase className={className} />;
@@ -178,16 +178,14 @@ export default function AiLearningHomeClient({
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 font-sans text-slate-900">
+      <AiLearningHeader />
       {/* Hero */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-6 lg:px-8 pt-6 pb-10">
-          <div className="flex justify-end mb-4">
-            <SignOutButton />
-          </div>
+        <div className="max-w-5xl mx-auto px-6 lg:px-8 pt-12 pb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f0f9f4] border border-[#b6ddc8] mb-5">
             <GraduationCap className="w-4 h-4 text-[#307c4c]" />
             <span className="text-[11px] font-semibold tracking-widest uppercase text-[#307c4c]">
-              AI Learning Series
+              NESR UpskillAI
             </span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 leading-tight">
