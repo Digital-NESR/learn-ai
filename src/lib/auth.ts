@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
         ) {
           return {
             id: 'shared',
-            name: 'NESR UpskillAI',
+            name: 'NESR AIverse',
             email: `${FALLBACK_USER}@nesr.com`,
           };
         }

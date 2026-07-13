@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Lightweight, client-only progress tracking for NESR UpskillAI.
+ * Lightweight, client-only progress tracking for NESR AIverse.
  *
  * There's no database behind this section — completion is a nice-to-have, not
  * a system of record — so we keep per-module quiz results in localStorage.

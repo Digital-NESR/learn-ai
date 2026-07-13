@@ -1,5 +1,5 @@
 /**
- * NESR UpskillAI — beginner content.
+ * NESR AIverse — beginner content.
  *
  * Two tracks (Business + Technical), three modules ("parts") each, and a
  * short quiz after every module. Content is adapted from the two beginner

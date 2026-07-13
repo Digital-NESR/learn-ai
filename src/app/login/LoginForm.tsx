@@ -36,7 +36,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 font-sans text-slate-900 px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--bg)] font-sans text-[var(--text)] px-4">
       <div className="w-full max-w-sm">
         {/* Brand */}
         <div className="flex flex-col items-center text-center mb-8">
@@ -47,21 +47,21 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
             height={56}
             className="rounded-full"
           />
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 mt-4">NESR UpskillAI</h1>
-          <p className="inline-flex items-center gap-1.5 text-sm text-slate-500 mt-1">
-            <GraduationCap className="w-4 h-4 text-[#307c4c]" />
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text)] mt-4">NESR AIverse</h1>
+          <p className="inline-flex items-center gap-1.5 text-sm text-[var(--muted)] mt-1">
+            <GraduationCap className="w-4 h-4 text-[var(--brand)]" />
             Sign in to start the series
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col gap-4">
+        <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] shadow-sm p-6 flex flex-col gap-4">
           {/* Microsoft SSO — shown once Entra ID is configured */}
           {ssoEnabled && (
             <>
               <button
                 type="button"
                 onClick={() => signIn('azure-ad', { callbackUrl: from })}
-                className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 transition-colors"
+                className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] bg-[var(--card)] border border-slate-300 hover:bg-[var(--card-2)] transition-colors"
               >
                 <svg className="w-4 h-4" viewBox="0 0 23 23" aria-hidden="true">
                   <path fill="#f35325" d="M1 1h10v10H1z" />
@@ -72,7 +72,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
                 Sign in with Microsoft
               </button>
 
-              <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-wide text-slate-400">
+              <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-wide text-[var(--muted)]">
                 <span className="h-px flex-1 bg-slate-200" />
                 or
                 <span className="h-px flex-1 bg-slate-200" />
@@ -83,11 +83,11 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
           {/* Username / password (interim + break-glass) */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label htmlFor="username" className="block text-sm font-medium text-[var(--text)] mb-1.5">
                 Username
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
                 <input
                   id="username"
                   type="text"
@@ -95,18 +95,18 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
                   value={username}
                   onChange={e => setUsername(e.target.value)}
                   required
-                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#307c4c]/20 focus:border-[#307c4c] transition-colors placeholder-slate-400"
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#307c4c]/20 focus:border-[#307c4c] transition-colors placeholder-[var(--muted)]"
                   placeholder="Enter username"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label htmlFor="password" className="block text-sm font-medium text-[var(--text)] mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
                 <input
                   id="password"
                   type="password"
@@ -114,7 +114,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
-                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#307c4c]/20 focus:border-[#307c4c] transition-colors placeholder-slate-400"
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#307c4c]/20 focus:border-[#307c4c] transition-colors placeholder-[var(--muted)]"
                   placeholder="Enter password"
                 />
               </div>
@@ -129,14 +129,14 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
             <button
               type="submit"
               disabled={loading || !username || !password}
-              className="mt-1 w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-[#307c4c] hover:bg-[#276041] disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed transition-colors"
+              className="mt-1 w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-[var(--brand)] hover:bg-[#276041] disabled:bg-slate-200 disabled:text-[var(--muted)] disabled:cursor-not-allowed transition-colors"
             >
               {loading ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
         </div>
 
-        <p className="text-center text-xs text-slate-400 mt-6">NESR Digital Supply Chain</p>
+        <p className="text-center text-xs text-[var(--muted)] mt-6">NESR Digital Supply Chain</p>
       </div>
     </div>
   );

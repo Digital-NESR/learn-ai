@@ -14,7 +14,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { moduleId } = await params;
   const found = findModule(moduleId);
-  return { title: found ? `${found.module.title} | NESR UpskillAI` : 'NESR UpskillAI' };
+  return { title: found ? `${found.module.title} | NESR AIverse` : 'NESR AIverse' };
 }
 
 export default async function AiLearningModulePage({

@@ -25,7 +25,7 @@ function SectionHeading({ children, accent }: { children: React.ReactNode; accen
   return (
     <div className="flex items-center gap-2.5 mb-4">
       <span className="w-1.5 h-5 rounded-full" style={{ background: accent }} />
-      <h3 className="text-lg font-bold text-slate-900">{children}</h3>
+      <h3 className="text-lg font-bold text-[var(--text)]">{children}</h3>
     </div>
   );
 }
@@ -35,10 +35,10 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
     case 'lead':
       return (
         <div className="rounded-2xl p-6" style={{ background: accentSoft }}>
-          <p className="text-xl font-bold text-slate-900 leading-snug" style={{ color: accent }}>
+          <p className="text-xl font-bold text-[var(--text)] leading-snug" style={{ color: accent }}>
             {block.text}
           </p>
-          <p className="text-[15px] text-slate-700 mt-3 leading-relaxed">{block.body}</p>
+          <p className="text-[15px] text-[var(--text)] mt-3 leading-relaxed">{block.body}</p>
         </div>
       );
 
@@ -48,11 +48,11 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
           {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {block.cards.map(c => (
-              <div key={c.title} className="rounded-xl border border-gray-200 bg-white p-5">
-                <p className="font-semibold text-slate-900" style={{ color: accent }}>
+              <div key={c.title} className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5">
+                <p className="font-semibold text-[var(--text)]" style={{ color: accent }}>
                   {c.title}
                 </p>
-                <p className="text-sm text-slate-600 mt-1.5 leading-relaxed">{c.body}</p>
+                <p className="text-sm text-[var(--muted)] mt-1.5 leading-relaxed">{c.body}</p>
               </div>
             ))}
           </div>
@@ -65,11 +65,11 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
           {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
           <div className="grid sm:grid-cols-2 gap-4">
             {[block.left, block.right].map((col, i) => (
-              <div key={i} className="rounded-xl border border-gray-200 bg-white p-5">
-                <p className="font-semibold text-slate-900 mb-3">{col.title}</p>
+              <div key={i} className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5">
+                <p className="font-semibold text-[var(--text)] mb-3">{col.title}</p>
                 <ul className="flex flex-col gap-2">
                   {col.items.map(item => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-slate-600">
+                    <li key={item} className="flex items-start gap-2 text-sm text-[var(--muted)]">
                       <span
                         className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5"
                         style={{ background: accent }}
@@ -92,7 +92,7 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
             {block.steps.map((s, i) => (
               <div
                 key={s.title}
-                className="flex items-start gap-4 rounded-xl border border-gray-200 bg-white p-4"
+                className="flex items-start gap-4 rounded-xl border border-[var(--border)] bg-[var(--card)] p-4"
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm font-bold"
@@ -101,8 +101,8 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
                   {i + 1}
                 </div>
                 <div>
-                  <p className="font-semibold text-slate-900 text-[15px]">{s.title}</p>
-                  {s.body && <p className="text-sm text-slate-600 mt-0.5 leading-relaxed">{s.body}</p>}
+                  <p className="font-semibold text-[var(--text)] text-[15px]">{s.title}</p>
+                  {s.body && <p className="text-sm text-[var(--muted)] mt-0.5 leading-relaxed">{s.body}</p>}
                 </div>
               </div>
             ))}
@@ -114,7 +114,7 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
       return (
         <div>
           {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
-          {block.body && <p className="text-[15px] text-slate-700 leading-relaxed mb-4">{block.body}</p>}
+          {block.body && <p className="text-[15px] text-[var(--text)] leading-relaxed mb-4">{block.body}</p>}
           <div className="flex flex-wrap items-center gap-2">
             {block.nodes.map((node, i) => (
               <div key={node} className="flex items-center gap-2">
@@ -137,13 +137,13 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
       return (
         <div>
           {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
-          <dl className="rounded-xl border border-gray-200 bg-white divide-y divide-gray-100 overflow-hidden">
+          <dl className="rounded-xl border border-[var(--border)] bg-[var(--card)] divide-y divide-[var(--border)] overflow-hidden">
             {block.terms.map(t => (
               <div key={t.term} className="grid sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 p-4">
-                <dt className="font-semibold text-slate-900" style={{ color: accent }}>
+                <dt className="font-semibold text-[var(--text)]" style={{ color: accent }}>
                   {t.term}
                 </dt>
-                <dd className="text-sm text-slate-600 leading-relaxed">{t.def}</dd>
+                <dd className="text-sm text-[var(--muted)] leading-relaxed">{t.def}</dd>
               </div>
             ))}
           </dl>
@@ -156,9 +156,9 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
           {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
           <div className="flex flex-col gap-3">
             {block.items.map(item => (
-              <div key={item.title} className="rounded-xl border border-gray-200 bg-white p-4">
-                <p className="font-semibold text-slate-900 text-[15px]">{item.title}</p>
-                <p className="text-sm text-slate-600 mt-0.5 leading-relaxed">{item.body}</p>
+              <div key={item.title} className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
+                <p className="font-semibold text-[var(--text)] text-[15px]">{item.title}</p>
+                <p className="text-sm text-[var(--muted)] mt-0.5 leading-relaxed">{item.body}</p>
               </div>
             ))}
           </div>
@@ -169,11 +169,11 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
       return (
         <div>
           {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
-          <ul className="rounded-xl border border-gray-200 bg-white divide-y divide-gray-100 overflow-hidden">
+          <ul className="rounded-xl border border-[var(--border)] bg-[var(--card)] divide-y divide-[var(--border)] overflow-hidden">
             {block.items.map(item => (
               <li key={item} className="flex items-start gap-3 p-4">
                 <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" style={{ color: accent }} />
-                <span className="text-sm text-slate-700 leading-relaxed">{item}</span>
+                <span className="text-sm text-[var(--text)] leading-relaxed">{item}</span>
               </li>
             ))}
           </ul>
@@ -185,7 +185,7 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
         <div>
           {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
           {/* Responsive 16:9 embed — fills the content column on any screen size. */}
-          <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-gray-200 bg-black">
+          <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-[var(--border)] bg-black">
             <iframe
               className="absolute inset-0 h-full w-full"
               src={`https://www.youtube.com/embed/${block.youtubeId}`}
@@ -196,7 +196,7 @@ function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: str
               allowFullScreen
             />
           </div>
-          {block.caption && <p className="mt-2 text-sm text-slate-500">{block.caption}</p>}
+          {block.caption && <p className="mt-2 text-sm text-[var(--muted)]">{block.caption}</p>}
         </div>
       );
   }
@@ -260,9 +260,9 @@ function Quiz({
     <section id="quiz-top" className="scroll-mt-20">
       <div className="flex items-center gap-2.5 mb-1">
         <ClipboardCheck className="w-5 h-5" style={{ color: accent }} />
-        <h2 className="text-xl font-bold text-slate-900">Quick quiz</h2>
+        <h2 className="text-xl font-bold text-[var(--text)]">Quick quiz</h2>
       </div>
-      <p className="text-sm text-slate-500 mb-6">
+      <p className="text-sm text-[var(--muted)] mb-6">
         {total} questions. Answer each, then submit to see how you did.
       </p>
 
@@ -281,10 +281,10 @@ function Quiz({
             {score}/{total}
           </div>
           <div>
-            <p className="font-bold text-slate-900">
+            <p className="font-bold text-[var(--text)]">
               {passed ? 'Perfect score!' : score >= Math.ceil(total / 2) ? 'Nice work!' : 'Good try!'}
             </p>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-[var(--muted)]">
               {passed
                 ? 'You nailed every question in this part.'
                 : 'Review the explanations below, then retake to lock it in.'}
@@ -297,8 +297,8 @@ function Quiz({
         {module.quiz.map((q, qi) => {
           const chosen = answers[qi];
           return (
-            <li key={qi} className="rounded-2xl border border-gray-200 bg-white p-5">
-              <p className="font-semibold text-slate-900 flex gap-2">
+            <li key={qi} className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
+              <p className="font-semibold text-[var(--text)] flex gap-2">
                 <span style={{ color: accent }}>{qi + 1}.</span>
                 <span>{q.prompt}</span>
               </p>
@@ -309,8 +309,8 @@ function Quiz({
                   const isCorrect = oi === q.answer;
 
                   // styling states
-                  let ring = 'border-gray-200 hover:border-gray-300';
-                  let bg = 'bg-white';
+                  let ring = 'border-[var(--border)] hover:border-gray-300';
+                  let bg = 'bg-[var(--card)]';
                   if (!submitted && isChosen) {
                     ring = '';
                     bg = '';
@@ -349,9 +349,9 @@ function Quiz({
                       >
                         {submitted && isCorrect && <Check className="w-3.5 h-3.5" />}
                         {submitted && isChosen && !isCorrect && <X className="w-3.5 h-3.5" />}
-                        {!submitted && isChosen && <span className="w-2 h-2 rounded-full bg-white" />}
+                        {!submitted && isChosen && <span className="w-2 h-2 rounded-full bg-[var(--card)]" />}
                       </span>
-                      <span className={isChosen || (submitted && isCorrect) ? 'text-slate-900 font-medium' : 'text-slate-700'}>
+                      <span className={isChosen || (submitted && isCorrect) ? 'text-[var(--text)] font-medium' : 'text-[var(--text)]'}>
                         {opt}
                       </span>
                     </button>
@@ -360,9 +360,9 @@ function Quiz({
               </div>
 
               {submitted && (
-                <div className="mt-3 flex items-start gap-2 rounded-lg bg-slate-50 border border-slate-100 px-3 py-2.5">
+                <div className="mt-3 flex items-start gap-2 rounded-lg bg-[var(--card-2)] border border-[var(--border)] px-3 py-2.5">
                   <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                  <p className="text-[13px] text-slate-600 leading-relaxed">{q.explanation}</p>
+                  <p className="text-[13px] text-[var(--muted)] leading-relaxed">{q.explanation}</p>
                 </div>
               )}
             </li>
@@ -384,14 +384,14 @@ function Quiz({
         ) : (
           <button
             onClick={retake}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 border border-gray-200 bg-white hover:bg-slate-50 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-[var(--muted)] border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--card-2)] transition-colors"
           >
             <RotateCcw className="w-4 h-4" />
             Retake quiz
           </button>
         )}
         {!allAnswered && !submitted && (
-          <span className="text-sm text-slate-400">
+          <span className="text-sm text-[var(--muted)]">
             {answers.filter(a => a !== null).length}/{total} answered
           </span>
         )}
@@ -422,15 +422,15 @@ export default function ModuleClient({
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 font-sans text-slate-900">
+    <div className="min-h-screen flex flex-col bg-[var(--bg)] font-sans text-[var(--text)]">
       <AiLearningHeader />
 
       {/* Module hero */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-[var(--card)] border-b border-[var(--border)]">
         <div className="max-w-3xl mx-auto px-6 lg:px-8 pt-8 pb-8">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--muted)] hover:text-[var(--text)] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             All parts
@@ -444,15 +444,15 @@ export default function ModuleClient({
               {track.eyebrow}
             </span>
             <span className="text-slate-300">·</span>
-            <span className="text-[11px] font-medium tracking-wide uppercase text-slate-400">
+            <span className="text-[11px] font-medium tracking-wide uppercase text-[var(--muted)]">
               {module.partLabel}
             </span>
           </div>
 
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 mt-2 leading-tight">
+          <h1 className="text-3xl font-bold tracking-tight text-[var(--text)] mt-2 leading-tight">
             {module.title}
           </h1>
-          <p className="text-lg text-slate-500 mt-2 leading-relaxed">{module.tagline}</p>
+          <p className="text-lg text-[var(--muted)] mt-2 leading-relaxed">{module.tagline}</p>
         </div>
       </div>
 
@@ -465,7 +465,7 @@ export default function ModuleClient({
             ))}
           </div>
 
-          <hr className="my-10 border-gray-200" />
+          <hr className="my-10 border-[var(--border)]" />
 
           <Quiz
             module={module}
@@ -475,10 +475,10 @@ export default function ModuleClient({
           />
 
           {/* Footer nav */}
-          <div className="mt-10 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+          <div className="mt-10 pt-8 border-t border-[var(--border)] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-[var(--muted)] hover:text-[var(--text)] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to all parts
@@ -487,17 +487,17 @@ export default function ModuleClient({
             {next ? (
               <button
                 onClick={() => router.push(`/${next.id}`)}
-                className="group inline-flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white px-5 py-3 text-left transition-all hover:shadow-md"
+                className="group inline-flex items-center justify-between gap-4 rounded-xl border border-[var(--border)] bg-[var(--card)] px-5 py-3 text-left transition-all hover:shadow-md"
                 style={completed ? { borderColor: track.accent } : undefined}
               >
                 <span>
-                  <span className="block text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                  <span className="block text-[11px] font-medium uppercase tracking-wide text-[var(--muted)]">
                     Next part
                   </span>
-                  <span className="block text-sm font-semibold text-slate-900">{next.title}</span>
+                  <span className="block text-sm font-semibold text-[var(--text)]">{next.title}</span>
                 </span>
                 <ArrowRight
-                  className="w-5 h-5 text-slate-400 group-hover:translate-x-0.5 transition-transform"
+                  className="w-5 h-5 text-[var(--muted)] group-hover:translate-x-0.5 transition-transform"
                   style={completed ? { color: track.accent } : undefined}
                 />
               </button>
