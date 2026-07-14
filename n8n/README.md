@@ -33,9 +33,10 @@ That's it — the site's "Sign in with Microsoft"-style pattern applies here too
 
 ## Switching providers
 
-The default is **Anthropic** (Claude Messages API): `system` is a top-level field, `messages`
+The default is **Anthropic** (Claude Messages API) on **`claude-haiku-4-5-20251001`** — the
+cheapest/fastest Claude, chosen to keep costs low. `system` is a top-level field, `messages`
 are `user`/`assistant` only (the first must be `user`), and the reply is read from `content[0].text`.
-Swap the model in *Prepare Request* (`claude-sonnet-5`, or `claude-haiku-4-5-20251001` for cheaper/faster).
+Bump the model in *Prepare Request* to `claude-sonnet-5` if you want stronger answers.
 
 To use a different provider:
 
@@ -46,6 +47,19 @@ To use a different provider:
 - **Azure OpenAI** — same as OpenAI but URL
   `https://<resource>.openai.azure.com/openai/deployments/<deployment>/chat/completions?api-version=2024-06-01`,
   credential header Name `api-key`, and drop `model` (the deployment defines it).
+
+## Cost control
+
+Three layers keep spend down:
+
+1. **Model** — `claude-haiku-4-5-20251001` (cheapest Claude).
+2. **Per-reply cap** — `max_tokens: 500` in *Prepare Request* caps output length per answer.
+3. **Rate limits** — the site (`/api/chat`) enforces a per-user burst limit (`CHAT_RATE_LIMIT`/min)
+   **and** a daily cap (`CHAT_DAILY_LIMIT`, default 100/day), plus trims history to the last 20 turns.
+
+> **Hard guarantee:** the site limits are best-effort (in-memory, per instance). The only way to
+> *guarantee* you never exceed a budget is to set a **spend limit in the Anthropic Console**
+> (Billing → Usage limits / monthly budget). Do this before launch.
 
 ## Notes
 

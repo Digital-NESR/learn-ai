@@ -4,9 +4,13 @@ import { rateLimit } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
-// Rate-limit config (overridable via env).
+// Rate-limit config (overridable via env). Two layers per user:
+//  - a short burst window (anti-spam), and
+//  - a daily cap (cost control) so one user can't rack up a huge bill.
 const LIMIT = Number(process.env.CHAT_RATE_LIMIT ?? 10);
 const WINDOW_MS = Number(process.env.CHAT_RATE_WINDOW_MS ?? 60_000);
+const DAILY_LIMIT = Number(process.env.CHAT_DAILY_LIMIT ?? 100);
+const DAY_MS = 86_400_000;
 
 const MAX_MESSAGE_CHARS = 2000;
 const MAX_MESSAGES = 30;
@@ -26,22 +30,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Not authenticated.' }, { status: 401 });
   }
 
-  // 2. Rate limit, keyed by user (falling back to IP).
+  // 2. Rate limit, keyed by user (falling back to IP): burst + daily cap.
   const key = (token.email as string | undefined)?.toLowerCase() || clientKey(req);
-  const rl = rateLimit(`chat:${key}`, LIMIT, WINDOW_MS);
-  if (!rl.ok) {
+  const burst = rateLimit(`chat:min:${key}`, LIMIT, WINDOW_MS);
+  const daily = rateLimit(`chat:day:${key}`, DAILY_LIMIT, DAY_MS);
+  if (!burst.ok || !daily.ok) {
+    const rl = !burst.ok ? burst : daily;
     const retry = Math.max(1, Math.ceil((rl.reset - Date.now()) / 1000));
-    return NextResponse.json(
-      { error: `You're sending messages too fast — try again in ${retry}s.` },
-      {
-        status: 429,
-        headers: {
-          'Retry-After': String(retry),
-          'X-RateLimit-Limit': String(rl.limit),
-          'X-RateLimit-Remaining': String(rl.remaining),
-        },
+    const message = !burst.ok
+      ? `You're sending messages too fast — try again in ${retry}s.`
+      : "You've reached today's message limit. Please try again tomorrow.";
+    return NextResponse.json(message ? { error: message } : {}, {
+      status: 429,
+      headers: {
+        'Retry-After': String(retry),
+        'X-RateLimit-Limit': String(rl.limit),
+        'X-RateLimit-Remaining': String(rl.remaining),
       },
-    );
+    });
   }
 
   // 3. Validate input.

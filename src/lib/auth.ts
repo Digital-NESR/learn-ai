@@ -15,8 +15,12 @@ import CredentialsProvider from 'next-auth/providers/credentials';
  * kept working until SSO is live so the site is never locked out.
  */
 
+// All three must be present, otherwise a half-configured Azure provider would
+// break sign-in. Missing/partial → SSO stays off and the password login is used.
 export const ssoEnabled = Boolean(
-  process.env.AZURE_AD_CLIENT_ID && process.env.AZURE_AD_TENANT_ID,
+  process.env.AZURE_AD_CLIENT_ID &&
+    process.env.AZURE_AD_TENANT_ID &&
+    process.env.AZURE_AD_CLIENT_SECRET,
 );
 
 const FALLBACK_USER = process.env.LEARNAI_USER ?? 'nesrai';
