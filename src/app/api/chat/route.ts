@@ -92,6 +92,8 @@ export async function POST(req: NextRequest) {
     });
 
     if (!res.ok) {
+      const bodyText = await res.text().catch(() => '');
+      console.error('[chat] n8n webhook returned non-OK status', res.status, bodyText.slice(0, 500));
       return NextResponse.json({ error: 'The assistant is unavailable right now.' }, { status: 502 });
     }
 
@@ -103,7 +105,10 @@ export async function POST(req: NextRequest) {
       : 'I got an empty response — please try again.';
 
     return NextResponse.json({ reply });
-  } catch {
+  } catch (err) {
+    // Log the real cause (DNS failure, connection refused, TLS error, genuine
+    // abort, etc.) — the user-facing message stays generic on purpose.
+    console.error('[chat] fetch to n8n webhook failed:', webhook, err);
     return NextResponse.json({ error: 'The assistant timed out. Please try again.' }, { status: 504 });
   }
 }

@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## AIverse Chat assistant\n\nBacks the chat widget on the AIverse site (`/api/chat` forwards here).\n\n**Setup**\n1. Open the **Chat Webhook** node → copy the **Production URL** → set it as `N8N_CHAT_WEBHOOK_URL` in the site's env.\n2. (Recommended) On the webhook, set **Authentication = Header Auth** and match it to `N8N_CHAT_WEBHOOK_TOKEN`.\n3. On **Call LLM**, attach your **Anthropic** credential (Predefined Credential Type → Anthropic).\n4. Activate the workflow.\n\n**Contract**\n- In:  `{ user, messages: [{ role, content }] }`\n- Out: `{ reply: \"...\" }`\n\nDefaults to **Anthropic** (Claude Messages API). See README to switch to OpenAI / Azure OpenAI.",
+        "content": "## AIverse Chat assistant\n\nBacks the chat widget on the AIverse site (`/api/chat` forwards here).\n\n**Setup**\n1. Open the **Chat Webhook** node → copy the **Production URL** → set it as `N8N_CHAT_WEBHOOK_URL` in the site's env.\n2. (Recommended) On the webhook, set **Authentication = Header Auth** and match it to `N8N_CHAT_WEBHOOK_TOKEN`.\n3. On **Call LLM**, attach your **Anthropic** credential (Predefined Credential Type → Anthropic). The credential only supplies the API key — the `anthropic-version: 2023-06-01` header is already wired into this node's Headers, so don't remove it or Anthropic returns a 400.\n4. Activate the workflow.\n\n**Contract**\n- In:  `{ user, messages: [{ role, content }] }`\n- Out: `{ reply: \"...\" }`\n\nDefaults to **Anthropic** (Claude Messages API) on **claude-haiku-4-5-20251001** — the cheapest Claude model, chosen to keep costs low. See README to switch to OpenAI / Azure OpenAI, or bump the model in **Prepare Request**.",
         "height": 460,
         "width": 380
       },
@@ -43,6 +43,12 @@
         "url": "https://api.anthropic.com/v1/messages",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "anthropicApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" }
+          ]
+        },
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify($json) }}",
