@@ -48,22 +48,25 @@ export const authOptions: NextAuthOptions = {
         name: { label: 'Name', type: 'text' },
         email: { label: 'Email', type: 'text' },
       },
-      // The username/password is a shared break-glass gate, not a per-person
-      // credential — name/email identify the actual person so progress,
-      // certificates, and hackathon entries key correctly per user.
+      // The username/password is a shared break-glass gate for admins, not a
+      // per-person credential — real learners use SSO. Name/email are
+      // optional here: when given, they identify the actual person so
+      // progress/certificates/hackathon entries key correctly; when
+      // omitted, the admin signs in under one generic shared identity.
       async authorize(credentials) {
+        if (credentials?.username !== FALLBACK_USER || credentials?.password !== FALLBACK_PASS) {
+          return null;
+        }
         const name = credentials?.name?.trim();
         const email = credentials?.email?.trim().toLowerCase();
-        if (
-          credentials?.username === FALLBACK_USER &&
-          credentials?.password === FALLBACK_PASS &&
-          name &&
-          email &&
-          EMAIL_RE.test(email)
-        ) {
+        if (name && email && EMAIL_RE.test(email)) {
           return { id: email, name, email };
         }
-        return null;
+        return {
+          id: 'shared',
+          name: 'NESR AI Verse',
+          email: `${FALLBACK_USER}@nesr.com`,
+        };
       },
     }),
   ],

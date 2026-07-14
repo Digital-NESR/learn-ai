@@ -35,7 +35,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
       router.refresh();
       return;
     }
-    setError('Check your name, email, username, and password and try again.');
+    setError('Incorrect username or password.');
     setLoading(false);
   }
 
@@ -84,49 +84,8 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
             </>
           )}
 
-          {/* Username / password (interim + break-glass) */}
+          {/* Username / password (admin break-glass) */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-[var(--text)] mb-1.5">
-                Your name
-              </label>
-              <div className="relative">
-                <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
-                <input
-                  id="name"
-                  type="text"
-                  autoComplete="name"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  required
-                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
-                  placeholder="Jane Doe"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-[var(--text)] mb-1.5">
-                Your work email
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
-                <input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  required
-                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
-                  placeholder="jane.doe@nesr.com"
-                />
-              </div>
-              <p className="mt-1 text-xs text-[var(--muted)]">
-                Used to save your progress and issue your certificate.
-              </p>
-            </div>
-
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-[var(--text)] mb-1.5">
                 Username
@@ -165,6 +124,52 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
               </div>
             </div>
 
+            <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-wide text-[var(--muted)]">
+              <span className="h-px flex-1 bg-[var(--border)]" />
+              optional
+              <span className="h-px flex-1 bg-[var(--border)]" />
+            </div>
+
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-[var(--text)] mb-1.5">
+                Your name
+              </label>
+              <div className="relative">
+                <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
+                <input
+                  id="name"
+                  type="text"
+                  autoComplete="name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
+                  placeholder="Jane Doe"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-[var(--text)] mb-1.5">
+                Your work email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
+                  placeholder="jane.doe@nesr.com"
+                />
+              </div>
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                Fill both in to save your own progress and get a certificate. Leave blank to sign in
+                as a shared/admin identity.
+              </p>
+            </div>
+
             {error && (
               <p className="text-sm text-[var(--danger)] bg-[var(--danger-soft)] border border-[var(--danger-border)] rounded-lg px-3 py-2">
                 {error}
@@ -173,7 +178,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
 
             <button
               type="submit"
-              disabled={loading || !name || !email || !username || !password}
+              disabled={loading || !username || !password}
               className="mt-1 w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-[var(--brand)] hover:bg-[#276041] disabled:bg-[var(--card-2)] disabled:text-[var(--muted)] disabled:cursor-not-allowed transition-colors"
             >
               {loading ? 'Signing in…' : 'Sign in'}
