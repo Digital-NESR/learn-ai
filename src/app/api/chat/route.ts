@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { rateLimit } from '@/lib/rate-limit';
+import { agentPostJson } from '@/lib/n8n-agent';
 
 export const runtime = 'nodejs';
 
@@ -79,17 +80,21 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(webhook, {
-      method: 'POST',
-      headers: {
+    // n8n.nesr.com serves an incomplete TLS chain (missing intermediate) —
+    // see src/lib/n8n-agent.ts for the full explanation. This patched agent
+    // supplements Node's trust store with the one missing certificate so
+    // this connection can complete verification; nothing else changes.
+    const res = await agentPostJson(
+      webhook,
+      JSON.stringify({ user: key, messages: cleaned }),
+      {
         'Content-Type': 'application/json',
         ...(process.env.N8N_CHAT_WEBHOOK_TOKEN
           ? { Authorization: `Bearer ${process.env.N8N_CHAT_WEBHOOK_TOKEN}` }
           : {}),
       },
-      body: JSON.stringify({ user: key, messages: cleaned }),
-      signal: AbortSignal.timeout(30_000),
-    });
+      30_000,
+    );
 
     if (!res.ok) {
       const bodyText = await res.text().catch(() => '');
