@@ -4,13 +4,15 @@ import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
-import { User, Lock, GraduationCap } from 'lucide-react';
+import { User, Lock, Mail, IdCard, GraduationCap } from 'lucide-react';
 
 export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
   const router = useRouter();
   const params = useSearchParams();
   const from = params.get('from') || '/';
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -23,6 +25,8 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
     const res = await signIn('credentials', {
       username,
       password,
+      name,
+      email,
       redirect: false,
       callbackUrl: from,
     });
@@ -31,7 +35,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
       router.refresh();
       return;
     }
-    setError('Incorrect username or password.');
+    setError('Check your name, email, username, and password and try again.');
     setLoading(false);
   }
 
@@ -47,7 +51,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
             height={56}
             className="rounded-full"
           />
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--text)] mt-4">NESR AIverse</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text)] mt-4">NESR AI Verse</h1>
           <p className="inline-flex items-center gap-1.5 text-sm text-[var(--muted)] mt-1">
             <GraduationCap className="w-4 h-4 text-[var(--brand)]" />
             Sign in to start the series
@@ -61,7 +65,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
               <button
                 type="button"
                 onClick={() => signIn('azure-ad', { callbackUrl: from })}
-                className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] bg-[var(--card)] border border-slate-300 hover:bg-[var(--card-2)] transition-colors"
+                className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] bg-[var(--card)] border border-[var(--border)] hover:bg-[var(--card-2)] transition-colors"
               >
                 <svg className="w-4 h-4" viewBox="0 0 23 23" aria-hidden="true">
                   <path fill="#f35325" d="M1 1h10v10H1z" />
@@ -73,15 +77,56 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
               </button>
 
               <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-wide text-[var(--muted)]">
-                <span className="h-px flex-1 bg-slate-200" />
+                <span className="h-px flex-1 bg-[var(--border)]" />
                 or
-                <span className="h-px flex-1 bg-slate-200" />
+                <span className="h-px flex-1 bg-[var(--border)]" />
               </div>
             </>
           )}
 
           {/* Username / password (interim + break-glass) */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-[var(--text)] mb-1.5">
+                Your name
+              </label>
+              <div className="relative">
+                <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
+                <input
+                  id="name"
+                  type="text"
+                  autoComplete="name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  required
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
+                  placeholder="Jane Doe"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-[var(--text)] mb-1.5">
+                Your work email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  required
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
+                  placeholder="jane.doe@nesr.com"
+                />
+              </div>
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                Used to save your progress and issue your certificate.
+              </p>
+            </div>
+
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-[var(--text)] mb-1.5">
                 Username
@@ -95,7 +140,7 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
                   value={username}
                   onChange={e => setUsername(e.target.value)}
                   required
-                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#307c4c]/20 focus:border-[#307c4c] transition-colors placeholder-[var(--muted)]"
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
                   placeholder="Enter username"
                 />
               </div>
@@ -114,22 +159,22 @@ export default function LoginForm({ ssoEnabled }: { ssoEnabled: boolean }) {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
-                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#307c4c]/20 focus:border-[#307c4c] transition-colors placeholder-[var(--muted)]"
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
                   placeholder="Enter password"
                 />
               </div>
             </div>
 
             {error && (
-              <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+              <p className="text-sm text-[var(--danger)] bg-[var(--danger-soft)] border border-[var(--danger-border)] rounded-lg px-3 py-2">
                 {error}
               </p>
             )}
 
             <button
               type="submit"
-              disabled={loading || !username || !password}
-              className="mt-1 w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-[var(--brand)] hover:bg-[#276041] disabled:bg-slate-200 disabled:text-[var(--muted)] disabled:cursor-not-allowed transition-colors"
+              disabled={loading || !name || !email || !username || !password}
+              className="mt-1 w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-[var(--brand)] hover:bg-[#276041] disabled:bg-[var(--card-2)] disabled:text-[var(--muted)] disabled:cursor-not-allowed transition-colors"
             >
               {loading ? 'Signing in…' : 'Sign in'}
             </button>

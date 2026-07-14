@@ -17,7 +17,6 @@ export interface GuideChapter {
 }
 
 export const HACKATHON_ACCENT = '#ea580c';
-export const HACKATHON_ACCENT_SOFT = '#fff3ec';
 
 export const GUIDE_CHAPTERS: GuideChapter[] = [
   {

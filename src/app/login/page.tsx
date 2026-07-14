@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { ssoEnabled } from '@/lib/auth';
 import LoginForm from './LoginForm';
 
-export const metadata: Metadata = { title: 'Sign in | NESR AIverse' };
+export const metadata: Metadata = { title: 'Sign in | NESR AI Verse' };
 
 // Rendered per-request so the "Sign in with Microsoft" button reflects the
 // live AZURE_AD_* env (otherwise ssoEnabled would be frozen at build time).

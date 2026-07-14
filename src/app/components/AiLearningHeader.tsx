@@ -46,7 +46,7 @@ export default function AiLearningHeader() {
         <Link href="/" className="flex items-center gap-3 group">
           <Image src="/nesr-logo-circle.png" alt="NESR" width={36} height={36} className="rounded-full" />
           <span className="font-semibold text-[var(--text)] text-sm tracking-tight group-hover:text-[var(--muted)] transition-colors">
-            NESR AIverse
+            NESR AI Verse
           </span>
         </Link>
 

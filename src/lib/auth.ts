@@ -26,6 +26,8 @@ export const ssoEnabled = Boolean(
 const FALLBACK_USER = process.env.LEARNAI_USER ?? 'nesrai';
 const FALLBACK_PASS = process.env.LEARNAI_PASS ?? 'nesr123456';
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export const authOptions: NextAuthOptions = {
   providers: [
     ...(ssoEnabled
@@ -43,17 +45,23 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
+        name: { label: 'Name', type: 'text' },
+        email: { label: 'Email', type: 'text' },
       },
+      // The username/password is a shared break-glass gate, not a per-person
+      // credential — name/email identify the actual person so progress,
+      // certificates, and hackathon entries key correctly per user.
       async authorize(credentials) {
+        const name = credentials?.name?.trim();
+        const email = credentials?.email?.trim().toLowerCase();
         if (
           credentials?.username === FALLBACK_USER &&
-          credentials?.password === FALLBACK_PASS
+          credentials?.password === FALLBACK_PASS &&
+          name &&
+          email &&
+          EMAIL_RE.test(email)
         ) {
-          return {
-            id: 'shared',
-            name: 'NESR AIverse',
-            email: `${FALLBACK_USER}@nesr.com`,
-          };
+          return { id: email, name, email };
         }
         return null;
       },

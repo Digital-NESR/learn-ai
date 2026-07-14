@@ -20,11 +20,10 @@ function withoutHeading(block: ContentBlock): ContentBlock {
 export default function HackathonGuideClient({
   chapters,
   accent,
-  accentSoft,
 }: {
   chapters: GuideChapter[];
   accent: string;
-  accentSoft: string;
+  accentSoft?: string;
 }) {
   const [activeId, setActiveId] = useState(chapters[0].id);
   const activeIndex = Math.max(0, chapters.findIndex(c => c.id === activeId));
@@ -43,7 +42,7 @@ export default function HackathonGuideClient({
               className={`flex shrink-0 items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-left text-sm font-medium transition-colors lg:w-full ${
                 isActive ? '' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
               }`}
-              style={isActive ? { background: accentSoft, color: accent } : undefined}
+              style={isActive ? { background: `${accent}26`, color: accent } : undefined}
             >
               <span
                 className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold"
@@ -73,11 +72,11 @@ export default function HackathonGuideClient({
             const heading = blockHeading(block);
             // Blocks without a heading (short intros) render inline, not collapsed.
             if (!heading) {
-              return <Block key={i} block={block} accent={accent} accentSoft={accentSoft} />;
+              return <Block key={i} block={block} accent={accent} />;
             }
             return (
               <Accordion key={i} title={heading} accent={accent} defaultOpen={i === 0}>
-                <Block block={withoutHeading(block)} accent={accent} accentSoft={accentSoft} />
+                <Block block={withoutHeading(block)} accent={accent} />
               </Accordion>
             );
           })}

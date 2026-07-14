@@ -13,7 +13,7 @@ interface Message {
 
 const GREETING: Message = {
   role: 'assistant',
-  content: "Hi! I'm the AIverse assistant. Ask me anything about AI or the courses.",
+  content: "Hi! I'm the AI Verse assistant. Ask me anything about AI or the courses.",
 };
 
 export default function AiChat() {
@@ -87,7 +87,7 @@ export default function AiChat() {
 
   return (
     <>
-      {/* Opened via the "AIverse Assistant" card / prompt chips (aiverse:open-chat). */}
+      {/* Opened via the "AI Verse Assistant" card / prompt chips (aiverse:open-chat). */}
 
       {/* Panel */}
       {open && (
@@ -97,7 +97,7 @@ export default function AiChat() {
             <div className="flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
               <div className="leading-tight">
-                <p className="text-sm font-semibold">AIverse Assistant</p>
+                <p className="text-sm font-semibold">AI Verse Assistant</p>
                 <p className="text-[11px] text-white/70">Ask about AI &amp; the courses</p>
               </div>
             </div>
@@ -119,7 +119,7 @@ export default function AiChat() {
                     m.role === 'user'
                       ? 'bg-[var(--brand)] text-white'
                       : m.error
-                        ? 'border border-red-100 bg-red-50 text-red-700'
+                        ? 'border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)]'
                         : 'border border-[var(--border)] bg-[var(--card)] text-[var(--text)]'
                   }`}
                 >
@@ -130,9 +130,9 @@ export default function AiChat() {
             {loading && (
               <div className="flex justify-start">
                 <div className="flex items-center gap-1 rounded-2xl border border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5">
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:-0.3s]" />
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:-0.15s]" />
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--muted)] [animation-delay:-0.3s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--muted)] [animation-delay:-0.15s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--muted)]" />
                 </div>
               </div>
             )}
@@ -153,7 +153,7 @@ export default function AiChat() {
                 onClick={send}
                 disabled={loading || !input.trim()}
                 aria-label="Send"
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--brand)] text-white transition-colors hover:bg-[#276041] disabled:bg-slate-200 disabled:text-[var(--muted)]"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--brand)] text-white transition-colors hover:bg-[#276041] disabled:bg-[var(--card-2)] disabled:text-[var(--muted)]"
               >
                 <Send className="h-4 w-4" />
               </button>

@@ -16,7 +16,7 @@ import {
 import AiLearningHeader from '../components/AiLearningHeader';
 import { Block } from '../components/ContentBlocks';
 import type { Module, Track } from '../content';
-import { saveModuleResult } from '../progress';
+import { recordModuleResult } from '../actions/progress';
 
 /* ══════════════════════════════════════════════════════════════════════
    Quiz
@@ -25,14 +25,16 @@ import { saveModuleResult } from '../progress';
 function Quiz({
   module,
   accent,
-  accentSoft,
   onComplete,
 }: {
   module: Module;
   accent: string;
-  accentSoft: string;
+  accentSoft?: string;
   onComplete: (score: number, total: number) => void;
 }) {
+  // Computed from `accent` (low-alpha hex) rather than a static per-theme
+  // color, so it reads correctly in both light and dark mode.
+  const accentSoft = `${accent}22`;
   const total = module.quiz.length;
   const [answers, setAnswers] = useState<(number | null)[]>(() => module.quiz.map(() => null));
   const [submitted, setSubmitted] = useState(false);
@@ -86,13 +88,13 @@ function Quiz({
         <div
           className="rounded-2xl border p-5 mb-6 flex items-center gap-4"
           style={{
-            background: passed ? accentSoft : '#fffbeb',
-            borderColor: passed ? `${accent}44` : '#fde68a',
+            background: passed ? accentSoft : 'var(--warning-soft)',
+            borderColor: passed ? `${accent}44` : 'var(--warning-border)',
           }}
         >
           <div
             className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 text-white font-bold"
-            style={{ background: passed ? accent : '#d97706' }}
+            style={{ background: passed ? accent : 'var(--warning)' }}
           >
             {score}/{total}
           </div>
@@ -125,7 +127,7 @@ function Quiz({
                   const isCorrect = oi === q.answer;
 
                   // styling states
-                  let ring = 'border-[var(--border)] hover:border-gray-300';
+                  let ring = 'border-[var(--border)] hover:border-[var(--muted)]';
                   let bg = 'bg-[var(--card)]';
                   if (!submitted && isChosen) {
                     ring = '';
@@ -135,9 +137,9 @@ function Quiz({
                   if (!submitted && isChosen) {
                     markStyle = { borderColor: accent, background: accentSoft };
                   } else if (submitted && isCorrect) {
-                    markStyle = { borderColor: '#16a34a', background: '#f0fdf4' };
+                    markStyle = { borderColor: 'var(--success)', background: 'var(--success-soft)' };
                   } else if (submitted && isChosen && !isCorrect) {
-                    markStyle = { borderColor: '#dc2626', background: '#fef2f2' };
+                    markStyle = { borderColor: 'var(--danger)', background: 'var(--danger-soft)' };
                   }
 
                   return (
@@ -155,12 +157,12 @@ function Quiz({
                         className="w-5 h-5 rounded-full border flex items-center justify-center shrink-0"
                         style={
                           submitted && isCorrect
-                            ? { borderColor: '#16a34a', background: '#16a34a', color: '#fff' }
+                            ? { borderColor: 'var(--success)', background: 'var(--success)', color: '#fff' }
                             : submitted && isChosen && !isCorrect
-                              ? { borderColor: '#dc2626', background: '#dc2626', color: '#fff' }
+                              ? { borderColor: 'var(--danger)', background: 'var(--danger)', color: '#fff' }
                               : isChosen
                                 ? { borderColor: accent, background: accent, color: '#fff' }
-                                : { borderColor: '#cbd5e1' }
+                                : { borderColor: 'var(--border)' }
                         }
                       >
                         {submitted && isCorrect && <Check className="w-3.5 h-3.5" />}
@@ -193,7 +195,7 @@ function Quiz({
             onClick={submit}
             disabled={!allAnswered}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all shadow-sm disabled:cursor-not-allowed"
-            style={{ background: allAnswered ? accent : '#cbd5e1' }}
+            style={{ background: allAnswered ? accent : 'var(--card-2)' }}
           >
             Submit answers
           </button>
@@ -231,10 +233,12 @@ export default function ModuleClient({
 }) {
   const router = useRouter();
   const [completed, setCompleted] = useState(false);
+  const [certificateEarned, setCertificateEarned] = useState(false);
 
-  function handleComplete(score: number, total: number) {
-    saveModuleResult(module.id, { score, total, completedAt: new Date().toISOString() });
+  async function handleComplete(score: number, total: number) {
     setCompleted(true);
+    const result = await recordModuleResult(module.id, score, total);
+    if (result.certificateEarned) setCertificateEarned(true);
   }
 
   return (
@@ -259,7 +263,7 @@ export default function ModuleClient({
             >
               {track.eyebrow}
             </span>
-            <span className="text-slate-300">·</span>
+            <span className="text-[var(--muted)]">·</span>
             <span className="text-[11px] font-medium tracking-wide uppercase text-[var(--muted)]">
               {module.partLabel}
             </span>
@@ -277,7 +281,7 @@ export default function ModuleClient({
         <div className="max-w-3xl mx-auto px-6 lg:px-8 py-10">
           <div className="flex flex-col gap-8">
             {module.sections.map((block, i) => (
-              <Block key={i} block={block} accent={track.accent} accentSoft={track.accentSoft} />
+              <Block key={i} block={block} accent={track.accent} />
             ))}
           </div>
 
@@ -286,9 +290,23 @@ export default function ModuleClient({
           <Quiz
             module={module}
             accent={track.accent}
-            accentSoft={track.accentSoft}
             onComplete={handleComplete}
           />
+
+          {certificateEarned && (
+            <div className="mt-8 rounded-2xl border border-amber-300/50 bg-amber-50 dark:bg-amber-400/10 dark:border-amber-400/30 p-5 flex items-center justify-between gap-4 flex-wrap">
+              <div>
+                <p className="font-bold text-[var(--text)]">🎉 You finished all four tracks!</p>
+                <p className="text-sm text-[var(--muted)]">Your certificate of completion is ready.</p>
+              </div>
+              <Link
+                href="/certificate"
+                className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm bg-amber-500 hover:bg-amber-600 transition-colors"
+              >
+                View certificate
+              </Link>
+            </div>
+          )}
 
           {/* Footer nav */}
           <div className="mt-10 pt-8 border-t border-[var(--border)] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">

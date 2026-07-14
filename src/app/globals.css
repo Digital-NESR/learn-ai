@@ -19,6 +19,17 @@
   --border: #e6e9ee;
   --brand: #307c4c;
   --brand-soft: #eef7f1;
+
+  /* Status colors — used for quiz correct/incorrect states, banners, errors. */
+  --success: #16a34a;
+  --success-soft: #f0fdf4;
+  --success-border: #bbf7d0;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --danger-border: #fecaca;
+  --warning: #d97706;
+  --warning-soft: #fffbeb;
+  --warning-border: #fde68a;
 }
 
 .dark {
@@ -31,6 +42,16 @@
   --brand: #45c07a;
   --brand-soft: rgba(69, 192, 122, 0.12);
   color-scheme: dark;
+
+  --success: #4ade80;
+  --success-soft: rgba(74, 222, 128, 0.12);
+  --success-border: rgba(74, 222, 128, 0.3);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.12);
+  --danger-border: rgba(248, 113, 113, 0.3);
+  --warning: #fbbf24;
+  --warning-soft: rgba(251, 191, 36, 0.12);
+  --warning-border: rgba(251, 191, 36, 0.3);
 }
 
 html,

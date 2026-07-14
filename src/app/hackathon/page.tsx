@@ -1,11 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth';
 import { Rocket, Users, Sparkles, Trophy, ArrowLeft } from 'lucide-react';
 import AiLearningHeader from '../components/AiLearningHeader';
 import HackathonGuideClient from './HackathonGuideClient';
-import { GUIDE_CHAPTERS, HACKATHON_ACCENT, HACKATHON_ACCENT_SOFT } from '../hackathon-guide';
+import HackathonTeamClient from './HackathonTeamClient';
+import { GUIDE_CHAPTERS, HACKATHON_ACCENT } from '../hackathon-guide';
+import { authOptions } from '@/lib/auth';
+import { getMyTeam } from '../actions/hackathon';
 
-export const metadata: Metadata = { title: 'Hackathon | NESR AIverse' };
+export const metadata: Metadata = { title: 'Hackathon | NESR AI Verse' };
+export const dynamic = 'force-dynamic';
 
 const HIGHLIGHTS = [
   {
@@ -25,7 +30,11 @@ const HIGHLIGHTS = [
   },
 ];
 
-export default function HackathonPage() {
+export default async function HackathonPage() {
+  const session = await getServerSession(authOptions);
+  const currentUserEmail = session?.user?.email?.toLowerCase() ?? '';
+  const myTeam = await getMyTeam().catch(() => null);
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg)] font-sans text-[var(--text)]">
       <AiLearningHeader />
@@ -68,7 +77,7 @@ export default function HackathonPage() {
             <div className="mb-10 text-center">
               <span
                 className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest"
-                style={{ background: HACKATHON_ACCENT_SOFT, color: HACKATHON_ACCENT }}
+                style={{ background: `${HACKATHON_ACCENT}26`, color: HACKATHON_ACCENT }}
               >
                 Prep Guide
               </span>
@@ -81,12 +90,19 @@ export default function HackathonPage() {
               </p>
             </div>
 
-            <HackathonGuideClient
-              chapters={GUIDE_CHAPTERS}
-              accent={HACKATHON_ACCENT}
-              accentSoft={HACKATHON_ACCENT_SOFT}
-            />
+            <HackathonGuideClient chapters={GUIDE_CHAPTERS} accent={HACKATHON_ACCENT} />
           </div>
+        </div>
+
+        {/* ── Team entry ── */}
+        <div className="max-w-2xl mx-auto px-6 lg:px-8 py-14">
+          <div className="mb-6 text-center">
+            <h2 className="text-2xl font-bold tracking-tight text-[var(--text)]">Enter your team</h2>
+            <p className="mt-2 text-[var(--muted)]">
+              Create a team or wait for a teammate to add you — everyone needs an NESR email on file.
+            </p>
+          </div>
+          <HackathonTeamClient initialTeam={myTeam} currentUserEmail={currentUserEmail} accent={HACKATHON_ACCENT} />
         </div>
 
         <div className="py-10 text-center">

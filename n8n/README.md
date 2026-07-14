@@ -1,6 +1,6 @@
-# AIverse Chat — n8n workflow
+# AI Verse Chat — n8n workflow
 
-Backend for the AIverse chat assistant. The site's `/api/chat` route (which
+Backend for the AI Verse chat assistant. The site's `/api/chat` route (which
 handles auth + rate limiting) forwards the conversation to this workflow's
 webhook and returns its reply to the widget.
 
@@ -15,7 +15,7 @@ Chat Webhook → Prepare Request → Call LLM → Format Reply → Respond
 ```
 
 - **Chat Webhook** — POST endpoint (`/webhook/aiverse-chat`), responds via the Respond node.
-- **Prepare Request** — prepends the AIverse system prompt, trims history to the last 20 turns, and builds an OpenAI-style body.
+- **Prepare Request** — prepends the AI Verse system prompt, trims history to the last 20 turns, and builds an OpenAI-style body.
 - **Call LLM** — HTTP POST to the chat-completions API.
 - **Format Reply** — pulls the assistant text into `{ reply }`.
 - **Respond** — returns `{ reply }` to the site.

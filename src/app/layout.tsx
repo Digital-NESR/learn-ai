@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'NESR AIverse',
+  title: 'NESR AI Verse',
   description:
-    'NESR AIverse — beginner AI courses for business and technical teams, with a quiz after every part.',
+    'NESR AI Verse — beginner AI courses for business and technical teams, with a quiz after every part.',
   icons: {
     icon: '/nesr-logo-circle.png',
   },

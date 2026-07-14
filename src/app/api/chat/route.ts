@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
   if (!webhook) {
     return NextResponse.json({
       reply:
-        "The AIverse assistant isn't connected yet — the n8n workflow is on its way. " +
+        "The AI Verse assistant isn't connected yet — the n8n workflow is on its way. " +
         "Once it's live, ask me anything about the AI courses and I'll answer right here.",
       scaffold: true,
     });

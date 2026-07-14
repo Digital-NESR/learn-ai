@@ -1,6 +1,6 @@
-# NESR AIverse (aiverse.nesr.com)
+# NESR AI Verse (aiverse.nesr.com)
 
-Standalone learning site for **NESR AIverse** — beginner AI courses
+Standalone learning site for **NESR AI Verse** — beginner AI courses
 with a short quiz after every part.
 
 - **Business track** — What AI Actually Is · AI in the Workplace · Risk, Ethics & Getting Started

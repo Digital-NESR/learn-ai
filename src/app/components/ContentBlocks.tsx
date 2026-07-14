@@ -19,11 +19,17 @@ export function SectionHeading({ children, accent }: { children: React.ReactNode
   );
 }
 
-export function Block({ block, accent, accentSoft }: { block: ContentBlock; accent: string; accentSoft: string }) {
+export function Block({ block, accent }: { block: ContentBlock; accent: string; accentSoft?: string }) {
+  // Soft tints are computed from `accent` (low-alpha hex) rather than a static
+  // per-theme color, so they read correctly in both light and dark mode —
+  // a low-alpha wash lightens on a light card and darkens on a dark one.
+  const wash = `${accent}14`; // ~8% — large background washes (lead blocks)
+  const pill = `${accent}26`; // ~15% — small badges/chips
+
   switch (block.kind) {
     case 'lead':
       return (
-        <div className="rounded-2xl p-6" style={{ background: accentSoft }}>
+        <div className="rounded-2xl p-6" style={{ background: wash }}>
           <p className="text-xl font-bold text-[var(--text)] leading-snug" style={{ color: accent }}>
             {block.text}
           </p>
@@ -85,7 +91,7 @@ export function Block({ block, accent, accentSoft }: { block: ContentBlock; acce
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm font-bold"
-                  style={{ background: accentSoft, color: accent }}
+                  style={{ background: pill, color: accent }}
                 >
                   {i + 1}
                 </div>
@@ -109,7 +115,7 @@ export function Block({ block, accent, accentSoft }: { block: ContentBlock; acce
               <div key={node} className="flex items-center gap-2">
                 <span
                   className="inline-flex items-center rounded-lg px-3.5 py-2 text-sm font-medium border"
-                  style={{ background: accentSoft, color: accent, borderColor: `${accent}33` }}
+                  style={{ background: pill, color: accent, borderColor: `${accent}33` }}
                 >
                   {node}
                 </span>
