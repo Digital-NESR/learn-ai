@@ -3,7 +3,7 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import aiversePool from '@/lib/db-aiverse';
-import { TOTAL_MODULES } from '../content';
+import { getEffectiveAllModules } from '@/lib/content-resolver';
 
 export interface ModuleResult {
   score: number;
@@ -69,14 +69,16 @@ export async function recordModuleResult(
     [email, moduleId, score, total, completedAt, keepBestScore],
   );
 
-  const { rows: countRows } = await aiversePool.query(
-    `select count(*)::int as n from module_progress where user_email = $1`,
+  const effectiveModules = await getEffectiveAllModules();
+  const { rows: completedRows } = await aiversePool.query(
+    `select module_id from module_progress where user_email = $1`,
     [email],
   );
-  const completedCount = countRows[0].n as number;
+  const completedIds = new Set(completedRows.map(r => r.module_id));
+  const completedCount = effectiveModules.filter(m => completedIds.has(m.module.id)).length;
 
   let certificateEarned = false;
-  if (completedCount >= TOTAL_MODULES) {
+  if (effectiveModules.length > 0 && completedCount >= effectiveModules.length) {
     const res = await aiversePool.query(
       `insert into certificates (user_email, recipient_name) values ($1, $2)
        on conflict (user_email) do nothing`,

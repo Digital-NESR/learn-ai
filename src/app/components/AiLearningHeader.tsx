@@ -1,10 +1,13 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import SignOutButton from './SignOutButton';
 import ThemeToggle from './ThemeToggle';
+import { getMyProfile } from '../actions/profile';
 
 function NavTab({
   href,
@@ -39,6 +42,13 @@ function NavTab({
 export default function AiLearningHeader() {
   const pathname = usePathname();
   const onHackathon = pathname?.startsWith('/hackathon') ?? false;
+  const { data: session } = useSession();
+  const [jobTitle, setJobTitle] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!session?.user) return;
+    getMyProfile().then(profile => setJobTitle(profile?.jobTitle ?? null));
+  }, [session?.user?.email]);
 
   return (
     <header className="sticky top-0 z-30 h-16 shrink-0 border-b border-[var(--border)] bg-[var(--card)]/80 px-6 lg:px-8 backdrop-blur-md flex items-center justify-between">
@@ -56,7 +66,13 @@ export default function AiLearningHeader() {
         </nav>
       </div>
 
-      <div className="flex items-center gap-2 sm:gap-3">
+      <div className="flex items-center gap-3 sm:gap-4">
+        {session?.user?.name && (
+          <div className="hidden md:flex flex-col items-end leading-tight">
+            <span className="text-sm font-medium text-[var(--text)]">{session.user.name}</span>
+            {jobTitle && <span className="text-xs text-[var(--muted)]">{jobTitle}</span>}
+          </div>
+        )}
         <ThemeToggle />
         <SignOutButton />
       </div>

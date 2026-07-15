@@ -45,3 +45,22 @@ create table if not exists hackathon_team_members (
 -- One team per person.
 create unique index if not exists hackathon_team_members_one_per_person
   on hackathon_team_members(email);
+
+-- Admin-authored edits/creations/deletions layered over the static modules in
+-- src/app/content.ts at render time (see src/lib/content-resolver.ts). Vercel's
+-- filesystem is read-only in production, so admin edits can't touch content.ts
+-- directly — this table is the actual source of truth for anything an admin
+-- has touched, static content.ts remains the fallback/default for everything else.
+create table if not exists module_overrides (
+  id text primary key,
+  track_id text not null,
+  part int not null,
+  part_label text not null,
+  title text not null,
+  tagline text not null,
+  minutes int not null,
+  sections jsonb not null default '[]'::jsonb,
+  quiz jsonb not null default '[]'::jsonb,
+  is_deleted boolean not null default false,
+  updated_at timestamptz not null default now()
+);

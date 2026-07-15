@@ -290,7 +290,12 @@ export default function AiLearningHomeClient({
   const [progress] = useState<ProgressMap>(initialProgress);
   const [activeId, setActiveId] = useState<TrackId | 'assistant'>(tracks[0].id);
 
-  const completedCount = Object.keys(progress).length;
+  // Count against the current tracks/modules only, so progress rows left
+  // over from a since-deleted module don't inflate this past totalModules.
+  const completedCount = tracks.reduce(
+    (n, t) => n + t.modules.filter(m => progress[m.id]).length,
+    0,
+  );
 
   function open(href: string) {
     router.push(href);

@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { ALL_MODULES, findModule, nextModule } from '../content';
+import { getEffectiveModule, getEffectiveNextModule } from '@/lib/content-resolver';
 import ModuleClient from './ModuleClient';
 
-export function generateStaticParams() {
-  return ALL_MODULES.map(({ module }) => ({ moduleId: module.id }));
-}
+// Course content (including which module ids exist) can change at any time
+// via /admin, so this route can't be statically prebuilt — always render
+// on demand against the current effective content.
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
@@ -13,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ moduleId: string }>;
 }): Promise<Metadata> {
   const { moduleId } = await params;
-  const found = findModule(moduleId);
+  const found = await getEffectiveModule(moduleId);
   return { title: found ? `${found.module.title} | NESR AI Verse` : 'NESR AI Verse' };
 }
 
@@ -23,10 +24,10 @@ export default async function AiLearningModulePage({
   params: Promise<{ moduleId: string }>;
 }) {
   const { moduleId } = await params;
-  const found = findModule(moduleId);
+  const found = await getEffectiveModule(moduleId);
   if (!found) notFound();
 
-  const next = nextModule(moduleId);
+  const next = await getEffectiveNextModule(moduleId);
 
   return (
     <ModuleClient
