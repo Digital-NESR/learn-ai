@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Sparkles, X, Send } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { useChatVisibility } from '../chat-visibility';
 
 type Role = 'user' | 'assistant';
@@ -15,6 +16,41 @@ interface Message {
 const GREETING: Message = {
   role: 'assistant',
   content: "Hi! I'm the AI Verse assistant. Ask me anything about AI or the courses.",
+};
+
+/** Compact Markdown rendering for chat bubbles — no typography plugin, just
+ * tight element-level overrides so headings/lists/code don't blow out the
+ * bubble's spacing. */
+const MARKDOWN_COMPONENTS = {
+  p: (props: React.ComponentPropsWithoutRef<'p'>) => <p className="mb-2 last:mb-0" {...props} />,
+  ul: (props: React.ComponentPropsWithoutRef<'ul'>) => (
+    <ul className="mb-2 list-disc pl-5 last:mb-0" {...props} />
+  ),
+  ol: (props: React.ComponentPropsWithoutRef<'ol'>) => (
+    <ol className="mb-2 list-decimal pl-5 last:mb-0" {...props} />
+  ),
+  li: (props: React.ComponentPropsWithoutRef<'li'>) => <li className="mb-0.5" {...props} />,
+  h1: (props: React.ComponentPropsWithoutRef<'h1'>) => (
+    <h1 className="mb-1.5 mt-2 text-base font-bold first:mt-0" {...props} />
+  ),
+  h2: (props: React.ComponentPropsWithoutRef<'h2'>) => (
+    <h2 className="mb-1.5 mt-2 text-[15px] font-bold first:mt-0" {...props} />
+  ),
+  h3: (props: React.ComponentPropsWithoutRef<'h3'>) => (
+    <h3 className="mb-1 mt-2 text-sm font-bold first:mt-0" {...props} />
+  ),
+  strong: (props: React.ComponentPropsWithoutRef<'strong'>) => (
+    <strong className="font-semibold" {...props} />
+  ),
+  code: (props: React.ComponentPropsWithoutRef<'code'>) => (
+    <code className="rounded bg-[var(--card-2)] px-1 py-0.5 text-[13px]" {...props} />
+  ),
+  pre: (props: React.ComponentPropsWithoutRef<'pre'>) => (
+    <pre className="mb-2 overflow-x-auto rounded-lg bg-[var(--card-2)] p-2.5 text-[13px] last:mb-0" {...props} />
+  ),
+  a: (props: React.ComponentPropsWithoutRef<'a'>) => (
+    <a className="underline underline-offset-2" target="_blank" rel="noopener noreferrer" {...props} />
+  ),
 };
 
 export default function AiChat() {
@@ -142,7 +178,11 @@ export default function AiChat() {
                         : 'border border-[var(--border)] bg-[var(--card)] text-[var(--text)]'
                   }`}
                 >
-                  {m.content}
+                  {m.role === 'assistant' && !m.error ? (
+                    <ReactMarkdown components={MARKDOWN_COMPONENTS}>{m.content}</ReactMarkdown>
+                  ) : (
+                    m.content
+                  )}
                 </div>
               </div>
             ))}

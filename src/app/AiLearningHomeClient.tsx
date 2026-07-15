@@ -9,8 +9,8 @@ import {
   CheckCircle2,
   Clock,
   Sparkles,
-  Briefcase,
-  Blocks,
+  Layers,
+  Rocket,
   Cpu,
   Wand2,
   MessageCircle,
@@ -102,11 +102,12 @@ function ProgressRing({ percent, accent }: { percent: number; accent: string }) 
 
 /* ─── Icons per tab ──────────────────────────────────────────────────── */
 
-const TRACK_ICON: Record<TrackId, typeof Briefcase> = {
-  business: Briefcase,
-  'create-ai': Blocks,
-  advanced: Cpu,
-  'use-ai': Wand2,
+const TRACK_ICON: Record<TrackId, typeof BookOpen> = {
+  'general-beginner': BookOpen,
+  'general-intermediate': Layers,
+  'general-advanced': Rocket,
+  technical: Cpu,
+  productivity: Wand2,
 };
 
 const ASSISTANT_ACCENT = '#7c3aed';
@@ -356,8 +357,8 @@ export default function AiLearningHomeClient({
             className="animate-fade-up mt-4 max-w-2xl text-lg leading-relaxed text-white/70"
             style={{ animationDelay: '160ms' }}
           >
-            Four beginner tracks, three short parts each. Watch the videos, then take a quick quiz
-            after every part to check what stuck.
+            General, Technical, and Productivity tracks — short videos with a quick, timed quiz
+            after every one to check what stuck.
           </p>
 
           <div className="animate-fade-up mt-6 flex flex-wrap items-center gap-3" style={{ animationDelay: '240ms' }}>
