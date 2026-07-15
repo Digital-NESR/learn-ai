@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Sparkles, X, Send } from 'lucide-react';
+import { useChatVisibility } from '../chat-visibility';
 
 type Role = 'user' | 'assistant';
 interface Message {
@@ -18,6 +19,7 @@ const GREETING: Message = {
 
 export default function AiChat() {
   const pathname = usePathname();
+  const { hidden } = useChatVisibility();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([GREETING]);
@@ -40,8 +42,15 @@ export default function AiChat() {
     return () => window.removeEventListener('aiverse:open-chat', onOpen);
   }, []);
 
-  // The widget is for signed-in, in-app pages only — never on the login screen.
-  if (pathname === '/login') return null;
+  // Close the panel (rather than leave it open-but-invisible) whenever a
+  // timed quiz session hides the widget.
+  useEffect(() => {
+    if (hidden) setOpen(false);
+  }, [hidden]);
+
+  // The widget is for signed-in, in-app pages only — never on the login
+  // screen, and never during a timed quiz (so it can't be used to cheat).
+  if (pathname === '/login' || hidden) return null;
 
   async function send() {
     const text = input.trim();
@@ -87,7 +96,17 @@ export default function AiChat() {
 
   return (
     <>
-      {/* Opened via the "AI Verse Assistant" card / prompt chips (aiverse:open-chat). */}
+      {/* Floating trigger — also opened via the "AI Verse Assistant" card /
+          prompt chips (aiverse:open-chat custom event). */}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open AI Verse Assistant"
+          className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-lg transition-transform hover:scale-105 hover:bg-[#276041]"
+        >
+          <Sparkles className="h-6 w-6" />
+        </button>
+      )}
 
       {/* Panel */}
       {open && (

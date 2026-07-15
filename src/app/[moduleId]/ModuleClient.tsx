@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -12,11 +12,21 @@ import {
   RotateCcw,
   Lightbulb,
   ClipboardCheck,
+  Clock,
 } from 'lucide-react';
 import AiLearningHeader from '../components/AiLearningHeader';
 import { Block } from '../components/ContentBlocks';
 import type { Module, Track } from '../content';
 import { recordModuleResult } from '../actions/progress';
+import { useChatVisibility } from '../chat-visibility';
+
+const QUIZ_TIME_LIMIT_SECONDS = 10 * 60;
+
+function formatClock(totalSeconds: number): string {
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
 
 /* ══════════════════════════════════════════════════════════════════════
    Quiz
@@ -38,12 +48,39 @@ function Quiz({
   const total = module.quiz.length;
   const [answers, setAnswers] = useState<(number | null)[]>(() => module.quiz.map(() => null));
   const [submitted, setSubmitted] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(QUIZ_TIME_LIMIT_SECONDS);
+  const { setHidden } = useChatVisibility();
 
   const allAnswered = answers.every(a => a !== null);
   const score = useMemo(
     () => module.quiz.reduce((n, q, i) => (answers[i] === q.answer ? n + 1 : n), 0),
     [answers, module.quiz],
   );
+  const scoreRef = useRef(score);
+  scoreRef.current = score;
+
+  // The timer — and the AI assistant being hidden — is active for the whole
+  // time the quiz is un-submitted, restarting on retake. Time running out
+  // force-submits whatever's answered, same as clicking submit manually.
+  useEffect(() => {
+    if (submitted) return;
+    setHidden(true);
+    const id = setInterval(() => {
+      setSecondsLeft(s => (s <= 1 ? 0 : s - 1));
+    }, 1000);
+    return () => clearInterval(id);
+  }, [submitted, setHidden]);
+
+  useEffect(() => {
+    if (submitted || secondsLeft > 0) return;
+    setSubmitted(true);
+    onComplete(scoreRef.current, total);
+    setHidden(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [secondsLeft, submitted]);
+
+  // Never leave the assistant hidden if the learner navigates away mid-quiz.
+  useEffect(() => () => setHidden(false), [setHidden]);
 
   function select(qi: number, oi: number) {
     if (submitted) return;
@@ -58,6 +95,7 @@ function Quiz({
     if (!allAnswered) return;
     setSubmitted(true);
     onComplete(score, total);
+    setHidden(false);
     // reveal results at the top of the quiz
     if (typeof document !== 'undefined') {
       document.getElementById('quiz-top')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -66,6 +104,7 @@ function Quiz({
 
   function retake() {
     setAnswers(module.quiz.map(() => null));
+    setSecondsLeft(QUIZ_TIME_LIMIT_SECONDS);
     setSubmitted(false);
     if (typeof document !== 'undefined') {
       document.getElementById('quiz-top')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -73,15 +112,31 @@ function Quiz({
   }
 
   const passed = score === total;
+  const timeRunningLow = !submitted && secondsLeft <= 60;
 
   return (
     <section id="quiz-top" className="scroll-mt-20">
-      <div className="flex items-center gap-2.5 mb-1">
-        <ClipboardCheck className="w-5 h-5" style={{ color: accent }} />
-        <h2 className="text-xl font-bold text-[var(--text)]">Quick quiz</h2>
+      <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
+        <div className="flex items-center gap-2.5">
+          <ClipboardCheck className="w-5 h-5" style={{ color: accent }} />
+          <h2 className="text-xl font-bold text-[var(--text)]">Quick quiz</h2>
+        </div>
+        {!submitted && (
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold tabular-nums ${
+              timeRunningLow
+                ? 'bg-[var(--danger-soft)] text-[var(--danger)]'
+                : 'bg-[var(--card-2)] text-[var(--muted)]'
+            }`}
+            aria-live="polite"
+          >
+            <Clock className="w-3.5 h-3.5" />
+            {formatClock(secondsLeft)}
+          </span>
+        )}
       </div>
       <p className="text-sm text-[var(--muted)] mb-6">
-        {total} questions. Answer each, then submit to see how you did.
+        {total} questions. The AI assistant is hidden until you submit or time runs out.
       </p>
 
       {submitted && (
@@ -234,6 +289,7 @@ export default function ModuleClient({
   const router = useRouter();
   const [completed, setCompleted] = useState(false);
   const [certificateEarned, setCertificateEarned] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
 
   async function handleComplete(score: number, total: number) {
     setCompleted(true);
@@ -287,11 +343,29 @@ export default function ModuleClient({
 
           <hr className="my-10 border-[var(--border)]" />
 
-          <Quiz
-            module={module}
-            accent={track.accent}
-            onComplete={handleComplete}
-          />
+          {!quizStarted ? (
+            <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 sm:p-8 text-center">
+              <ClipboardCheck className="w-8 h-8 mx-auto mb-3" style={{ color: track.accent }} />
+              <h2 className="text-xl font-bold text-[var(--text)]">Ready for the quiz?</h2>
+              <p className="mt-1.5 text-sm text-[var(--muted)] max-w-md mx-auto">
+                {module.quiz.length} questions, 10 minutes once you start. The AI assistant hides
+                itself for the duration so you&apos;re working from what you&apos;ve learned.
+              </p>
+              <button
+                onClick={() => setQuizStarted(true)}
+                className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white shadow-sm transition-transform hover:scale-[1.02]"
+                style={{ background: track.accent }}
+              >
+                Take quiz
+              </button>
+            </section>
+          ) : (
+            <Quiz
+              module={module}
+              accent={track.accent}
+              onComplete={handleComplete}
+            />
+          )}
 
           {certificateEarned && (
             <div className="mt-8 rounded-2xl border border-amber-300/50 bg-amber-50 dark:bg-amber-400/10 dark:border-amber-400/30 p-5 flex items-center justify-between gap-4 flex-wrap">
