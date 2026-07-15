@@ -24,7 +24,8 @@ export const metadata: Metadata = {
 };
 
 // Runs before paint so the saved theme is applied with no flash of the wrong mode.
-const themeScript = `(function(){try{var t=localStorage.getItem('aiverse.theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+// Defaults to dark mode unless the visitor has explicitly chosen light before.
+const themeScript = `(function(){try{var t=localStorage.getItem('aiverse.theme');var d=t?t==='dark':true;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
 export default function RootLayout({
   children,

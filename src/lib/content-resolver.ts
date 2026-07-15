@@ -33,6 +33,11 @@ async function loadOverrides(): Promise<OverrideRow[]> {
   }));
 }
 
+async function loadDeletedTrackIds(): Promise<Set<string>> {
+  const { rows } = await aiversePool.query(`select id from track_overrides`);
+  return new Set(rows.map(r => r.id as string));
+}
+
 function toModule(o: OverrideRow): Module {
   return {
     id: o.id,
@@ -53,11 +58,11 @@ function toModule(o: OverrideRow): Module {
  * applied here at render time rather than touching content.ts.
  */
 export async function getEffectiveTracks(): Promise<Track[]> {
-  const overrides = await loadOverrides();
+  const [overrides, deletedTrackIds] = await Promise.all([loadOverrides(), loadDeletedTrackIds()]);
   const overrideMap = new Map(overrides.map(o => [o.id, o]));
   const staticIds = new Set(STATIC_TRACKS.flatMap(t => t.modules.map(m => m.id)));
 
-  const tracks: Track[] = STATIC_TRACKS.map(t => ({
+  const tracks: Track[] = STATIC_TRACKS.filter(t => !deletedTrackIds.has(t.id)).map(t => ({
     ...t,
     modules: t.modules
       .filter(m => !overrideMap.get(m.id)?.isDeleted)

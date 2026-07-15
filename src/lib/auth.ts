@@ -3,30 +3,27 @@ import AzureADProvider from 'next-auth/providers/azure-ad';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 /**
- * Auth for learnai.
+ * Auth for learnai — Microsoft Entra ID (SSO) only in production.
  *
- * Primary (once provisioned): Microsoft Entra ID via OIDC — the same setup the
- * SC Agents platform uses. The Azure provider only turns on when the
- * AZURE_AD_* env vars are present, so no code change is needed to go live:
- * IT registers the app, you drop the three values into the environment, and
- * the "Sign in with Microsoft" button starts working.
- *
- * Interim / break-glass: a shared username + password (Credentials provider),
- * kept working until SSO is live so the site is never locked out.
+ * The Azure provider only turns on when the AZURE_AD_* env vars are present.
+ * There is intentionally no fallback/bypass login in production; if SSO
+ * isn't configured, sign-in is unavailable and the login page says so
+ * rather than rendering a button that can't work.
  */
-
-// All three must be present, otherwise a half-configured Azure provider would
-// break sign-in. Missing/partial → SSO stays off and the password login is used.
 export const ssoEnabled = Boolean(
   process.env.AZURE_AD_CLIENT_ID &&
     process.env.AZURE_AD_TENANT_ID &&
     process.env.AZURE_AD_CLIENT_SECRET,
 );
 
-const FALLBACK_USER = process.env.LEARNAI_USER ?? 'nesrai';
-const FALLBACK_PASS = process.env.LEARNAI_PASS ?? 'nesr123456';
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/**
+ * One-click "Continue as Dev User" for testing locally without a real
+ * Microsoft login (e.g. to preview the launch animation). Requires BOTH a
+ * non-production NODE_ENV and an explicit opt-in env var, so it can't end up
+ * live by accident even if one of the two is misconfigured.
+ */
+export const devBypassEnabled =
+  process.env.NODE_ENV !== 'production' && process.env.LOCAL_AUTH_BYPASS === 'true';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -40,35 +37,18 @@ export const authOptions: NextAuthOptions = {
           }),
         ]
       : []),
-    CredentialsProvider({
-      name: 'Password',
-      credentials: {
-        username: { label: 'Username', type: 'text' },
-        password: { label: 'Password', type: 'password' },
-        name: { label: 'Name', type: 'text' },
-        email: { label: 'Email', type: 'text' },
-      },
-      // The username/password is a shared break-glass gate for admins, not a
-      // per-person credential — real learners use SSO. Name/email are
-      // optional here: when given, they identify the actual person so
-      // progress/certificates/hackathon entries key correctly; when
-      // omitted, the admin signs in under one generic shared identity.
-      async authorize(credentials) {
-        if (credentials?.username !== FALLBACK_USER || credentials?.password !== FALLBACK_PASS) {
-          return null;
-        }
-        const name = credentials?.name?.trim();
-        const email = credentials?.email?.trim().toLowerCase();
-        if (name && email && EMAIL_RE.test(email)) {
-          return { id: email, name, email };
-        }
-        return {
-          id: 'shared',
-          name: 'NESR AI Verse',
-          email: `${FALLBACK_USER}@nesr.com`,
-        };
-      },
-    }),
+    ...(devBypassEnabled
+      ? [
+          CredentialsProvider({
+            id: 'dev-bypass',
+            name: 'Dev bypass',
+            credentials: {},
+            async authorize() {
+              return { id: 'dev@nesr.com', name: 'Dev User', email: 'dev@nesr.com' };
+            },
+          }),
+        ]
+      : []),
   ],
   pages: { signIn: '/login' },
   session: { strategy: 'jwt' },

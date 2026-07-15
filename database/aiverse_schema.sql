@@ -64,3 +64,24 @@ create table if not exists module_overrides (
   is_deleted boolean not null default false,
   updated_at timestamptz not null default now()
 );
+
+-- A row here means the whole track (and everything in it) is hidden from the
+-- site. Presence of a row = deleted; there's nothing else to store.
+create table if not exists track_overrides (
+  id text primary key,
+  deleted_at timestamptz not null default now()
+);
+
+-- Undo log for /admin. previous_row is the exact prior row for (table_name,
+-- row_id) before the action ran — null means no row existed yet, so undoing
+-- means deleting the row rather than restoring one. Trimmed to the last 20
+-- rows per actor in saveModule/deleteModule/deleteTrack.
+create table if not exists admin_actions (
+  id uuid primary key default gen_random_uuid(),
+  actor_email text not null,
+  table_name text not null,
+  row_id text not null,
+  description text not null,
+  previous_row jsonb,
+  created_at timestamptz not null default now()
+);

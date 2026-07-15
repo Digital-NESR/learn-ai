@@ -84,6 +84,34 @@ body {
 @keyframes dash-flow {
   to { stroke-dashoffset: -1000; }
 }
+@keyframes engine-glow {
+  0%, 100% { opacity: 0.55; transform: scaleY(1); }
+  50%      { opacity: 0.85; transform: scaleY(1.08); }
+}
+@keyframes engine-flare {
+  0%   { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1;   transform: scale(1.6); }
+}
+@keyframes ship-liftoff {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  70%  { transform: translateY(-40vh) scale(0.96); opacity: 1; }
+  100% { transform: translateY(-95vh) scale(0.85); opacity: 0; }
+}
+@keyframes ship-idle-drift {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes trail-stretch {
+  0%   { opacity: 0; transform: scaleY(0.2); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: scaleY(2.4); }
+}
+@keyframes panel-fade-out {
+  to { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes screen-fade-to-black {
+  to { opacity: 1; }
+}
 
 /* ── Animation utilities ── */
 .animate-aurora    { animation: aurora 20s ease-in-out infinite; }
@@ -91,6 +119,13 @@ body {
 .animate-twinkle   { animation: twinkle 3.5s ease-in-out infinite; }
 .animate-fade-up   { animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-dash-flow { stroke-dasharray: 6 10; animation: dash-flow 22s linear infinite; }
+.animate-engine-glow   { animation: engine-glow 2.2s ease-in-out infinite; }
+.animate-engine-flare  { animation: engine-flare 0.5s ease-out forwards; }
+.animate-ship-liftoff  { animation: ship-liftoff 1.6s cubic-bezier(0.5, 0, 0.85, 1) forwards; }
+.animate-ship-idle     { animation: ship-idle-drift 5s ease-in-out infinite; }
+.animate-trail-stretch { animation: trail-stretch 1.6s ease-in forwards; }
+.animate-panel-fade-out { animation: panel-fade-out 0.5s ease forwards; }
+.animate-screen-fade-to-black { animation: screen-fade-to-black 0.9s ease-in 0.9s forwards; }
 
 .animate-gradient-x {
   background-size: 200% 200%;
@@ -114,7 +149,17 @@ body {
   .animate-fade-up,
   .animate-dash-flow,
   .animate-gradient-x,
-  .text-gradient {
+  .text-gradient,
+  .animate-engine-glow,
+  .animate-engine-flare,
+  .animate-ship-liftoff,
+  .animate-ship-idle,
+  .animate-trail-stretch,
+  .animate-panel-fade-out {
     animation: none !important;
+  }
+  /* Reduced motion still gets a quick cross-fade instead of the full launch. */
+  .animate-screen-fade-to-black {
+    animation: screen-fade-to-black 0.35s ease-in forwards !important;
   }
 }

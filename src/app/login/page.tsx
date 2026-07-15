@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { ssoEnabled } from '@/lib/auth';
+import { ssoEnabled, devBypassEnabled } from '@/lib/auth';
 import LoginForm from './LoginForm';
 
 export const metadata: Metadata = { title: 'Sign in | NESR AI Verse' };
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 export default function LoginPage() {
   return (
     <Suspense fallback={null}>
-      <LoginForm ssoEnabled={ssoEnabled} />
+      <LoginForm ssoEnabled={ssoEnabled} devBypassEnabled={devBypassEnabled} />
     </Suspense>
   );
 }

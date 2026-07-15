@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { isAdminEmail } from '@/lib/admin';
 import { getEffectiveTracks } from '@/lib/content-resolver';
+import { listRecentActions } from '../actions/admin';
 import AdminClient from './AdminClient';
 
 export const metadata: Metadata = { title: 'Admin | NESR AI Verse' };
@@ -15,6 +16,6 @@ export default async function AdminPage() {
   const session = await getServerSession(authOptions);
   if (!isAdminEmail(session?.user?.email)) notFound();
 
-  const tracks = await getEffectiveTracks();
-  return <AdminClient initialTracks={tracks} />;
+  const [tracks, recentActions] = await Promise.all([getEffectiveTracks(), listRecentActions()]);
+  return <AdminClient initialTracks={tracks} initialActions={recentActions} />;
 }

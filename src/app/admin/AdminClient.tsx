@@ -10,8 +10,18 @@ import {
   Save,
   Video,
   ClipboardCheck,
+  Undo2,
 } from 'lucide-react';
-import { saveModule, deleteModule, listTracksForAdmin, type ModuleFormData } from '../actions/admin';
+import {
+  saveModule,
+  deleteModule,
+  deleteTrack,
+  listTracksForAdmin,
+  listRecentActions,
+  undoAction,
+  type ModuleFormData,
+  type AdminAction,
+} from '../actions/admin';
 import type { ContentBlock, Module, QuizQuestion, Track, TrackId } from '../content';
 
 type Tab = 'courses' | 'hackathon';
@@ -83,9 +93,16 @@ function patchVideoBlock(sectionsJson: string, patch: Partial<{ youtubeId: strin
   }
 }
 
-export default function AdminClient({ initialTracks }: { initialTracks: Track[] }) {
+export default function AdminClient({
+  initialTracks,
+  initialActions,
+}: {
+  initialTracks: Track[];
+  initialActions: AdminAction[];
+}) {
   const [tab, setTab] = useState<Tab>('courses');
   const [tracks, setTracks] = useState<Track[]>(initialTracks);
+  const [actions, setActions] = useState<AdminAction[]>(initialActions);
   const [draft, setDraft] = useState<Draft | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
@@ -103,8 +120,40 @@ export default function AdminClient({ initialTracks }: { initialTracks: Track[] 
   }, [draft]);
 
   async function refresh() {
-    const fresh = await listTracksForAdmin();
-    setTracks(fresh);
+    const [freshTracks, freshActions] = await Promise.all([listTracksForAdmin(), listRecentActions()]);
+    setTracks(freshTracks);
+    setActions(freshActions);
+  }
+
+  async function handleDeleteTrack(trackId: TrackId, eyebrow: string) {
+    if (!window.confirm(`Delete the whole "${eyebrow}" track and everything in it?`)) return;
+    setError(null);
+    setSaving(true);
+    try {
+      await deleteTrack(trackId);
+      if (draft && draft.trackId === trackId) setDraft(null);
+      await refresh();
+      setStatus('Track deleted.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not delete track');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleUndo(actionId: string) {
+    setError(null);
+    setSaving(true);
+    try {
+      await undoAction(actionId);
+      setDraft(null);
+      await refresh();
+      setStatus('Undone.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not undo');
+    } finally {
+      setSaving(false);
+    }
   }
 
   function selectModule(trackId: TrackId, m: Module) {
@@ -279,6 +328,32 @@ export default function AdminClient({ initialTracks }: { initialTracks: Track[] 
         </nav>
       </div>
 
+      {actions.length > 0 && (
+        <div className="border-b border-[var(--border)] bg-[var(--card)]/60 px-6 lg:px-8 py-3">
+          <div className="max-w-6xl mx-auto flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mr-1">
+              Recent
+            </span>
+            {actions.map(a => (
+              <span
+                key={a.id}
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card-2)] pl-3 pr-1.5 py-1 text-xs"
+              >
+                {a.description}
+                <button
+                  onClick={() => handleUndo(a.id)}
+                  disabled={saving}
+                  className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-semibold text-[var(--brand)] hover:bg-[var(--brand-soft)] disabled:opacity-50 transition-colors"
+                >
+                  <Undo2 className="w-3 h-3" />
+                  Undo
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {tab === 'hackathon' ? (
         <div className="max-w-2xl mx-auto px-6 py-16 text-center">
           <Rocket className="w-8 h-8 mx-auto text-[var(--muted)] mb-3" />
@@ -293,9 +368,19 @@ export default function AdminClient({ initialTracks }: { initialTracks: Track[] 
           <aside className="flex flex-col gap-5">
             {tracks.map(track => (
               <div key={track.id}>
-                <p className="text-[11px] font-bold uppercase tracking-widest mb-1.5" style={{ color: track.accent }}>
-                  {track.eyebrow}
-                </p>
+                <div className="flex items-center justify-between mb-1.5">
+                  <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: track.accent }}>
+                    {track.eyebrow}
+                  </p>
+                  <button
+                    onClick={() => handleDeleteTrack(track.id, track.eyebrow)}
+                    disabled={saving}
+                    className="text-[var(--muted)] hover:text-[var(--danger)] disabled:opacity-50 transition-colors"
+                    aria-label={`Delete ${track.eyebrow}`}
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
                 <ul className="flex flex-col gap-1">
                   {track.modules.map(m => (
                     <li key={m.id}>
