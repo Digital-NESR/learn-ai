@@ -17,13 +17,15 @@ export const ssoEnabled = Boolean(
 );
 
 /**
- * One-click "Continue as Dev User" for testing locally without a real
- * Microsoft login (e.g. to preview the launch animation). Requires BOTH a
- * non-production NODE_ENV and an explicit opt-in env var, so it can't end up
- * live by accident even if one of the two is misconfigured.
+ * One-click "Continue as Dev User" for testing without a real Microsoft
+ * login (e.g. to preview the launch animation). Gated on NOT running on
+ * Vercel (which always sets VERCEL=1 during build/runtime) rather than
+ * NODE_ENV — a local `next build && next start` still sets NODE_ENV=
+ * production, and this should stay available then too. Also requires an
+ * explicit opt-in env var, so it can't end up live by accident even if
+ * someone runs a copy of this app outside Vercel.
  */
-export const devBypassEnabled =
-  process.env.NODE_ENV !== 'production' && process.env.LOCAL_AUTH_BYPASS === 'true';
+export const devBypassEnabled = !process.env.VERCEL && process.env.LOCAL_AUTH_BYPASS === 'true';
 
 export const authOptions: NextAuthOptions = {
   providers: [
