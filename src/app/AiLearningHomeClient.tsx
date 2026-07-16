@@ -7,11 +7,14 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
+  ChevronDown,
   Clock,
   Sparkles,
   Layers,
   Rocket,
   Cpu,
+  Network,
+  FlaskConical,
   Wand2,
   MessageCircle,
   Award,
@@ -106,9 +109,28 @@ const TRACK_ICON: Record<TrackId, typeof BookOpen> = {
   'general-beginner': BookOpen,
   'general-intermediate': Layers,
   'general-advanced': Rocket,
-  technical: Cpu,
+  'technical-beginner': Cpu,
+  'technical-intermediate': Network,
+  'technical-advanced': FlaskConical,
   productivity: Wand2,
 };
+
+/* ─── Group tracks with a shared id prefix (general-*, technical-*) under a
+   single collapsible sidebar entry, so the 6 tiers don't flood the list. ── */
+type GroupKey = 'general' | 'technical';
+const GROUP_ICON: Record<GroupKey, typeof BookOpen> = { general: BookOpen, technical: Cpu };
+const GROUP_LABEL: Record<GroupKey, string> = { general: 'General', technical: 'Technical' };
+
+function groupOf(id: TrackId): GroupKey | null {
+  if (id.startsWith('general-')) return 'general';
+  if (id.startsWith('technical-')) return 'technical';
+  return null;
+}
+
+function tierLabel(id: TrackId): string {
+  const tier = id.split('-').slice(1).join('-');
+  return tier.charAt(0).toUpperCase() + tier.slice(1);
+}
 
 const ASSISTANT_ACCENT = '#7c3aed';
 const ASSISTANT_PROMPTS = ['What is a token?', 'Explain RAG simply', 'Prompting tips'];
@@ -290,6 +312,19 @@ export default function AiLearningHomeClient({
   const router = useRouter();
   const [progress] = useState<ProgressMap>(initialProgress);
   const [activeId, setActiveId] = useState<TrackId | 'assistant'>(tracks[0].id);
+  const [openGroup, setOpenGroup] = useState<GroupKey | null>(groupOf(tracks[0].id));
+
+  const standaloneTracks = tracks.filter(t => !groupOf(t.id));
+  const groupedTracks: Record<GroupKey, Track[]> = {
+    general: tracks.filter(t => groupOf(t.id) === 'general'),
+    technical: tracks.filter(t => groupOf(t.id) === 'technical'),
+  };
+
+  function selectTrack(id: TrackId) {
+    setActiveId(id);
+    const g = groupOf(id);
+    if (g) setOpenGroup(g);
+  }
 
   // Count against the current tracks/modules only, so progress rows left
   // over from a since-deleted module don't inflate this past totalModules.
@@ -391,14 +426,87 @@ export default function AiLearningHomeClient({
           <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
             {/* Sidebar tabs */}
             <nav className="flex gap-2 overflow-x-auto pb-1 lg:sticky lg:top-24 lg:h-fit lg:flex-col lg:overflow-visible lg:pb-0">
-              {tracks.map(track => {
+              {(['general', 'technical'] as GroupKey[]).map(group => {
+                const groupTracks = groupedTracks[group];
+                if (groupTracks.length === 0) return null;
+                const isOpen = openGroup === group;
+                const hasActive = groupTracks.some(t => t.id === activeId);
+                const GroupIcon = GROUP_ICON[group];
+                const groupCompleted = groupTracks.reduce(
+                  (n, t) => n + t.modules.filter(m => progress[m.id]).length,
+                  0,
+                );
+                const groupTotal = groupTracks.reduce((n, t) => n + t.modules.length, 0);
+                return (
+                  <div key={group} className="shrink-0 lg:w-full">
+                    <button
+                      onClick={() => setOpenGroup(isOpen ? null : group)}
+                      className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm font-medium transition-colors ${
+                        hasActive ? 'text-[var(--text)]' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
+                      }`}
+                    >
+                      <span
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+                        style={{ background: 'var(--card-2)', color: hasActive ? 'var(--text)' : 'var(--muted)' }}
+                      >
+                        <GroupIcon className="h-4 w-4" />
+                      </span>
+                      <span className="min-w-0 flex-1 whitespace-nowrap lg:whitespace-normal">
+                        {GROUP_LABEL[group]}
+                      </span>
+                      <span
+                        className="hidden shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-bold lg:inline-block"
+                        style={{ background: 'var(--border)', color: 'var(--muted)' }}
+                      >
+                        {groupCompleted}/{groupTotal}
+                      </span>
+                      <ChevronDown
+                        className={`h-4 w-4 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+
+                    {isOpen && (
+                      <div className="mt-1 ml-4 flex flex-col gap-1 border-l border-[var(--border)] pl-3 lg:flex">
+                        {groupTracks.map(track => {
+                          const Icon = TRACK_ICON[track.id];
+                          const isActive = activeId === track.id;
+                          const completed = track.modules.filter(m => progress[m.id]).length;
+                          return (
+                            <button
+                              key={track.id}
+                              onClick={() => selectTrack(track.id)}
+                              className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                                isActive ? '' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
+                              }`}
+                              style={isActive ? { background: `${track.accent}26`, color: track.accent } : undefined}
+                            >
+                              <Icon className="h-3.5 w-3.5 shrink-0" />
+                              <span className="min-w-0 flex-1 truncate whitespace-nowrap lg:whitespace-normal">
+                                {tierLabel(track.id)}
+                              </span>
+                              <span
+                                className="shrink-0 text-[10px] font-bold"
+                                style={{ color: isActive ? track.accent : 'var(--muted)' }}
+                              >
+                                {completed}/{track.modules.length}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {standaloneTracks.map(track => {
                 const Icon = TRACK_ICON[track.id];
                 const isActive = activeId === track.id;
                 const completed = track.modules.filter(m => progress[m.id]).length;
                 return (
                   <button
                     key={track.id}
-                    onClick={() => setActiveId(track.id)}
+                    onClick={() => selectTrack(track.id)}
                     className={`flex shrink-0 items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm font-medium transition-colors lg:w-full ${
                       isActive ? '' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
                     }`}

@@ -63,7 +63,9 @@ export type TrackId =
   | 'general-beginner'
   | 'general-intermediate'
   | 'general-advanced'
-  | 'technical'
+  | 'technical-beginner'
+  | 'technical-intermediate'
+  | 'technical-advanced'
   | 'productivity';
 
 export interface Track {
@@ -599,14 +601,12 @@ const generalBeginnerModules: Module[] = [
 
 /* ══════════════════════════════════════════════════════════════════════
    GENERAL TRACK — INTERMEDIATE
-   (8 of 10 videos so far — 2 slots held back after a duplicate-video
-   conflict with the Technical track was caught during QA; to be topped up.)
    ══════════════════════════════════════════════════════════════════════ */
 
 const generalIntermediateModules: Module[] = [
   {
     id: 'general-intermediate-1',
-    partLabel: 'Part 1 of 8',
+    partLabel: 'Part 1 of 10',
     part: 1,
     title: 'Prompt Engineering: Four Ways to Talk to an AI',
     tagline: 'Beyond "write a good prompt" — the actual named techniques that make LLMs more accurate.',
@@ -647,7 +647,7 @@ const generalIntermediateModules: Module[] = [
   },
   {
     id: 'general-intermediate-2',
-    partLabel: 'Part 2 of 8',
+    partLabel: 'Part 2 of 10',
     part: 2,
     title: 'Why AI Chatbots Sometimes Make Things Up',
     tagline: 'Hallucinations explained: why a confident-sounding AI answer can still be wrong.',
@@ -687,7 +687,7 @@ const generalIntermediateModules: Module[] = [
   },
   {
     id: 'general-intermediate-3',
-    partLabel: 'Part 3 of 8',
+    partLabel: 'Part 3 of 10',
     part: 3,
     title: 'Multimodal AI: One Model, Many Kinds of Input',
     tagline: 'How modern AI systems handle text, images, and audio together, not separately.',
@@ -727,7 +727,7 @@ const generalIntermediateModules: Module[] = [
   },
   {
     id: 'general-intermediate-4',
-    partLabel: 'Part 4 of 8',
+    partLabel: 'Part 4 of 10',
     part: 4,
     title: 'AI in the Supply Chain',
     tagline: 'How AI is being applied to real supply chain and procurement operations.',
@@ -767,7 +767,7 @@ const generalIntermediateModules: Module[] = [
   },
   {
     id: 'general-intermediate-5',
-    partLabel: 'Part 5 of 8',
+    partLabel: 'Part 5 of 10',
     part: 5,
     title: 'AI, Machine Learning, Deep Learning, and Generative AI: What’s the Difference?',
     tagline: 'How models actually learn from data, and where each buzzword fits.',
@@ -807,7 +807,7 @@ const generalIntermediateModules: Module[] = [
   },
   {
     id: 'general-intermediate-6',
-    partLabel: 'Part 6 of 8',
+    partLabel: 'Part 6 of 10',
     part: 6,
     title: 'Five AI Risks That Can Get You Fired',
     tagline: 'The real security and governance pitfalls of using AI carelessly at work.',
@@ -848,7 +848,7 @@ const generalIntermediateModules: Module[] = [
   },
   {
     id: 'general-intermediate-7',
-    partLabel: 'Part 7 of 8',
+    partLabel: 'Part 7 of 10',
     part: 7,
     title: 'The Future of AI: A Conversation With Sam Altman',
     tagline: 'A live, unscripted look at where one of AI’s most influential leaders thinks the field is headed.',
@@ -888,7 +888,7 @@ const generalIntermediateModules: Module[] = [
   },
   {
     id: 'general-intermediate-8',
-    partLabel: 'Part 8 of 8',
+    partLabel: 'Part 8 of 10',
     part: 8,
     title: 'The Rise of Generative AI for Business',
     tagline: 'Zooming out: why generative AI is being called a defining, industrial-revolution-scale moment for business.',
@@ -924,6 +924,87 @@ const generalIntermediateModules: Module[] = [
       { prompt: 'What does the video say helps an enterprise get faster business value from generative AI?', options: ['Avoiding any AI platform entirely', 'An AI platform targeted to the organization’s specific use cases', 'Using the most expensive tool regardless of fit', 'Waiting several years before starting'], answer: 1, explanation: 'The video argues that a platform matched to specific use cases can jumpstart business value.' },
       { prompt: 'How does the video characterize the current generative AI moment for business?', options: ['As an unimportant, passing trend', 'As a defining moment comparable to a new industrial revolution', 'As something only relevant to hobbyists', 'As already over and irrelevant now'], answer: 1, explanation: 'The video frames generative AI as a defining, industrial-revolution-scale shift for business, where the right investment can multiply value.' },
       { prompt: 'What kind of effect does the video associate with making the right generative AI investments?', options: ['A multiplier effect for the business', 'A guaranteed reduction to zero cost', 'No measurable effect at all', 'An effect limited only to the IT department'], answer: 0, explanation: 'The video describes the right investments in generative AI as capable of creating a multiplier effect for a business.' },
+    ],
+  },
+  {
+    id: 'general-intermediate-9',
+    partLabel: 'Part 9 of 10',
+    part: 9,
+    title: 'Can You Trust Synthetic Data?',
+    tagline: 'AI-generated "fake" data is quietly becoming a real training tool — here is where it helps and where it can bite you.',
+    minutes: 9,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'Not all AI training data comes from the real world.',
+        body: 'Synthetic data — information generated by a computer rather than collected from real events — is increasingly used to train and test AI models. It promises speed and privacy protection, but it raises a fair question: can you actually trust it?',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'QQtSa9ngqQk',
+        heading: 'Watch: Can you trust synthetic data? (~7 min)',
+        caption: 'IBM Technology (~7 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'What synthetic data actually is', body: 'Computer-generated data built to mimic the statistical properties of real-world data, rather than data collected from real people or events.' },
+          { title: 'It is not automatically "safe"', body: 'Even though it is artificially generated, synthetic data can still leak personally identifiable information if it too closely mirrors the real data it was modeled on.' },
+          { title: 'It can test AI models, not just train them', body: 'Synthetic data can be used as adversarial examples to probe where a model is likely to make mistakes or produce unfair outcomes.' },
+          { title: 'Speed and cost advantages', body: 'It sidesteps the slow, expensive process of collecting and manually labeling real-world data.' },
+          { title: 'Trust requires validation', body: 'Building confidence in synthetic data means validating it against multiple quality and accuracy metrics, not just assuming it is good because a model produced it.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'According to the video, what is synthetic data?', options: ['Data collected from real users but anonymized after the fact', 'Computer-generated data designed to mimic real-world data', 'Any data stored in a cloud database', 'Data that has been deleted and cannot be recovered'], answer: 1, explanation: 'Synthetic data is artificially generated rather than collected from real-world events, but it is built to preserve realistic statistical patterns.' },
+      { prompt: 'Why might synthetic data still pose a privacy risk, even though it is "fake"?', options: ['It is always stored on public servers', 'It can closely mirror real data patterns and inadvertently reveal personally identifiable information', 'It cannot be encrypted', 'Regulators ban all synthetic data outright'], answer: 1, explanation: 'If synthetic data is generated to be highly accurate, it can end up reflecting identifiable traits from the real data it was modeled on.' },
+      { prompt: 'Besides training models, what other use for synthetic data does the video highlight?', options: ['Replacing all human employees', 'Testing models with adversarial examples to expose bias or errors', 'Encrypting company emails', 'Speeding up internet connections'], answer: 1, explanation: 'Synthetic data can be crafted as adversarial test cases to reveal where a model behaves unfairly or inaccurately.' },
+      { prompt: 'What is one practical advantage of synthetic data over real-world data collection?', options: ['It requires more manual labeling effort', 'It eliminates the need for computers entirely', 'It is faster and cheaper to produce, and often comes pre-labeled', 'It guarantees a model will never be biased'], answer: 2, explanation: 'A major appeal of synthetic data is that it avoids the time and cost of gathering and labeling real-world data.' },
+      { prompt: 'What does the video suggest is necessary before an organization should fully trust its synthetic data?', options: ['Nothing — synthetic data is trustworthy by definition', 'Validating it against quality, accuracy, and relevance metrics', 'Getting sign-off from a government agency', 'Converting it back into real data'], answer: 1, explanation: 'Trust in synthetic data comes from rigorous validation and documentation, not from assuming it is inherently reliable.' },
+      { prompt: 'In an internal AI-literacy sense, why does synthetic data matter to a non-technical employee?', options: ['It has no relevance to business decisions', 'It only matters to data scientists writing code', 'It shapes the AI tools an organization trains and tests, so understanding its limits helps you sanity-check AI outputs', 'It replaces the need for any human review of AI systems'], answer: 2, explanation: 'Even non-technical staff benefit from knowing that AI tools may be trained or tested on synthetic data, which has its own risks and limits.' },
+    ],
+  },
+  {
+    id: 'general-intermediate-10',
+    partLabel: 'Part 10 of 10',
+    part: 10,
+    title: 'Can Technology Catch a Deepfake Before You Do?',
+    tagline: 'AI-generated video and images are now good enough to fool most people — a look at the detection arms race trying to keep up.',
+    minutes: 9,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'The old tells for spotting a deepfake — extra fingers, weird blinking — are disappearing fast.',
+        body: 'As generative AI improves, telling real footage from AI-fabricated footage gets harder for the human eye alone. This video looks at the emerging toolkit — detection, labeling, and prevention — being built to catch deepfakes before they mislead people.',
+      },
+      {
+        kind: 'video',
+        youtubeId: '-wmZsL_rY_I',
+        heading: 'Watch: Can Technology Detect Deepfakes Better Than Humans Can? (~7 min)',
+        caption: 'NOVA PBS Official (~7 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Old visual tells are vanishing', body: 'Early giveaways like extra fingers, strange blinking, or glitchy motion are increasingly absent as generative models improve, making human judgment alone unreliable.' },
+          { title: 'Three categories of anti-deepfake tools', body: 'The video groups defenses into: tools that embed markers showing content is real or fake, tools that spot deepfakes already circulating, and tools that try to prevent fakes from being made in the first place.' },
+          { title: 'Preventative "shields" on real images', body: 'Some tools add an invisible protective layer to an image, making it harder for AI models to recognize and manipulate it in the first place.' },
+          { title: 'Poisoning tools for artists', body: 'A University of Chicago team built a tool called Nightshade that adds an invisible "poison" to image pixels so the artwork resists being scraped and used to train AI models without permission.' },
+          { title: 'Detection experts and their limits', body: 'Digital forensics researchers, including those focused on media authentication, describe detection as a constantly shifting cat-and-mouse process rather than a solved problem.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'Why does the video say human detection of deepfakes is becoming less reliable?', options: ['Humans have stopped watching videos altogether', 'Classic visual tells like extra fingers or odd blinking are disappearing as AI models improve', 'Deepfakes are now illegal to produce', 'Video resolution has decreased industry-wide'], answer: 1, explanation: 'As generative AI has improved, the old visual glitches people used to spot fakes have largely been eliminated.' },
+      { prompt: 'The video groups anti-deepfake tools into three categories. Which of these is one of them?', options: ['Tools that spot deepfakes already circulating online', 'Tools that ban all AI-generated content from the internet', 'Tools that only work on audio, never video', 'Tools that require a government license to use'], answer: 0, explanation: 'The three categories described are: embedding authenticity markers, spotting deepfakes in the wild, and preventing fakes from being created.' },
+      { prompt: 'What does a "shield" tool do, as described in the video?', options: ['Deletes AI-generated content automatically', 'Adds an invisible protective layer to an image to make it harder for AI models to manipulate', 'Blocks a device from accessing the internet', 'Converts video files into audio files'], answer: 1, explanation: 'Shield-style tools add an invisible layer to images specifically to resist AI manipulation.' },
+      { prompt: 'What is Nightshade, as mentioned in the video?', options: ['A deepfake video streaming platform', 'A tool built by a University of Chicago team that adds invisible "poison" to image pixels to protect artists\' work from unauthorized AI training', 'An AI model used to generate deepfakes', 'A government regulation on synthetic media'], answer: 1, explanation: 'Nightshade was developed to let artists protect their work from being scraped and used to train AI models without consent.' },
+      { prompt: 'How does the video characterize the overall state of deepfake detection?', options: ['A solved problem with a single permanent fix', 'An ongoing, constantly shifting challenge as both fakery and detection methods keep evolving', 'Something only large governments need to worry about', 'A problem that no longer exists thanks to new laws'], answer: 1, explanation: 'Detection experts describe it as a continuously evolving cat-and-mouse dynamic rather than something permanently solved.' },
+      { prompt: 'Why is this topic relevant to employees who are not in IT or security roles?', options: ['It is not relevant outside of specialized security teams', 'Deepfakes can be used to impersonate people in scams or misinformation, so everyone benefits from a basic awareness of detection challenges', 'Only video editors need to understand deepfakes', 'This technology cannot affect a corporate environment'], answer: 1, explanation: 'Deepfakes are increasingly used in fraud and misinformation, making general awareness valuable across all roles, not just technical or security teams.' },
+      { prompt: 'What best characterizes the "prevention" category of anti-deepfake tools from the video?', options: ['Tools that try to stop deepfakes from being created in the first place, such as protective shields on original images', 'Tools that only work after a deepfake has gone viral', 'Tools that fine legal penalties on deepfake creators', 'Tools that improve video streaming speed'], answer: 0, explanation: 'The prevention category focuses on protecting source images/media upfront, before manipulation can even occur.' },
     ],
   },
 ];
@@ -1289,10 +1370,10 @@ const generalAdvancedModules: Module[] = [
    TECHNICAL TRACK
    ══════════════════════════════════════════════════════════════════════ */
 
-const technicalModules: Module[] = [
+const technicalBeginnerModules: Module[] = [
   {
-    id: 'technical-1',
-    partLabel: 'Part 1 of 6',
+    id: 'technical-beginner-1',
+    partLabel: 'Part 1 of 10',
     part: 1,
     title: 'What Is a Neural Network?',
     tagline: 'The building block behind modern AI — built up from scratch, and visualized.',
@@ -1363,8 +1444,8 @@ const technicalModules: Module[] = [
     ],
   },
   {
-    id: 'technical-2',
-    partLabel: 'Part 2 of 6',
+    id: 'technical-beginner-2',
+    partLabel: 'Part 2 of 10',
     part: 2,
     title: 'Large Language Models, Briefly',
     tagline: 'What an LLM actually does, and how it gets trained — in plain terms.',
@@ -1440,8 +1521,8 @@ const technicalModules: Module[] = [
     ],
   },
   {
-    id: 'technical-3',
-    partLabel: 'Part 3 of 6',
+    id: 'technical-beginner-3',
+    partLabel: 'Part 3 of 10',
     part: 3,
     title: 'Transformers: The Tech Behind LLMs',
     tagline: 'A look under the hood at the architecture powering tools like ChatGPT.',
@@ -1512,8 +1593,8 @@ const technicalModules: Module[] = [
     ],
   },
   {
-    id: 'technical-4',
-    partLabel: 'Part 4 of 6',
+    id: 'technical-beginner-4',
+    partLabel: 'Part 4 of 10',
     part: 4,
     title: 'Retrieval-Augmented Generation (RAG)',
     tagline: 'How to ground an AI’s answers in your own real, up-to-date data.',
@@ -1598,8 +1679,8 @@ const technicalModules: Module[] = [
     ],
   },
   {
-    id: 'technical-5',
-    partLabel: 'Part 5 of 6',
+    id: 'technical-beginner-5',
+    partLabel: 'Part 5 of 10',
     part: 5,
     title: 'Feature Engineering',
     tagline: 'Turning raw data into the inputs a model can actually learn from.',
@@ -1684,8 +1765,8 @@ const technicalModules: Module[] = [
     ],
   },
   {
-    id: 'technical-6',
-    partLabel: 'Part 6 of 6',
+    id: 'technical-beginner-6',
+    partLabel: 'Part 6 of 10',
     part: 6,
     title: 'Building AI Agents',
     tagline: 'The difference between an AI that answers and an AI that acts.',
@@ -1767,6 +1848,933 @@ const technicalModules: Module[] = [
         answer: 0,
         explanation: 'A multi-step task like checking inventory, confirming pricing, and placing an order is a classic example of an agent acting across systems.',
       },
+    ],
+  },
+  {
+    id: 'technical-beginner-7',
+    partLabel: 'Part 7 of 10',
+    part: 7,
+    title: 'Tokenization: How Text Becomes Tokens',
+    tagline: 'Before a model can "read" anything, your text gets chopped into tokens — this is that process, explained.',
+    minutes: 14,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'Models never see words. They see tokens.',
+        body: 'Every prompt you type gets broken into small chunks called tokens before a model ever processes it — and the way that chopping happens explains a surprising number of AI quirks, from mangled arithmetic to weird behavior on rare words. This video walks through what tokens actually are and how text-to-token conversion works in practice.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'iuSBUGghYjk',
+        heading: 'Watch: Tokenization Explained (~12 min)',
+        caption: 'Unfold Data Science (~12 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Tokens are not words', body: 'A token can be a whole word, part of a word (a subword), or even a single character — common words often become one token, longer or rarer words get split into pieces.' },
+          { title: 'Tokenization is the first step', body: 'Before any model can process text, it must convert raw text into a sequence of tokens using a fixed vocabulary the model was trained with.' },
+          { title: 'Vocabulary size is a design tradeoff', body: 'A bigger token vocabulary can represent more text in fewer tokens, but makes the model larger and training slower — tokenizer design balances these costs.' },
+          { title: 'Tokens, not characters, are the unit of cost and context', body: 'Model context windows and API pricing are measured in tokens, not words or characters, which is why token counts matter practically.' },
+          { title: 'Same text, different tokenizers', body: 'Different models use different tokenizers, so the same sentence can be split into a different number and shape of tokens depending on the model.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is a "token" in the context of an LLM?', options: ['Always exactly one word', 'A unit of text — a word, part of a word, or a character — that the model actually processes', 'A password used to access the model API', 'A unit of GPU memory'], answer: 1, explanation: 'Tokens are the basic text units models operate on, and they can be whole words, subwords, or characters depending on the tokenizer.' },
+      { prompt: 'Why are longer or rarer words often split into multiple tokens?', options: ['To make the text harder to read', 'Because the tokenizer\'s fixed vocabulary only has entries for common pieces of text, so uncommon words get broken into smaller known chunks', 'Because models can only read 5 letters at a time', 'It happens randomly'], answer: 1, explanation: 'Tokenizers build a fixed vocabulary of common chunks; anything not in that vocabulary as a whole word gets decomposed into smaller pieces that are.' },
+      { prompt: 'What happens before a language model can process any input text?', options: ['The text is translated to English', 'The text is converted into a sequence of tokens using the model\'s tokenizer', 'The text is compressed into an image', 'Nothing — models read raw text directly'], answer: 1, explanation: 'Tokenization is the mandatory first preprocessing step that converts raw text into tokens the model can consume.' },
+      { prompt: 'Why does token vocabulary size matter as a design choice?', options: ['It has no real effect', 'Bigger vocabularies can represent text more compactly but increase model size and training cost', 'Bigger vocabularies always make training faster', 'Vocabulary size only affects image models'], answer: 1, explanation: 'There\'s a tradeoff: more vocabulary entries mean fewer tokens per piece of text, but a larger, more expensive model.' },
+      { prompt: 'What are LLM context windows and API costs typically measured in?', options: ['Words', 'Characters', 'Tokens', 'Sentences'], answer: 2, explanation: 'Both context window limits and usage-based pricing are counted in tokens, not words or characters.' },
+      { prompt: 'If you feed the same sentence to two different LLMs, will it always produce the exact same tokens?', options: ['Yes, tokenization is universal across all models', 'No — different models use different tokenizers, so the split can differ', 'Only if the sentence is in English', 'Only if the sentence has no punctuation'], answer: 1, explanation: 'Tokenizers are model-specific, so the same text can be tokenized differently depending on which model\'s tokenizer is used.' },
+      { prompt: 'What is a practical reason tokenization matters to someone using an AI tool day-to-day?', options: ['It determines the color of the chat interface', 'It affects how much text fits in a prompt and how usage cost is calculated', 'It has no practical effect on users', 'It only matters for image generation'], answer: 1, explanation: 'Since context limits and billing are token-based, understanding tokenization helps explain why long inputs get cut off or cost more.' },
+    ],
+  },
+  {
+    id: 'technical-beginner-8',
+    partLabel: 'Part 8 of 10',
+    part: 8,
+    title: 'What Are Embeddings? Turning Meaning Into Vectors',
+    tagline: 'How AI represents the meaning of words as points in space — and why nearby points mean similar things.',
+    minutes: 17,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'A word, turned into a list of numbers, that somehow captures its meaning.',
+        body: 'Embeddings are how models turn words (and other content) into vectors — lists of numbers — positioned so that similar meanings end up close together in that space. This video shows how word vectors are built and demonstrates some surprisingly intuitive, and sometimes surprising, things they can do.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'gQddtTdmG_8',
+        heading: 'Watch: Vectoring Words (Word Embeddings) (~15 min)',
+        caption: 'Computerphile (~15 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Words become vectors', body: 'Each word is mapped to a point (a vector of numbers) in a multi-dimensional space, learned from how words are used in huge amounts of text.' },
+          { title: 'Distance encodes similarity', body: 'Words with related meanings end up positioned close together in the vector space, while unrelated words are far apart.' },
+          { title: 'Direction can encode relationships', body: 'The direction and distance between two word vectors can capture a relationship — arithmetic on vectors (like the classic "king minus man plus woman") can approximate analogies.' },
+          { title: 'Embeddings are learned, not designed', body: 'These vector positions are not hand-crafted by humans — a model learns them automatically by training on patterns of word co-occurrence in text.' },
+          { title: 'The representation can inherit odd or biased patterns', body: 'Because embeddings are learned from real-world text, they can pick up unexpected or undesirable associations present in the training data.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is a word embedding?', options: ['A dictionary definition of a word', 'A vector (list of numbers) representing a word\'s meaning in a multi-dimensional space', 'A compressed audio file of the word being spoken', 'A hyperlink between two documents'], answer: 1, explanation: 'Embeddings map words to numeric vectors positioned in a space that captures aspects of their meaning.' },
+      { prompt: 'What does it typically mean if two word vectors are close together in embedding space?', options: ['The words are spelled similarly', 'The words tend to be used in similar contexts / have related meaning', 'The words are the same length', 'Nothing — position is random'], answer: 1, explanation: 'Proximity in embedding space generally reflects semantic or contextual similarity, not spelling.' },
+      { prompt: 'How are word embeddings typically produced?', options: ['Manually assigned by linguists', 'Learned automatically by a model trained on large amounts of text', 'Randomly generated once and never changed', 'Copied directly from a dictionary'], answer: 1, explanation: 'Embeddings are learned representations, discovered by training on patterns of word usage rather than hand-designed.' },
+      { prompt: 'What does "vector arithmetic" on embeddings (e.g., combining and comparing word vectors) demonstrate?', options: ['That embeddings are purely random', 'That directions/distances between vectors can sometimes capture meaningful relationships between words', 'That all words have the same vector', 'That embeddings only work for nouns'], answer: 1, explanation: 'A famous property of word embeddings is that relationships between words can sometimes be approximated with vector addition and subtraction.' },
+      { prompt: 'Why can embeddings sometimes reflect biased or unexpected associations?', options: ['Because the underlying math is broken', 'Because embeddings are learned from real text, which can contain those patterns and biases', 'Because embeddings are assigned by a committee', 'This never happens'], answer: 1, explanation: 'Since embeddings learn from real-world text data, they can absorb and reproduce biases or quirks present in that data.' },
+      { prompt: 'What kind of space do embeddings live in?', options: ['A single number line (1 dimension)', 'A multi-dimensional numeric space', 'A 2D image grid', 'A tree structure'], answer: 1, explanation: 'Embeddings are vectors with many numeric dimensions, not a simple single-value scale.' },
+      { prompt: 'Why are embeddings useful beyond just words (e.g., for sentences, images, or documents)?', options: ['They are not — embeddings only work for single words', 'The same idea of mapping content to a vector space where similarity = proximity generalizes to other kinds of content', 'Embeddings can only be visualized in 3D', 'Embeddings require internet access to compute'], answer: 1, explanation: 'The core idea — representing content as vectors positioned by similarity — extends beyond words to sentences, documents, images, and more.' },
+    ],
+  },
+  {
+    id: 'technical-beginner-9',
+    partLabel: 'Part 9 of 10',
+    part: 9,
+    title: 'Gradient Descent: How Models Actually Learn',
+    tagline: 'The step-by-step process models use to gradually get better at their task — nudging parameters downhill toward fewer errors.',
+    minutes: 26,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'Learning, for a model, means slowly reducing how wrong it is.',
+        body: 'Gradient descent is the core technique that lets machine learning models "learn": it starts with a guess, measures how wrong that guess is, and repeatedly nudges the model\'s internal numbers in the direction that reduces the error. This video walks through that process step by step with a simple, concrete example.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'sDv4f4s2SB8',
+        heading: 'Watch: Gradient Descent, Step-by-Step (~24 min)',
+        caption: 'StatQuest with Josh Starmer (~24 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Start with a loss function', body: 'Learning begins by defining a way to measure error — how far off the model\'s current predictions are from the correct answers.' },
+          { title: 'Take small steps downhill', body: 'Gradient descent repeatedly adjusts a parameter in the direction that reduces the error, like walking downhill toward the bottom of a valley.' },
+          { title: 'Step size depends on slope and learning rate', body: 'How big each adjustment is depends on how steep the error curve is at that point, scaled by a "learning rate" that controls how aggressively the model updates.' },
+          { title: 'Stopping conditions', body: 'The process stops once the steps become tiny (little further improvement) or after a maximum number of iterations, landing at or near the lowest-error point.' },
+          { title: 'Stochastic gradient descent scales it up', body: 'For large datasets, using random small batches of data at each step (stochastic gradient descent) makes the process much faster while still converging.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is the basic goal of gradient descent?', options: ['To randomly guess parameters until one works', 'To iteratively adjust a model\'s parameters to reduce its error, measured by a loss function', 'To memorize the training data exactly', 'To increase the model\'s size'], answer: 1, explanation: 'Gradient descent is an iterative optimization process that reduces a defined error/loss by adjusting parameters step by step.' },
+      { prompt: 'What determines the size of each step gradient descent takes?', options: ['A fixed step size that never changes regardless of the data', 'The steepness of the error curve at that point, scaled by the learning rate', 'The number of words in the training data', 'The color of the graph'], answer: 1, explanation: 'Step size is proportional to the slope (steepness) of the loss curve at the current point, adjusted by the learning rate.' },
+      { prompt: 'What is a "learning rate" in gradient descent?', options: ['How fast the video plays', 'A setting that controls how large each parameter update step is', 'The number of training examples used', 'The final accuracy of the model'], answer: 1, explanation: 'The learning rate scales how big each adjustment step is during the optimization process.' },
+      { prompt: 'When does gradient descent typically stop iterating?', options: ['After exactly one step, always', 'When the step sizes become very small (little further improvement) or a maximum number of iterations is reached', 'Only when the loss becomes exactly zero', 'It never stops'], answer: 1, explanation: 'Gradient descent stops when improvements become negligible or after a set number of iterations, not necessarily at a perfect zero-error point.' },
+      { prompt: 'What is stochastic gradient descent?', options: ['A version that uses random small batches of data at each step instead of the whole dataset', 'A version that skips the loss function entirely', 'A method with no learning rate', 'A way to visualize embeddings'], answer: 0, explanation: 'Stochastic gradient descent speeds up training on large datasets by updating parameters using small random subsets of data rather than the full dataset each time.' },
+      { prompt: 'What analogy is commonly used to describe gradient descent\'s process?', options: ['Climbing a mountain to the peak', 'Walking downhill step by step toward the lowest point in a valley (minimum error)', 'Spinning a roulette wheel', 'Sorting a deck of cards'], answer: 1, explanation: 'Gradient descent is often visualized as descending toward the bottom of an error "valley," taking steps proportional to the slope.' },
+      { prompt: 'Why does a model need a loss function before gradient descent can begin?', options: ['It doesn\'t — loss functions are optional', 'Gradient descent needs a way to measure how wrong the current parameters are in order to know which direction reduces error', 'Loss functions are only used after training is complete', 'Loss functions replace the need for training data'], answer: 1, explanation: 'The loss function quantifies error, giving gradient descent the signal it needs to know which direction to adjust parameters.' },
+    ],
+  },
+];
+
+/* ══════════════════════════════════════════════════════════════════════
+   TECHNICAL TRACK — INTERMEDIATE
+   ══════════════════════════════════════════════════════════════════════ */
+
+const technicalIntermediateModules: Module[] = [
+  {
+    id: 'technical-intermediate-1',
+    partLabel: 'Part 1 of 10',
+    part: 1,
+    title: 'Vector Databases Explained',
+    tagline: 'How AI systems store and search meaning, not just keywords.',
+    minutes: 11,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'Search engines used to match words. AI systems match meaning.',
+        body: 'A vector database stores content as high-dimensional embeddings so that "similar meaning" becomes "nearby points in space." This is the backbone of modern semantic search and retrieval-augmented generation (RAG). This video walks through what vector databases are and why they matter for AI applications.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'gl1r1XV0SLw',
+        heading: 'Watch: What is a Vector Database? Powering Semantic Search & AI Applications (~9 min)',
+        caption: 'IBM Technology (~9 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Vector embeddings', body: 'Text, images, or other data is converted into numeric vectors that capture semantic meaning, not just literal content.' },
+          { title: 'Similarity, not exact match', body: 'Vector databases find items that are "close" in vector space, enabling search by meaning rather than by keyword.' },
+          { title: 'Bridging the semantic gap', body: 'Traditional keyword search misses synonyms and context; vector search closes that gap for natural-language queries.' },
+          { title: 'Foundation for RAG', body: 'Vector databases are the retrieval layer that feeds relevant context into an LLM prompt in retrieval-augmented generation pipelines.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What does a vector database primarily store and index?', options: ['Raw SQL tables', 'High-dimensional numeric embeddings representing meaning', 'Compressed video files', 'User login credentials'], answer: 1, explanation: 'Vector databases store data as embeddings — numeric vectors that capture semantic meaning.' },
+      { prompt: 'How does vector search differ from traditional keyword search?', options: ['It is slower but more accurate for exact matches', 'It matches items by semantic similarity rather than literal word overlap', 'It only works on images', 'It requires no indexing'], answer: 1, explanation: 'Vector search finds items that are semantically close, even without shared keywords.' },
+      { prompt: 'What AI application is a vector database most commonly paired with?', options: ['Retrieval-augmented generation (RAG)', 'Video encoding', 'Password hashing', 'Spreadsheet formulas'], answer: 0, explanation: 'Vector databases supply the retrieval step that feeds relevant context into an LLM in RAG pipelines.' },
+      { prompt: 'What is the "semantic gap" the video refers to?', options: ['The delay between a query and a response', 'The mismatch between literal keyword matching and true meaning-based matching', 'A gap in GPU memory', 'A missing column in a database schema'], answer: 1, explanation: 'Keyword search can miss relevant results because it does not understand meaning — embeddings close that gap.' },
+      { prompt: 'In vector space, what does it mean for two data points to be "close"?', options: ['They were uploaded at the same time', 'They are semantically or contextually similar', 'They have the same file size', 'They belong to the same user account'], answer: 1, explanation: 'Distance in vector space corresponds to similarity in meaning.' },
+      { prompt: 'Which of these is NOT something a vector database is typically used for?', options: ['Semantic document search', 'Recommendation systems', 'Storing raw transaction logs for accounting compliance', 'Powering RAG context retrieval'], answer: 2, explanation: 'Vector databases are optimized for similarity search on embeddings, not general-purpose transactional record-keeping.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-2',
+    partLabel: 'Part 2 of 10',
+    part: 2,
+    title: 'Fine-Tuning vs RAG vs Prompt Engineering',
+    tagline: 'Three different levers for customizing an AI model — and when to pull each one.',
+    minutes: 15,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'Not every AI problem needs a bigger hammer — sometimes it needs a different one.',
+        body: 'When teams want an LLM to behave better for their use case, they usually reach for one of three tools: prompt engineering, retrieval-augmented generation, or fine-tuning. This video breaks down what each approach actually does, and the tradeoffs between speed, cost, and customization.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'zYGDpG-pTho',
+        heading: 'Watch: RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models (~13 min)',
+        caption: 'IBM Technology (~13 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Prompt engineering', body: 'Crafting effective instructions to steer model output — fastest and cheapest, but limited by what the base model already knows.' },
+          { title: 'RAG for fresh knowledge', body: 'Retrieval-augmented generation pulls in external, up-to-date data at query time so the model can answer with information it wasn\'t trained on.' },
+          { title: 'Fine-tuning for deep customization', body: 'Fine-tuning adjusts the model\'s weights on domain-specific data, changing how it responds at a deeper level than prompting or retrieval.' },
+          { title: 'Not mutually exclusive', body: 'Mature production systems often combine all three — a fine-tuned model, using RAG for current facts, guided by well-engineered prompts.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'Which approach is generally the fastest and cheapest way to change model behavior?', options: ['Fine-tuning', 'Prompt engineering', 'Retraining from scratch', 'Building a new vector database'], answer: 1, explanation: 'Prompt engineering requires no training and can be iterated on instantly.' },
+      { prompt: 'What problem is RAG best suited to solve?', options: ['Giving the model access to current or external information it wasn\'t trained on', 'Making the model smaller', 'Reducing GPU cost', 'Changing the model\'s tone permanently'], answer: 0, explanation: 'RAG retrieves relevant external data at query time, extending the model\'s effective knowledge.' },
+      { prompt: 'What does fine-tuning actually change about a model?', options: ['Only the system prompt', 'The model\'s underlying weights, based on additional training data', 'The vector database schema', 'The user interface'], answer: 1, explanation: 'Fine-tuning updates model weights so behavior changes are baked in, not just requested via prompt.' },
+      { prompt: 'According to the video, are these three approaches mutually exclusive in production?', options: ['Yes, teams must pick exactly one', 'No, mature systems often combine all three', 'RAG and fine-tuning can never coexist', 'Prompt engineering is deprecated once you fine-tune'], answer: 1, explanation: 'The video notes production AI often layers prompt engineering, RAG, and fine-tuning together.' },
+      { prompt: 'Which approach requires the most upfront investment in data preparation and training?', options: ['Prompt engineering', 'Fine-tuning', 'RAG', 'None of them require data preparation'], answer: 1, explanation: 'Fine-tuning requires a curated training dataset and a training run, unlike prompting or retrieval.' },
+      { prompt: 'If a company needs answers based on documents updated daily, which approach is the best fit?', options: ['Fine-tuning once a year', 'RAG, so retrieval reflects the latest documents', 'Prompt engineering alone', 'None of the above'], answer: 1, explanation: 'RAG retrieves current data at query time, making it ideal for frequently changing information.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-3',
+    partLabel: 'Part 3 of 10',
+    part: 3,
+    title: 'How Do You Know an LLM Is Actually "Good"?',
+    tagline: 'Benchmarks, evaluation datasets, and why leaderboard numbers only tell part of the story.',
+    minutes: 18,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'A model that tops a leaderboard might still fail on your specific task.',
+        body: 'LLM evaluation is how teams quantify whether a model is actually good — not just at general benchmarks like MMLU, but at the tasks that matter for a specific product. This video walks through how standardized benchmarks work and how to design your own evaluation for a real use case.',
+      },
+      {
+        kind: 'video',
+        youtubeId: '1JaL5eVqFq0',
+        heading: 'Watch: What Do LLM Benchmarks Actually Tell Us? (~16 min)',
+        caption: 'Adam Lucek (~16 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Benchmarks as standardized exams', body: 'Each benchmark is a fixed set of tasks with known correct answers, scored to produce a comparable number across models.' },
+          { title: 'General benchmarks have limits', body: 'A high score on a public leaderboard benchmark does not guarantee good performance on your company\'s specific domain or task.' },
+          { title: 'Building custom evaluations', body: 'Teams can create their own task-specific eval sets that better reflect real production use cases than generic benchmarks.' },
+          { title: 'Quantitative comparison', body: 'Scoring against ground-truth answers lets you rank and compare models objectively, rather than relying on gut feel.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is a standardized LLM benchmark best described as?', options: ['A random sample of user chats', 'A fixed set of tasks with known correct answers used to produce a comparable score', 'A model\'s training log', 'A GPU stress test'], answer: 1, explanation: 'Benchmarks function like exams: fixed tasks, known answers, and a scoring system.' },
+      { prompt: 'Why might a model that tops a public leaderboard still perform poorly for a specific company?', options: ['Leaderboards are always fake', 'General benchmarks may not reflect that company\'s specific domain or task', 'Leaderboard models are always smaller', 'Public benchmarks are never public'], answer: 1, explanation: 'General benchmarks test broad capability, not necessarily your specific use case.' },
+      { prompt: 'What does the video recommend for teams that need evaluation tailored to their product?', options: ['Only trust public leaderboards', 'Build custom, task-specific evaluation sets', 'Avoid evaluation entirely', 'Use only human intuition'], answer: 1, explanation: 'Custom evals grounded in real production tasks give a more accurate read on model fit.' },
+      { prompt: 'What is MMLU, mentioned as an example benchmark type?', options: ['A GPU driver', 'A multiple-choice benchmark spanning subjects like math, history, and law', 'A vector database', 'A fine-tuning technique'], answer: 1, explanation: 'MMLU (Massive Multitask Language Understanding) tests broad subject-matter knowledge via multiple-choice questions.' },
+      { prompt: 'What makes benchmark scoring "quantitative"?', options: ['It relies solely on subjective reviewer opinion', 'It compares model answers against ground-truth answers to produce a numeric score', 'It measures only response speed', 'It only counts word length'], answer: 1, explanation: 'Scoring against ground truth produces an objective, comparable number.' },
+      { prompt: 'According to the video, is running your own evaluation harness feasible for a team?', options: ['No, only large labs can do it', 'Yes, the video explains how to run your own', 'It requires no benchmark design at all', 'Only possible with proprietary tools'], answer: 1, explanation: 'The video explicitly covers how to run your own evaluation, not just interpret existing leaderboards.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-4',
+    partLabel: 'Part 4 of 10',
+    part: 4,
+    title: 'How LLM Tool Calling Works',
+    tagline: 'The mechanism that lets a model reach outside itself and act on the real world.',
+    minutes: 12,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'An LLM can\'t browse the web or check a database on its own — tool calling is how it asks for help.',
+        body: 'Tool calling (also called function calling) lets a model recognize when it needs external information or action, describe that need in a structured format, and hand off execution to your application code. This is the mechanism underneath most modern AI agents.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'QiRdYCNXAxk',
+        heading: 'Watch: How LLM Tool Calling Works (~10 min)',
+        caption: 'Tommy Eberle (~10 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Structured function descriptions', body: 'Developers describe available tools/functions to the model (name, parameters, purpose) so it knows what it can call.' },
+          { title: 'The model doesn\'t execute code itself', body: 'The LLM outputs a structured request to call a tool; your application actually executes it and returns the result.' },
+          { title: 'A foundational concept for agents', body: 'Tool calling is described as fundamental to how AI agents operate — it\'s the bridge between reasoning and action.' },
+          { title: 'Works across major models', body: 'The video demonstrates tool calling behavior with models like GPT-4o and Claude.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'Who actually executes the function when an LLM makes a "tool call"?', options: ['The LLM executes it internally', 'The application/developer code that receives the structured call request', 'The vector database', 'It never actually executes'], answer: 1, explanation: 'The LLM only outputs a structured request; the surrounding application code performs the actual execution.' },
+      { prompt: 'What does a developer need to provide for a model to use tool calling?', options: ['Nothing, it works automatically', 'A structured description of available tools, their names, and parameters', 'A fine-tuned checkpoint', 'A new vector database'], answer: 1, explanation: 'Models need structured descriptions of the tools/functions they can call in order to use them correctly.' },
+      { prompt: 'Why is tool calling described as foundational to AI agents?', options: ['It has nothing to do with agents', 'It\'s the mechanism that lets a model take real actions beyond generating text', 'It only affects UI styling', 'It replaces the need for prompts entirely'], answer: 1, explanation: 'Tool calling is the bridge between model reasoning and real-world action, which is core to agent behavior.' },
+      { prompt: 'Which models does the video demonstrate tool calling with?', options: ['Only open-source models', 'Models like GPT-4o and Claude', 'Only image generation models', 'Only a custom in-house model'], answer: 1, explanation: 'The video shows tool-calling behavior using GPT-4o and Claude as examples.' },
+      { prompt: 'What is the main benefit of tool calling for an LLM-based application?', options: ['It makes the model smaller', 'It lets the model access external data/APIs it wasn\'t trained on', 'It removes the need for prompts', 'It eliminates hallucinations completely'], answer: 1, explanation: 'Tool calling extends what a model can do by connecting it to live external systems and data.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-5',
+    partLabel: 'Part 5 of 10',
+    part: 5,
+    title: 'Prompt Chaining and Orchestration with LangChain',
+    tagline: 'Turning one big prompt into a pipeline of smaller, composable steps.',
+    minutes: 17,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'Complex AI tasks rarely fit in a single prompt — they fit in a pipeline.',
+        body: 'Prompt chaining feeds the output of one LLM call into the next step, so each prompt specializes in one task while together they form a larger workflow. This video looks at prompt templating and chaining patterns using LangChain, a widely used orchestration framework.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'jPeOAOvKFHE',
+        heading: 'Watch: Prompt Templating and Techniques in LangChain (~15 min)',
+        caption: 'James Briggs (~15 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Prompt templates', body: 'Reusable prompt structures with dynamic placeholders let you generate consistent prompts without hand-writing each one.' },
+          { title: 'Chaining outputs', body: 'The output of one prompt/LLM call becomes the input to the next, building a multi-step pipeline instead of one giant prompt.' },
+          { title: 'Before fine-tuning became flexible', body: 'The video notes that historically, adapting a model to a use case meant fine-tuning weights — templating and chaining offer a lighter-weight alternative.' },
+          { title: 'Composable building blocks', body: 'LangChain\'s abstractions let developers combine templates, retrieval, and parsing steps declaratively.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is a "prompt template" primarily used for?', options: ['Storing model weights', 'Creating reusable prompt structures with dynamic placeholders', 'Compressing a model for deployment', 'Indexing vectors'], answer: 1, explanation: 'Templates let you plug variables into a consistent prompt structure instead of rewriting prompts each time.' },
+      { prompt: 'In prompt chaining, what becomes the input to the next step?', options: ['The original user query only, unchanged', 'The output of the previous prompt/LLM call', 'A random sample from the training set', 'The vector database schema'], answer: 1, explanation: 'Chaining feeds one step\'s output into the next step\'s input, forming a pipeline.' },
+      { prompt: 'What alternative to fine-tuning does the video frame prompt templating as?', options: ['A more expensive way to adapt models', 'A lighter-weight way to adapt a model\'s use case without changing its weights', 'A replacement for tool calling', 'A type of vector database'], answer: 1, explanation: 'The video contrasts templating/chaining with the older, heavier approach of fine-tuning weights.' },
+      { prompt: 'Why break a complex AI task into multiple chained prompts rather than one giant prompt?', options: ['It\'s always slower and should be avoided', 'Each step can specialize in one task, making the pipeline easier to reason about', 'Chaining is only cosmetic and changes nothing', 'It removes the need for any prompt at all'], answer: 1, explanation: 'Specializing each prompt in one sub-task makes pipelines more reliable and maintainable.' },
+      { prompt: 'What kind of framework is LangChain, as covered in this video?', options: ['A GPU driver', 'An orchestration framework for composing prompts and LLM workflow steps', 'A vector database product', 'A model fine-tuning service'], answer: 1, explanation: 'LangChain provides abstractions for composing prompt templates, chains, and other workflow steps.' },
+      { prompt: 'What do dynamic placeholders in a prompt template allow?', options: ['Hardcoding one fixed prompt forever', 'Inserting variable content into a consistent prompt structure at runtime', 'Removing the need for an LLM', 'Directly editing model weights'], answer: 1, explanation: 'Placeholders let the same template generate many different concrete prompts by substituting variables.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-6',
+    partLabel: 'Part 6 of 10',
+    part: 6,
+    title: 'Model Quantization: Making LLMs Smaller and Faster',
+    tagline: 'How compressing model weights trades a little precision for a lot of speed and memory savings.',
+    minutes: 22,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'Running a full-precision LLM can require far more memory than most hardware has to spare.',
+        body: 'Quantization is a form of lossy compression for model weights — similar in spirit to JPEG for images — that shrinks a model so it fits in less memory, usually at a small, often unnoticeable, quality cost. This video surveys the major quantization techniques used in practice today.',
+      },
+      {
+        kind: 'video',
+        youtubeId: '0pF6GdbwMo4',
+        heading: 'Watch: LLM Quantization Techniques Explained - GPTQ, AWQ, GGUF, HQQ, BitNet (~20 min)',
+        caption: 'Joydeep Bhattacharjee (~20 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Quantization as lossy compression', body: 'Reducing the numeric precision of model weights (e.g., from 32-bit to 8-bit or 4-bit) shrinks model size dramatically.' },
+          { title: 'Multiple competing techniques', body: 'GPTQ, AWQ, GGUF, HQQ, and BitNet represent different approaches and tradeoffs for quantizing weights.' },
+          { title: 'Format vs technique', body: 'GGUF is a file format (used by tools like llama.cpp) for storing quantized weights, distinct from the quantization algorithm itself.' },
+          { title: 'Small accuracy cost, big efficiency gain', body: 'Well-chosen quantization schemes (like 8-bit) can cut memory use substantially with only a small drop in output quality.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is model quantization most similar to, as described in the video?', options: ['Encryption', 'A form of lossy compression, like JPEG for images', 'A type of fine-tuning', 'A vector database index'], answer: 1, explanation: 'Quantization compresses model weights in a lossy way, trading some precision for size and speed.' },
+      { prompt: 'What is GGUF, as distinguished from a quantization algorithm like GPTQ?', options: ['A GPU chip', 'A file format for storing quantized weights, used by tools like llama.cpp', 'A benchmark dataset', 'A vector database'], answer: 1, explanation: 'GGUF is a storage format with metadata about the quantization scheme, not a quantization algorithm itself.' },
+      { prompt: 'What is the general tradeoff quantization makes?', options: ['More memory for less speed', 'Reduced numeric precision in exchange for smaller size and faster inference', 'Higher cost for better accuracy only', 'No tradeoff at all'], answer: 1, explanation: 'Quantization reduces precision to save memory and increase speed, usually at a small accuracy cost.' },
+      { prompt: 'Which of these is named in the video as a quantization technique?', options: ['AWQ', 'HTTP', 'JSON', 'SQL'], answer: 0, explanation: 'AWQ (Activation-aware Weight Quantization) is one of the techniques covered alongside GPTQ, GGUF, HQQ, and BitNet.' },
+      { prompt: 'Why would a team choose to quantize a model before deployment?', options: ['To make the model larger', 'To fit the model into less memory/VRAM and run it faster on more affordable hardware', 'To increase training data size', 'To remove the need for prompts'], answer: 1, explanation: 'Quantization is primarily used to reduce memory footprint and improve inference speed for deployment.' },
+      { prompt: 'Does quantization always produce zero loss in output quality?', options: ['Yes, it is always lossless', 'No, it typically introduces a small, often minor quality cost', 'It always destroys the model', 'It only affects training speed, never inference'], answer: 1, explanation: 'The video frames quantization as lossy compression — there is usually a small, often unnoticeable quality tradeoff.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-7',
+    partLabel: 'Part 7 of 10',
+    part: 7,
+    title: 'MLOps Fundamentals: Getting Models into Production',
+    tagline: 'Training a good model is only half the job — MLOps is how it stays good in production.',
+    minutes: 12,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'A model that works perfectly in a notebook can still fail the moment it meets real traffic.',
+        body: 'MLOps applies DevOps-style discipline — automation, monitoring, versioning, and repeatable pipelines — to machine learning systems. This beginner-friendly video breaks down how ML models actually get deployed, monitored, and maintained in real-world applications.',
+      },
+      {
+        kind: 'video',
+        youtubeId: '9bf4hDi7_jk',
+        heading: 'Watch: MLOps Explained in 10 Minutes | Complete Beginner Guide (~10 min)',
+        caption: 'DevOps Hint (~10 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Beyond training', body: 'MLOps covers everything after a model is trained: deployment, serving, monitoring, and retraining.' },
+          { title: 'Automation and repeatability', body: 'Good MLOps practice turns deployment into a repeatable pipeline rather than a manual, one-off process.' },
+          { title: 'Monitoring models in production', body: 'Once deployed, models need ongoing monitoring to catch performance degradation or data drift.' },
+          { title: 'Best practices for beginners', body: 'The video frames MLOps as a set of step-by-step best practices accessible to newcomers, not just specialized ML infra teams.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What does MLOps primarily focus on, beyond just training a model?', options: ['Only writing training code', 'Deploying, monitoring, and maintaining models in production', 'Designing neural network architectures', 'Writing marketing copy for AI products'], answer: 1, explanation: 'MLOps is about the full lifecycle after training: deployment, serving, monitoring, and retraining.' },
+      { prompt: 'Why does the video emphasize automation in MLOps?', options: ['Automation is optional and rarely used', 'Automation turns deployment into a repeatable, reliable pipeline instead of a manual process', 'Automation replaces the need for monitoring', 'Automation only applies to training, not deployment'], answer: 1, explanation: 'Repeatable, automated pipelines reduce manual error and make deployments consistent.' },
+      { prompt: 'What happens to a model after it is deployed, according to MLOps practice?', options: ['Nothing, it runs forever unchanged', 'It should be monitored for performance issues and data drift over time', 'It is immediately deleted', 'It is only used once'], answer: 1, explanation: 'Ongoing monitoring is a core MLOps practice to catch degradation or drift after deployment.' },
+      { prompt: 'Is MLOps framed in the video as accessible to beginners?', options: ['No, it requires years of infrastructure experience first', 'Yes, it is presented as a step-by-step beginner guide', 'It is only for data scientists, never engineers', 'It has nothing to do with best practices'], answer: 1, explanation: 'The video is explicitly framed as a complete beginner guide covering best practices.' },
+      { prompt: 'Which of these is a typical MLOps concern?', options: ['Detecting data drift in production', 'Choosing font colors for a dashboard', 'Writing unit tests for unrelated web apps', 'Selecting a marketing slogan'], answer: 0, explanation: 'Data drift detection is a core production monitoring concern in MLOps.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-8',
+    partLabel: 'Part 8 of 10',
+    part: 8,
+    title: 'Open-Source vs Closed AI: Choosing Your Stack',
+    tagline: 'Weighing control and cost against convenience and support when picking a model.',
+    minutes: 12,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'The choice between an open-weight model and a closed API shapes everything downstream.',
+        body: 'Open-source models (like Llama-family models) can be downloaded, modified, and self-hosted, while closed models (like GPT-family models) are accessed only through a provider\'s API. This video walks through the tradeoffs across LLMs, agents, and the broader AI stack.',
+      },
+      {
+        kind: 'video',
+        youtubeId: '_QfxGZGITGw',
+        heading: 'Watch: Open Source vs Closed AI: LLMs, Agents & the AI Stack Explained (~10 min)',
+        caption: 'IBM Technology (~10 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Control and customization', body: 'Open-source models can be self-hosted, fine-tuned, and inspected, giving teams full control over behavior and data.' },
+          { title: 'Convenience and support', body: 'Closed models typically offer easier integration, managed scaling, and provider support/SLAs, at the cost of less visibility into internals.' },
+          { title: 'Cost structure differs', body: 'Open models avoid per-token API fees but require infrastructure investment; closed models shift that cost into ongoing usage fees.' },
+          { title: 'The stack extends past the model', body: 'The open-vs-closed choice also applies to agent frameworks and tooling built around the model, not just the LLM itself.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is a key advantage of open-source models over closed models?', options: ['They require no infrastructure at all', 'They can be self-hosted, modified, and fully inspected', 'They are always more accurate', 'They eliminate the need for prompts'], answer: 1, explanation: 'Open-source models give teams full control, customization, and visibility, since the weights are available.' },
+      { prompt: 'What is a key advantage closed models typically offer?', options: ['Full visibility into training data', 'Easier integration and managed scaling with provider support', 'Zero ongoing usage cost', 'Unlimited customization of model weights'], answer: 1, explanation: 'Closed models are often easier to integrate, with the provider handling scaling and support.' },
+      { prompt: 'How does the cost structure typically differ between open and closed models?', options: ['Open models require ongoing per-token fees; closed models are free', 'Open models shift cost to self-hosted infrastructure; closed models shift cost to usage fees', 'Neither has any cost', 'Closed models are always cheaper overall'], answer: 1, explanation: 'Open models trade infrastructure investment for no per-token fees; closed models charge ongoing usage fees instead.' },
+      { prompt: 'Does the open-vs-closed comparison in the video apply only to the base LLM?', options: ['Yes, only to the raw model weights', 'No, it also extends to agents and tooling built around the model', 'It only applies to vector databases', 'It only applies to hardware choices'], answer: 1, explanation: 'The video frames the tradeoff across the broader AI stack, including agents, not just the LLM itself.' },
+      { prompt: 'Which model family is used in the video as a representative open-source example?', options: ['Llama-family models', 'A proprietary closed-only model', 'A vector database product', 'A quantization library'], answer: 0, explanation: 'Llama-style models are commonly cited as the representative open-weight example versus closed alternatives.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-9',
+    partLabel: 'Part 9 of 10',
+    part: 9,
+    title: 'RLHF: Aligning Models with Human Preferences',
+    tagline: 'The training step that turns a raw text predictor into an assistant that behaves the way people want.',
+    minutes: 20,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'A model trained only to predict the next word doesn\'t automatically know what a "good" answer looks like to a human.',
+        body: 'Reinforcement Learning from Human Feedback (RLHF) refines a pretrained language model by using human judgments to shape a learned reward signal, then optimizing the model against that reward. This is a core part of how models like ChatGPT are aligned to be helpful and follow instructions.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'qPN_XZcJf_s',
+        heading: 'Watch: Reinforcement Learning with Human Feedback (RLHF), Clearly Explained!!! (~18 min)',
+        caption: 'StatQuest with Josh Starmer (~18 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Starting from a pretrained model', body: 'RLHF builds on a large language model that has already been trained on massive text datasets — it doesn\'t start from scratch.' },
+          { title: 'Human preference data', body: 'Humans rank or compare model outputs, and those judgments are used to train a separate reward model.' },
+          { title: 'Reward model guides optimization', body: 'The learned reward model scores new outputs, and reinforcement learning is used to nudge the LLM toward higher-reward (more preferred) responses.' },
+          { title: 'Aligning behavior, not just knowledge', body: 'RLHF changes how a model behaves and what it prioritizes in its answers, rather than adding new factual knowledge.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What does RLHF start from?', options: ['A randomly initialized model', 'An already-pretrained large language model', 'A vector database', 'A quantized model only'], answer: 1, explanation: 'RLHF is applied to a model that has already been pretrained on large text datasets.' },
+      { prompt: 'What is the reward model in RLHF trained on?', options: ['Raw internet text with no labels', 'Human judgments/rankings comparing different model outputs', 'GPU utilization logs', 'Vector embeddings only'], answer: 1, explanation: 'Humans compare or rank outputs, and that preference data trains the reward model.' },
+      { prompt: 'What role does reinforcement learning play once the reward model exists?', options: ['It deletes the reward model', 'It optimizes the LLM to produce outputs that score higher according to the reward model', 'It only affects tokenization', 'It replaces the pretrained model entirely with a new one'], answer: 1, explanation: 'RL is used to push the LLM\'s outputs toward higher-reward, more human-preferred responses.' },
+      { prompt: 'Does RLHF primarily add new factual knowledge to a model?', options: ['Yes, that is its main purpose', 'No, it primarily shapes behavior and alignment with human preferences', 'It only compresses the model', 'It only affects the vector database'], answer: 1, explanation: 'RLHF is about aligning behavior with human preferences, not injecting new facts.' },
+      { prompt: 'Why is RLHF considered important for models like ChatGPT?', options: ['It makes the model run faster', 'It helps make the model more helpful and better at following instructions as humans prefer', 'It reduces the model\'s file size', 'It eliminates the need for a reward model'], answer: 1, explanation: 'RLHF is a key technique for aligning model behavior with what humans consider helpful and appropriate.' },
+      { prompt: 'What two main components does the RLHF process involve?', options: ['A vector database and a tokenizer', 'A reward model trained on human preferences, and reinforcement learning to optimize against it', 'A quantization scheme and a GPU driver', 'Only prompt engineering'], answer: 1, explanation: 'RLHF combines a learned reward model (from human feedback) with RL optimization of the base model against that reward.' },
+    ],
+  },
+  {
+    id: 'technical-intermediate-10',
+    partLabel: 'Part 10 of 10',
+    part: 10,
+    title: 'Context Windows and Their Limitations',
+    tagline: 'Why an LLM seems to "forget" things — and why bigger isn\'t always simply better.',
+    minutes: 17,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'Ever notice a long chat with an AI assistant slowly losing the thread? That\'s the context window at work.',
+        body: 'A context window is the maximum amount of text an LLM can consider at once, functioning like short-term memory. This video explains what happens when that limit is exceeded, why tokens aren\'t the same as words, and practical ways to work around context limitations.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'TeQDr4DkLYo',
+        heading: 'Watch: Why LLMs get dumb (Context Windows Explained) (~15 min)',
+        caption: 'NetworkChuck (~15 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Context window as short-term memory', body: 'The context window holds everything the model can "see" during a conversation — once it\'s exceeded, earlier content gets pushed out and forgotten.' },
+          { title: 'Tokens are not words', body: 'A token might be a whole word, part of a word, punctuation, or a space — so a token limit does not map 1:1 to a word count.' },
+          { title: 'Degradation near the limit', body: 'As a conversation approaches the context limit, older messages are dropped, which can lead to confused or hallucinated responses.' },
+          { title: 'Practical mitigation', body: 'Starting a fresh chat when switching topics keeps context clean and helps maintain response quality, rather than letting one conversation grow indefinitely.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is a context window best compared to?', options: ['A model\'s permanent long-term storage', 'An LLM\'s short-term memory for the current conversation', 'A vector database index', 'A GPU\'s clock speed'], answer: 1, explanation: 'The context window functions like short-term memory, holding what the model can currently reference.' },
+      { prompt: 'Why doesn\'t a token limit equal a word limit?', options: ['Tokens and words are always identical', 'A token can be a whole word, part of a word, punctuation, or a space', 'Tokens only apply to images', 'Word limits do not exist in LLMs'], answer: 1, explanation: 'Tokens are sub-word units in many cases, so token count does not directly equal word count.' },
+      { prompt: 'What happens when a conversation exceeds the context window limit?', options: ['The model shuts down permanently', 'Older messages get pushed out and are effectively forgotten', 'The model gains more memory automatically', 'Nothing changes at all'], answer: 1, explanation: 'Once the limit is exceeded, earlier content is dropped from what the model can reference.' },
+      { prompt: 'What symptom does the video associate with running past the context limit?', options: ['Faster responses with no downsides', 'Confused outputs and increased hallucination as earlier context is lost', 'Improved accuracy', 'Larger file sizes'], answer: 1, explanation: 'Losing earlier context can lead to inconsistent or hallucinated responses.' },
+      { prompt: 'What practical tip does the video suggest for keeping performance high in long conversations?', options: ['Never switch topics', 'Start a new chat when switching topics to keep context clean', 'Always maximize the context window before responding', 'Disable tokenization'], answer: 1, explanation: 'Starting fresh when switching topics avoids carrying irrelevant or excess context that could degrade responses.' },
+      { prompt: 'Why does doubling the context window increase computational cost more than proportionally in transformer models?', options: ['It doesn\'t — cost stays constant', 'Self-attention causes cost to scale roughly quadratically with context length', 'Cost only depends on vocabulary size', 'Context length has no effect on compute'], answer: 1, explanation: 'Because every token attends to every other token, computational cost scales roughly quadratically with context length.' },
+    ],
+  },
+];
+
+/* ══════════════════════════════════════════════════════════════════════
+   TECHNICAL TRACK — ADVANCED
+   ══════════════════════════════════════════════════════════════════════ */
+
+const technicalAdvancedModules: Module[] = [
+  {
+    id: 'technical-advanced-1',
+    partLabel: 'Part 1 of 10',
+    part: 1,
+    title: 'Mixture-of-Experts Architecture',
+    tagline: 'How modern frontier models get bigger without getting proportionally slower.',
+    minutes: 62,
+    sections: [
+      {
+        kind: 'lead',
+        text: "Trillion-parameter models don't run a trillion parameters on every token.",
+        body: 'Mixture-of-Experts (MoE) architectures split a model\'s feed-forward layers into many "expert" sub-networks and a lightweight router that decides, per token, which few experts to activate. This lecture from Stanford\'s CS25 seminar series walks through the paradigm and the Switch Transformer, the paper that made sparse MoE practical at scale.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'U8J32Z3qV8s',
+        heading: 'Watch: Stanford CS25 — Mixture of Experts (MoE) Paradigm and the Switch Transformer (~60 min)',
+        caption: 'Stanford Online (~60 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Sparse activation', body: 'Only a small subset of experts (often just 1-2 out of dozens) are activated per token, so compute cost stays roughly constant even as total parameter count grows enormously.' },
+          { title: 'The router / gating network', body: "A learned gating function scores experts per token and picks the top-k; this routing decision is itself trained end-to-end with the rest of the model." },
+          { title: 'Switch Transformer simplification', body: "The Switch Transformer showed that routing to a single expert (top-1) is enough to get MoE's efficiency benefits, simplifying earlier top-k MoE designs." },
+          { title: 'Load balancing', body: 'Without an auxiliary loss encouraging even token distribution across experts, a few experts get overloaded while others go unused — a core practical challenge in MoE training.' },
+          { title: 'Why it matters for frontier models', body: 'MoE is the architectural trick behind why models like Mixtral and DeepSeek can have hundreds of billions of total parameters while only activating a fraction per forward pass.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is the core idea behind Mixture-of-Experts architectures?', options: ['Running every parameter on every token for maximum accuracy', 'Activating only a small subset of specialized sub-networks per token', 'Replacing attention with convolution', 'Training multiple full copies of the model and averaging outputs'], answer: 1, explanation: 'MoE routes each token to a small number of expert sub-networks rather than activating the whole model, decoupling parameter count from per-token compute cost.' },
+      { prompt: 'What component decides which experts process a given token?', options: ['The optimizer', 'The router / gating network', 'The tokenizer', 'The embedding layer'], answer: 1, explanation: 'A learned router scores the available experts for each token and selects the top-k to activate.' },
+      { prompt: 'What key simplification did the Switch Transformer introduce?', options: ['Removing the router entirely', 'Routing each token to only one expert (top-1) instead of multiple', 'Using only dense layers', 'Eliminating backpropagation for expert layers'], answer: 1, explanation: 'The Switch Transformer showed top-1 routing was sufficient, simplifying training and communication compared to earlier top-k MoE designs.' },
+      { prompt: 'Why is load balancing a challenge in MoE training?', options: ['GPUs cannot run more than one expert', 'Without intervention, the router tends to favor a few experts, leaving others undertrained', 'Load balancing is only relevant for dense models', 'Experts must all receive identical numbers of parameters'], answer: 1, explanation: 'A naturally-trained router can collapse onto favoring a handful of experts; an auxiliary load-balancing loss is used to spread tokens more evenly.' },
+      { prompt: 'What is the practical benefit of MoE over a same-total-size dense model?', options: ['It uses less disk space', 'It requires no training data', 'It keeps per-token compute cost roughly constant while allowing far more total parameters', 'It removes the need for GPUs entirely'], answer: 2, explanation: 'Because only a few experts fire per token, MoE models scale total capacity without a proportional increase in per-token FLOPs.' },
+      { prompt: 'Which real-world models mentioned in this space use MoE architecture?', options: ['BERT and GPT-2', 'Mixtral and DeepSeek', 'ResNet and VGG', 'Word2Vec and GloVe'], answer: 1, explanation: 'Mixtral (Mistral) and DeepSeek are prominent examples of production MoE-based large language models.' },
+      { prompt: 'What tradeoff does MoE primarily optimize for?', options: ['Memory bandwidth vs. disk storage', 'Total model capacity vs. per-token compute cost', 'Training data size vs. tokenizer vocabulary', 'GPU count vs. batch size only'], answer: 1, explanation: 'MoE lets you scale up total parameters (capacity) while activating only a fraction of them per token (compute).' },
+    ],
+  },
+  {
+    id: 'technical-advanced-2',
+    partLabel: 'Part 2 of 10',
+    part: 2,
+    title: 'Diffusion Models Explained',
+    tagline: 'The math behind how models like Stable Diffusion turn noise into images.',
+    minutes: 42,
+    sections: [
+      {
+        kind: 'lead',
+        text: "Image generators don't \"paint\" — they denoise.",
+        body: 'This 3Blue1Brown video (a guest production by Welch Labs) goes well beyond the usual "the model learns to remove noise" summary, covering the actual mechanics: forward and reverse diffusion, learned vector fields, DDPM vs. DDIM sampling, CLIP-based text conditioning, and how models like DALL-E 2 combine these pieces.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'iv-5mZ_9CPY',
+        heading: 'Watch: But How Do AI Images and Videos Actually Work? (~40 min)',
+        caption: '3Blue1Brown, guest video by Welch Labs (~40 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Forward diffusion process', body: 'Training data is progressively corrupted with Gaussian noise over many steps until it becomes pure noise — this defines the target the model learns to reverse.' },
+          { title: 'Learning a vector field', body: 'Rather than directly predicting the clean image, the model learns a vector field pointing from noisy samples back toward the data distribution at each noise level.' },
+          { title: 'DDPM vs. DDIM sampling', body: 'DDPM samples step-by-step stochastically; DDIM offers a faster, more deterministic sampling path through the same learned model, trading some diversity for speed.' },
+          { title: 'CLIP and text conditioning', body: 'Text prompts are embedded via CLIP-style joint image-text embeddings, which then steer the denoising process toward images matching the prompt.' },
+          { title: 'Classifier-free guidance', body: 'Blending conditioned and unconditioned model predictions (guidance) lets you control how strongly the output follows the text prompt versus staying "natural."' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What does the forward diffusion process do to training images?', options: ['Compresses them into latent vectors only', 'Progressively adds Gaussian noise until they become pure noise', 'Crops them to a fixed size', 'Converts them to grayscale'], answer: 1, explanation: 'Forward diffusion incrementally corrupts data with noise over many steps, defining the process the model learns to invert.' },
+      { prompt: 'What does the neural network actually learn to predict during training?', options: ['The final pixel values directly in one step', 'A vector field / noise estimate that points back toward the data distribution', 'The text prompt from the image', 'A compressed JPEG file'], answer: 1, explanation: 'The model learns to estimate the noise (equivalently, a vector field) at each step so that step can be reversed.' },
+      { prompt: 'What is the main practical difference between DDPM and DDIM sampling?', options: ['DDIM requires no trained model at all', 'DDIM offers a faster, more deterministic sampling path through the same model', 'DDPM only works on video, DDIM only on images', 'DDIM cannot use text conditioning'], answer: 1, explanation: 'DDIM reformulates the sampling process to allow fewer, more deterministic steps, speeding up generation.' },
+      { prompt: 'How does a diffusion model incorporate a text prompt like "a dog on a skateboard"?', options: ['It searches a database of existing images', 'Via CLIP-style embeddings that steer the denoising process toward matching images', 'By directly editing pixel values based on text length', 'It ignores text and generates randomly'], answer: 1, explanation: 'CLIP-style joint text-image embeddings condition the denoising network so the generated image aligns with the prompt.' },
+      { prompt: 'What does classifier-free guidance let you control?', options: ['The image file format', 'How strongly the output follows the prompt versus looking more "natural"/diverse', 'The number of GPUs used for training', 'Whether the output is black and white'], answer: 1, explanation: 'Guidance blends conditioned and unconditioned predictions, letting users tune prompt-adherence strength.' },
+      { prompt: 'Roughly how many steps does the reverse (generation) process typically start from in the naive DDPM formulation?', options: ['Exactly 1 step', 'A single large jump', 'Many steps (often hundreds), progressively removing noise', 'It never actually removes noise'], answer: 2, explanation: 'Naive DDPM sampling reverses the noising process step-by-step across many iterations, each removing a small amount of noise.' },
+      { prompt: 'What is a key advantage of the vector-field framing of diffusion covered in the video?', options: ['It eliminates the need for any training data', 'It connects diffusion models to a more general, continuous view of guiding samples toward a data distribution', 'It only works for text data', 'It removes the need for a neural network'], answer: 1, explanation: 'Framing denoising as learning a vector field connects diffusion to score-based / continuous-time generative modeling more broadly.' },
+    ],
+  },
+  {
+    id: 'technical-advanced-3',
+    partLabel: 'Part 3 of 10',
+    part: 3,
+    title: 'The Technical AI Alignment Problem',
+    tagline: 'Why "just tell the AI what you want" is much harder than it sounds — the research problem, not the policy debate.',
+    minutes: 20,
+    sections: [
+      {
+        kind: 'lead',
+        text: "Alignment isn't about AI having \"bad intentions\" — it's a specification problem.",
+        body: "Robert Miles, whose channel is widely regarded as the most accessible technical introduction to AI alignment research, lays out the core technical difficulty: how do you specify a goal precisely enough that a sufficiently capable optimizer pursuing it doesn't produce catastrophic, unintended side effects? This is distinct from AI governance or ethics policy — it's about the mechanics of optimization itself.",
+      },
+      {
+        kind: 'video',
+        youtubeId: 'pYXy-A4siMw',
+        heading: 'Watch: Intro to AI Safety, Remastered (~18 min)',
+        caption: 'Robert Miles AI Safety (~18 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Specification gaming', body: 'Optimizers routinely find unexpected ways to maximize a specified reward that technically satisfy the objective while completely missing the intent behind it.' },
+          { title: 'Instrumental convergence', body: 'Many different terminal goals lead a sufficiently capable agent to pursue similar instrumental sub-goals — like acquiring resources or resisting shutdown — regardless of what it ultimately wants.' },
+          { title: 'The orthogonality thesis', body: 'Intelligence and goals are independent axes: a highly capable system is not automatically aligned with human values just by virtue of being capable.' },
+          { title: 'Why capability makes this harder, not easier', body: 'As systems become more capable optimizers, small specification errors get amplified rather than smoothed out, since the system is better at finding edge cases in the objective.' },
+          { title: "It's an open technical problem", body: 'The video frames alignment as unsolved research — not a solved engineering checklist — motivating why it is an active field distinct from AI policy or ethics.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is "specification gaming" in the context of AI alignment?', options: ['An AI cheating on benchmark tests by memorizing answers', "An optimizer finding an unexpected way to maximize its stated objective that violates the designer's actual intent", 'A method for writing more precise reward functions', 'A type of adversarial attack on image classifiers'], answer: 1, explanation: 'Specification gaming happens when a system satisfies the literal objective in a way that misses what was actually intended.' },
+      { prompt: 'What does "instrumental convergence" describe?', options: ['All AI systems converging on the same final answer', 'Different terminal goals leading capable agents to pursue similar sub-goals like resource acquisition or self-preservation', 'Neural networks converging during gradient descent', 'Two different models producing identical outputs'], answer: 1, explanation: "Instrumental convergence is the idea that regardless of an agent's ultimate goal, certain sub-goals (resources, self-preservation, etc.) tend to be useful and thus get pursued." },
+      { prompt: 'What does the orthogonality thesis claim?', options: ['Intelligence and goals are fundamentally linked — smarter systems are automatically more ethical', "Intelligence level and goal content are independent — a highly capable system isn't automatically aligned with human values", 'All AI goals are orthogonal to human goals', 'Orthogonality only applies to image models'], answer: 1, explanation: "The orthogonality thesis says capability and values are separate axes; being smart doesn't imply having good/aligned goals." },
+      { prompt: 'According to the video, why does increased capability make alignment harder rather than easier?', options: ['More capable systems require more electricity', 'More capable optimizers are better at finding edge cases and loopholes in an imperfectly specified objective', 'Capable systems refuse to run at all', 'Capability has no effect on alignment difficulty'], answer: 1, explanation: 'A more powerful optimizer is more effective at exploiting gaps between the literal objective and the intended one.' },
+      { prompt: 'How does this video frame the alignment problem relative to AI ethics/policy debates?', options: ['As identical to policy debates', 'As a distinct technical/research problem about specifying objectives and optimization behavior', 'As irrelevant to AI safety', 'As a solved problem needing only regulation'], answer: 1, explanation: 'The video specifically treats alignment as a technical research challenge about optimization and specification, not primarily a policy or ethics question.' },
+      { prompt: "What is the video's overall framing of alignment's current status?", options: ['A fully solved engineering problem', 'An open research problem actively being worked on', 'A problem that only matters for superintelligent AI, not current systems', 'A purely philosophical exercise with no practical relevance'], answer: 1, explanation: 'The video presents alignment as unsolved and actively researched, motivating why it deserves serious technical attention now.' },
+    ],
+  },
+  {
+    id: 'technical-advanced-4',
+    partLabel: 'Part 4 of 10',
+    part: 4,
+    title: 'Reinforcement Learning Fundamentals',
+    tagline: 'The foundational framework — MDPs, value functions, and policies — behind everything from AlphaGo to RLHF.',
+    minutes: 92,
+    sections: [
+      {
+        kind: 'lead',
+        text: "Before RLHF fine-tunes a chatbot, there's decades of RL theory underneath it.",
+        body: "This opening lecture of David Silver's celebrated UCL/DeepMind reinforcement learning course lays the formal groundwork: Markov Decision Processes, rewards, value functions, and the distinction between the problem RL solves and the many algorithms used to solve it. It's dense but foundational for understanding modern RL-based training techniques.",
+      },
+      {
+        kind: 'video',
+        youtubeId: '2pWv7GOvuf0',
+        heading: 'Watch: RL Course by David Silver — Lecture 1: Introduction to Reinforcement Learning (~90 min)',
+        caption: 'Google DeepMind (~90 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Markov Decision Processes (MDPs)', body: 'RL problems are formalized as MDPs: states, actions, transition probabilities, and rewards, with the Markov property meaning the future depends only on the current state.' },
+          { title: 'Reward hypothesis', body: 'All goals can be described as maximizing expected cumulative reward — a foundational (and debatable) assumption underlying the entire RL framework.' },
+          { title: 'Value functions', body: 'A value function estimates expected future reward from a state (or state-action pair), giving agents a way to evaluate long-term consequences of decisions, not just immediate reward.' },
+          { title: 'Policies', body: "A policy is the agent's behavior function, mapping states to actions; RL algorithms differ largely in how they derive or optimize this policy." },
+          { title: 'Exploration vs. exploitation', body: 'An agent must balance exploiting known good actions against exploring uncertain ones that might yield better long-term reward — a tension central to nearly all RL algorithms.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What formal framework is used to describe RL problems?', options: ['Convolutional Neural Networks', 'Markov Decision Processes (MDPs)', 'Finite State Automata only', 'Support Vector Machines'], answer: 1, explanation: 'MDPs formalize RL problems via states, actions, transitions, and rewards under the Markov property.' },
+      { prompt: 'What is the "reward hypothesis"?', options: ['Rewards must always be positive numbers', 'All goals can be described as maximizing expected cumulative reward', 'Rewards are irrelevant to agent behavior', 'Only human-provided rewards count as valid'], answer: 1, explanation: 'The reward hypothesis is the foundational RL assumption that any goal can be captured as maximizing expected cumulative reward.' },
+      { prompt: 'What does a value function estimate?', options: ['The immediate reward only', 'Expected future (cumulative) reward from a state or state-action pair', 'The number of training epochs needed', 'The size of the action space'], answer: 1, explanation: 'Value functions estimate long-term expected return, letting agents reason beyond just immediate reward.' },
+      { prompt: 'What is a "policy" in reinforcement learning?', options: ['A fixed reward schedule', "The agent's behavior function mapping states to actions", 'A dataset of labeled examples', 'A regularization technique'], answer: 1, explanation: "A policy defines what action the agent takes in each state — it is the agent's behavior." },
+      { prompt: 'What core tradeoff must an RL agent manage during learning?', options: ['Precision vs. recall', 'Exploration vs. exploitation', 'Bias vs. variance only in supervised learning', 'Compression vs. accuracy'], answer: 1, explanation: 'Agents must balance exploiting known rewarding actions against exploring uncertain ones for potentially better long-term outcomes.' },
+      { prompt: 'What does the Markov property assume about state transitions?', options: ['The entire history of past states must be considered', 'The future depends only on the current state, not the full history', 'Transitions are always deterministic', 'States must be discrete, never continuous'], answer: 1, explanation: 'The Markov property states that the current state captures all relevant information for predicting the future — history beyond it adds nothing.' },
+      { prompt: 'Why is this foundational RL material relevant to modern LLM training?', options: ['It is not relevant at all', 'Techniques like RLHF and RL-based reasoning training build on these same core RL concepts (rewards, policies, value estimation)', 'LLMs never use reinforcement learning', 'MDPs are only used in robotics'], answer: 1, explanation: 'Modern techniques like RLHF and RL-driven reasoning training (e.g., GRPO) are built on the same MDP/policy/reward foundations covered here.' },
+    ],
+  },
+  {
+    id: 'technical-advanced-5',
+    partLabel: 'Part 5 of 10',
+    part: 5,
+    title: 'Speculative Decoding for Faster Inference',
+    tagline: 'How a small "draft" model can make a large model generate text faster without changing its output.',
+    minutes: 20,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'LLM inference is sequential and memory-bound — speculative decoding exploits idle GPU compute to speed it up.',
+        body: "Trelis Research breaks down speculative decoding: pairing a small, fast draft model with the large target model so multiple tokens can be proposed and verified per forward pass, cutting latency while provably preserving the target model's output distribution.",
+      },
+      {
+        kind: 'video',
+        youtubeId: 'hm7VEgxhOvk',
+        heading: 'Watch: Speculative Decoding Explained (~18 min)',
+        caption: 'Trelis Research (~18 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'The bottleneck: memory bandwidth, not compute', body: 'Autoregressive decoding is usually memory-bandwidth bound at low batch sizes, leaving GPU compute underutilized during each token-by-token forward pass.' },
+          { title: 'Draft model proposes, target model verifies', body: 'A smaller, cheaper "draft" model generates several candidate tokens quickly; the large target model then verifies them all in a single parallel forward pass.' },
+          { title: 'Accept/reject sampling preserves exact output distribution', body: "A rejection-sampling scheme accepts draft tokens that match what the target model would have produced and resamples where they diverge, guaranteeing identical output quality to standard decoding." },
+          { title: 'Speedup depends on draft model quality', body: "The better the draft model approximates the target model's predictions, the more tokens get accepted per round, and the bigger the latency win." },
+          { title: 'Practical use cases', body: 'Speculative decoding is especially valuable for latency-sensitive applications like interactive chat and code completion, where response time matters as much as throughput.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is the main bottleneck that speculative decoding addresses?', options: ['Insufficient training data', 'GPU compute sitting idle due to memory-bandwidth-bound sequential decoding', 'Lack of labeled examples', 'Overfitting during fine-tuning'], answer: 1, explanation: 'Standard autoregressive decoding underutilizes GPU compute because it is bound by memory bandwidth at low concurrency; speculative decoding better utilizes that idle compute.' },
+      { prompt: 'What role does the small "draft" model play?', options: ['It replaces the target model entirely', 'It quickly proposes several candidate tokens for the target model to verify', 'It only handles tokenization', 'It trains the target model from scratch'], answer: 1, explanation: 'The draft model cheaply generates candidate tokens that the larger target model then verifies in parallel.' },
+      { prompt: 'How does speculative decoding guarantee output quality is unchanged?', options: ["It doesn't guarantee this — quality is always slightly worse", 'An accept/reject (rejection sampling) scheme ensures the final output distribution matches the target model exactly', 'It uses a majority vote between draft and target', 'It rounds token probabilities to the nearest integer'], answer: 1, explanation: 'A rejection-sampling procedure accepts draft tokens consistent with the target model and resamples divergent ones, preserving the exact target distribution.' },
+      { prompt: "What happens to the target model's workload when verifying draft tokens?", options: ['It processes each token in a separate sequential pass, one at a time as before', 'It verifies multiple candidate tokens in a single parallel forward pass', 'It skips verification to save time', 'It retrains itself on each request'], answer: 1, explanation: 'The target model verifies the entire proposed token sequence in one parallel pass, which is what makes the technique faster.' },
+      { prompt: 'What factor most affects the speedup achieved by speculative decoding?', options: ['The programming language used', "How well the draft model's predictions match the target model's", 'The number of parameters in the tokenizer', 'The dataset license'], answer: 1, explanation: 'A draft model that closely approximates the target model gets more tokens accepted per round, yielding bigger speedups.' },
+      { prompt: 'Which use cases benefit most from speculative decoding, according to the video?', options: ["Offline batch processing where latency doesn't matter", 'Latency-sensitive applications like chat and code completion', 'Only image classification tasks', 'Training large models from scratch'], answer: 1, explanation: 'Because it reduces per-token latency, speculative decoding is particularly valuable for interactive, latency-sensitive use cases.' },
+    ],
+  },
+  {
+    id: 'technical-advanced-6',
+    partLabel: 'Part 6 of 10',
+    part: 6,
+    title: 'Distributed Training at Scale',
+    tagline: 'How you actually spread the training of a massive model across many GPUs and machines.',
+    minutes: 52,
+    sections: [
+      {
+        kind: 'lead',
+        text: "A trillion-parameter model doesn't fit on one GPU — training it is a distributed-systems problem as much as a machine-learning one.",
+        body: "Umar Jamil's tutorial covers the practical mechanics of distributed training with PyTorch: data parallelism, gradient synchronization, and the collective-communication primitives (like all-reduce) that keep replicas of a model consistent across a cluster of GPUs and machines.",
+      },
+      {
+        kind: 'video',
+        youtubeId: 'toUSzwR0EV8',
+        heading: 'Watch: Distributed Training with PyTorch — Complete Tutorial (~50 min)',
+        caption: 'Umar Jamil (~50 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Data parallelism', body: 'The model is replicated across GPUs, with each replica processing a different shard of the batch; gradients are then synchronized across replicas before each weight update.' },
+          { title: 'Gradient accumulation', body: 'Gradients computed on each GPU/replica are accumulated and averaged before being applied, a central mechanism that makes data-parallel training mathematically equivalent to training on a single large batch.' },
+          { title: 'Collective communication primitives', body: 'Operations like broadcast, reduce, all-reduce, and gather (used by libraries like NCCL) are what let GPUs efficiently exchange gradients and parameters without a slow central bottleneck.' },
+          { title: 'Computation-communication overlap', body: 'Overlapping gradient communication with ongoing backward-pass computation (rather than waiting for it) is a key optimization that keeps distributed training fast.' },
+          { title: 'Real cluster setup', body: 'The tutorial builds out an actual multi-server, multi-GPU cloud setup, showing that distributed training is as much about networking and infrastructure as it is about the model code.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'In data parallelism, what differs across GPU replicas of the model?', options: ['Each replica has different model architecture', 'Each replica processes a different shard of the training batch', 'Each replica uses a different loss function', 'Nothing differs — all replicas are identical and redundant'], answer: 1, explanation: 'Data parallelism replicates the same model on each GPU but feeds each replica a different slice of the batch.' },
+      { prompt: 'What is the purpose of gradient accumulation/synchronization across replicas?', options: ['To intentionally introduce randomness into training', 'To combine and average gradients from all replicas so the update is equivalent to training on the full batch', 'To reduce the number of GPUs needed', 'To skip backpropagation entirely'], answer: 1, explanation: 'Averaging gradients across replicas before the weight update keeps distributed training mathematically consistent with single-device training on the combined batch.' },
+      { prompt: 'What is "all-reduce," as discussed in the video?', options: ['A type of activation function', 'A collective communication primitive that combines values (e.g., gradients) across all GPUs and distributes the result back to each', 'A method for reducing model size before deployment', 'A dataset augmentation technique'], answer: 1, explanation: 'All-reduce is a collective operation, used by libraries like NCCL, that aggregates values across devices and returns the combined result to all of them.' },
+      { prompt: 'Why does the video emphasize overlapping computation and communication?', options: ['It has no effect on training speed', 'Overlapping lets gradient communication happen concurrently with backward-pass computation, avoiding idle waiting and speeding up training', 'It reduces GPU memory usage only', 'It removes the need for networking'], answer: 1, explanation: 'Overlapping communication with computation prevents GPUs from idling while waiting for gradient synchronization, improving throughput.' },
+      { prompt: 'What does the tutorial actually build to demonstrate these concepts?', options: ['A single-GPU toy example only', 'A real multi-server, multi-GPU cloud infrastructure setup', 'A purely theoretical proof with no code', 'A mobile app'], answer: 1, explanation: 'The tutorial sets up real cloud infrastructure with multiple servers and GPUs to demonstrate distributed training in practice.' },
+      { prompt: 'What is a major practical challenge in training frontier-scale models across thousands of GPUs?', options: ['Finding enough training data only', 'Coordinating memory, communication latency, and failures across a massive distributed system', 'Choosing a font for the training logs', 'Selecting a programming language'], answer: 1, explanation: 'Orchestrating memory limits, communication overhead, and hardware reliability across thousands of GPUs is one of the central engineering challenges in large-scale training.' },
+    ],
+  },
+  {
+    id: 'technical-advanced-7',
+    partLabel: 'Part 7 of 10',
+    part: 7,
+    title: 'Multi-Agent AI Systems: Technical Architecture',
+    tagline: 'How multiple specialized AI agents actually coordinate — the architecture, not just the business pitch.',
+    minutes: 19,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'A "multi-agent system" is more than several chatbots talking to each other.',
+        body: 'This technical walkthrough covers how multi-agent AI systems are actually architected: orchestrators that decompose goals into subtasks, specialized agents with constrained tools and permissions, and the communication/state-tracking patterns that let them collaborate reliably.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'Mi5wOpAgixw',
+        heading: 'Watch: Multi-agent Systems Explained in 17 Minutes (~17 min)',
+        caption: 'Shaw Talebi (~17 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Orchestrator pattern', body: 'A central orchestrator receives a high-level goal, breaks it into discrete subtasks, assigns them to the right specialized agent, and assembles the final output — without doing execution itself.' },
+          { title: 'Specialized, constrained agents', body: 'Each agent has a specific role, a specific toolset, and explicitly limited permissions, which improves reliability and makes failures easier to isolate.' },
+          { title: 'State tracking and failure handling', body: "The orchestrator tracks execution state across agents and handles failures (retries, fallbacks) rather than assuming every subtask succeeds on the first try." },
+          { title: 'Modularity as a design goal', body: 'Splitting a system into separate agents makes it easier to develop, test, and maintain each piece independently compared to one monolithic agent trying to do everything.' },
+          { title: 'Communication protocols between agents', body: 'Agents need defined interfaces/message formats to exchange information reliably, since ad hoc communication between agents is a common source of failure.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is the role of the orchestrator in a multi-agent system?', options: ['It performs all the actual task execution itself', 'It decomposes a high-level goal into subtasks and assigns them to specialized agents', 'It only stores logs for debugging', 'It replaces all other agents once trained'], answer: 1, explanation: 'The orchestrator breaks down goals and routes subtasks to the right agents, without performing execution itself.' },
+      { prompt: 'Why are individual agents typically given constrained tools and permissions?', options: ['To make the system slower on purpose', 'To improve reliability and make it easier to isolate and control failures', 'Because agents cannot use any tools at all', 'To reduce the total number of agents needed'], answer: 1, explanation: "Constraining each agent's scope and permissions limits blast radius and makes debugging and control easier." },
+      { prompt: 'What does "modularity" refer to in this context?', options: ['Compressing all agents into a single model', 'Splitting a system into separate agents, making each easier to develop, test, and maintain independently', 'Removing all communication between components', 'Using only one programming language'], answer: 1, explanation: 'Modularity is the benefit of building separate, specialized agents rather than one monolithic system, easing development and testing.' },
+      { prompt: 'What must the orchestrator do when a subtask fails?', options: ['Ignore the failure and continue as if it succeeded', 'Track execution state and handle failures, e.g. via retries or fallbacks', 'Shut down the entire system permanently', "Delete the failing agent's code"], answer: 1, explanation: 'Robust orchestration includes tracking state and handling failures gracefully rather than assuming perfect execution.' },
+      { prompt: 'Why do agents need defined communication protocols/message formats?', options: ['Protocols are optional and rarely used', 'Ad hoc communication between agents is a common source of failure, so defined interfaces improve reliability', 'Agents never need to exchange information', 'Only human users communicate with agents'], answer: 1, explanation: 'Clear interfaces for inter-agent communication reduce ambiguity and failure modes compared to unstructured exchanges.' },
+      { prompt: 'How does this technical framing differ from a beginner "what is an AI agent" explainer?', options: ['It does not differ at all', 'It focuses on architecture: orchestration, specialization, state tracking, and failure handling rather than just defining what an agent is', 'It only covers business use cases', 'It avoids discussing tools or permissions'], answer: 1, explanation: 'This video is about system architecture and coordination mechanics, distinct from a beginner-level definition of what an agent is.' },
+    ],
+  },
+  {
+    id: 'technical-advanced-8',
+    partLabel: 'Part 8 of 10',
+    part: 8,
+    title: 'Mechanistic Interpretability',
+    tagline: 'Reverse-engineering what a trained neural network is actually computing internally.',
+    minutes: 37,
+    sections: [
+      {
+        kind: 'lead',
+        text: 'A trained network is a black box you can, in principle, take apart.',
+        body: 'Neel Nanda, a leading mechanistic interpretability researcher (formerly at Anthropic, now at Google DeepMind), gives a whirlwind tour of the field at the Vienna Alignment Workshop: the goal of reverse-engineering the algorithms a network has learned, key phenomena like superposition, and why this connects directly to AI safety.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'veT2VI4vHyU',
+        heading: 'Watch: Mechanistic Interpretability — A Whirlwind Tour (~35 min)',
+        caption: 'FAR.AI, Neel Nanda talk at Vienna Alignment Workshop (~35 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Reverse-engineering learned algorithms', body: 'Mechanistic interpretability tries to take a trained network and extract the actual algorithm it has learned, rather than treating it as an opaque function.' },
+          { title: 'Superposition', body: 'Networks often represent more distinct features than they have neurons by encoding multiple features in overlapping combinations of neurons, making individual neurons hard to interpret in isolation.' },
+          { title: 'Circuits', body: 'Groups of connected components (attention heads, neurons, weights) can implement identifiable sub-algorithms, or "circuits," such as induction heads that support in-context learning.' },
+          { title: 'Why this matters for safety', body: "Understanding a model's internal computations is framed as a route to catching deceptive or misaligned behavior that might not show up in the model's outputs alone." },
+          { title: 'Open problems', body: "The talk frames interpretability as an immature but rapidly growing field, with many open questions about how to scale these techniques to today's largest models." },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What is the primary goal of mechanistic interpretability?', options: ['To make training faster', 'To reverse-engineer the actual algorithm a trained network has learned', 'To compress models for deployment', 'To generate more training data'], answer: 1, explanation: 'Mechanistic interpretability aims to understand and extract the specific computations/algorithms implemented inside a trained network.' },
+      { prompt: 'What is "superposition" in this context?', options: ['Running two models simultaneously', 'A network encoding more distinct features than it has neurons by overlapping them across combinations of neurons', 'A type of data augmentation', 'Stacking multiple attention layers'], answer: 1, explanation: 'Superposition describes how networks pack more features than available neurons by representing them in overlapping combinations, complicating direct interpretation.' },
+      { prompt: 'What is a "circuit" in mechanistic interpretability?', options: ['A physical hardware component', 'A group of connected model components (e.g., attention heads, weights) that implements an identifiable sub-algorithm', 'A type of loss function', 'A dataset preprocessing pipeline'], answer: 1, explanation: 'Circuits are identifiable sub-networks within a model that implement specific computations, such as induction heads.' },
+      { prompt: 'What example of a "circuit" is commonly discussed in interpretability research?', options: ['Batch normalization layers', 'Induction heads that support in-context learning', 'The tokenizer vocabulary', "The optimizer's learning rate schedule"], answer: 1, explanation: "Induction heads are a well-studied circuit implicated in a model's ability to do in-context learning/pattern completion." },
+      { prompt: 'Why does the talk connect interpretability to AI safety?', options: ["It doesn't — interpretability is unrelated to safety", 'Understanding internal computations may help catch deceptive or misaligned behavior not visible from outputs alone', 'Interpretability only matters for making models smaller', 'Safety is only about model outputs, never internals'], answer: 1, explanation: 'The talk frames interpretability as a potential tool for detecting misalignment that might not be visible from external behavior alone.' },
+      { prompt: 'How does the talk characterize the current state of mechanistic interpretability as a field?', options: ['Fully solved with no remaining open questions', 'An immature but rapidly growing field with many open problems, especially around scaling', 'Irrelevant to modern large language models', 'A field that has existed unchanged since the 1990s'], answer: 1, explanation: "The talk presents interpretability as young and fast-moving, with significant open challenges in scaling techniques to today's largest models." },
+    ],
+  },
+  {
+    id: 'technical-advanced-9',
+    partLabel: 'Part 9 of 10',
+    part: 9,
+    title: 'Scaling Laws in Deep Learning',
+    tagline: 'The surprisingly predictable power-law relationship between model size, data, compute, and performance.',
+    minutes: 57,
+    sections: [
+      {
+        kind: 'lead',
+        text: "Model performance isn't random as you scale up — it follows remarkably consistent power laws.",
+        body: 'This seminar talk, connected to the influential "Explaining Neural Scaling Laws" research, explores why test loss for well-trained neural networks tracks power-law relationships with model size, dataset size, and compute — and what theoretical explanations have been proposed for why these relationships hold across many orders of magnitude.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'V8FEFw50lg4',
+        heading: 'Watch: Explaining Neural Scaling Laws (~55 min)',
+        caption: 'Physics ∩ ML seminar series (~55 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Power-law loss scaling', body: 'Test loss often follows a power-law relationship with compute, parameter count, or dataset size — small changes in scale produce predictable, quantifiable changes in loss.' },
+          { title: 'Four scaling regimes', body: "The talk distinguishes variance-limited and resolution-limited scaling behavior for both model size and dataset size, giving four qualitatively distinct regimes depending on what's the bottleneck." },
+          { title: 'Predictive power across orders of magnitude', body: 'Scaling trends fit at small scale (e.g., millions of parameters) have proven remarkably predictive of behavior at scales orders of magnitude larger.' },
+          { title: 'Why this matters practically', body: 'Scaling laws let labs forecast the performance of a not-yet-trained model and make informed compute/data allocation decisions before committing to an expensive training run.' },
+          { title: 'Theoretical explanations', body: 'The talk surveys candidate theories for why these power laws emerge, connecting empirical scaling trends to underlying statistical and geometric properties of the learning problem.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What mathematical relationship do neural scaling laws typically describe?', options: ['A linear relationship between loss and compute', 'A power-law relationship between test loss and model size, dataset size, or compute', 'No relationship at all — performance is random', 'An inverse exponential decay unrelated to scale'], answer: 1, explanation: 'Scaling laws describe power-law relationships between test loss and factors like compute, parameters, or data.' },
+      { prompt: 'What are the two limiting behaviors discussed as scaling regimes?', options: ['Overfitting and underfitting only', 'Variance-limited and resolution-limited scaling', 'Supervised and unsupervised scaling', 'GPU-limited and CPU-limited scaling'], answer: 1, explanation: 'The talk distinguishes variance-limited and resolution-limited regimes for both model and dataset size scaling.' },
+      { prompt: 'What is notable about how well scaling laws fit at small scales predict large-scale behavior?', options: ['They fail completely once scale increases significantly', 'They remain remarkably predictive across many orders of magnitude of scale', 'They only apply to models under 1 million parameters', 'They only work for image models, not language models'], answer: 1, explanation: 'Scaling trends observed at small scale have proven surprisingly predictive even at scales orders of magnitude larger.' },
+      { prompt: 'Why are scaling laws practically useful to labs training frontier models?', options: ['They eliminate the need for any training data', 'They let labs forecast performance and make compute/data allocation decisions before committing to expensive runs', 'They guarantee a model will have zero loss', 'They are purely academic with no practical use'], answer: 1, explanation: 'Scaling laws inform decisions about how to allocate compute and data efficiently before running expensive full-scale training.' },
+      { prompt: 'What does the talk attempt to do beyond just describing the empirical power-law observation?', options: ['Nothing — it only reports the empirical curves', 'It surveys theoretical explanations for why these power laws emerge from underlying statistical/geometric properties', 'It disproves that scaling laws exist', 'It focuses solely on hardware specifications'], answer: 1, explanation: 'The talk goes beyond observation to explore candidate theoretical explanations for why scaling laws take the form they do.' },
+      { prompt: 'Which factors are jointly considered in these scaling law analyses?', options: ['Only the programming framework used', 'Model size, dataset size, and compute', 'Only GPU brand', 'Only the choice of activation function'], answer: 1, explanation: 'Scaling laws jointly relate loss to model size, dataset size, and total compute used for training.' },
+    ],
+  },
+  {
+    id: 'technical-advanced-10',
+    partLabel: 'Part 10 of 10',
+    part: 10,
+    title: 'Inside a State-of-the-Art Model: DeepSeek V3 and R1',
+    tagline: "A recent, credible technical deep-dive into the architecture and training innovations behind DeepSeek's frontier models.",
+    minutes: 24,
+    sections: [
+      {
+        kind: 'lead',
+        text: "DeepSeek didn't just scale up — it changed the architecture and training recipe.",
+        body: 'This breakdown covers what made DeepSeek V3 and R1 notable beyond hype: Multi-Head Latent Attention (MLA) for cheaper inference, a large-scale Mixture-of-Experts design, and a reinforcement-learning-driven training pipeline (using Group Relative Policy Optimization) for building reasoning ability.',
+      },
+      {
+        kind: 'video',
+        youtubeId: 'fTjPEE0fk-U',
+        heading: 'Watch: How Did They Do It? DeepSeek V3 and R1 Explained (~22 min)',
+        caption: 'No Hype AI (~22 min)',
+      },
+      {
+        kind: 'list',
+        heading: 'Key ideas from the video',
+        items: [
+          { title: 'Multi-Head Latent Attention (MLA)', body: 'MLA compresses the key-value cache into low-rank latent vectors and reconstructs them on the fly during inference, cutting KV-cache memory overhead dramatically compared to standard attention.' },
+          { title: 'Large-scale MoE with high sparsity', body: 'DeepSeek-R1 has hundreds of billions of total parameters but activates only tens of billions per token, applying MoE\'s sparse-activation principle at extreme scale.' },
+          { title: 'RL-driven reasoning training', body: 'Rather than relying purely on supervised fine-tuning, DeepSeek uses large-scale reinforcement learning (via GRPO) to cultivate step-by-step reasoning behavior in the model.' },
+          { title: 'Supervised fine-tuning as a "cold start"', body: 'Training begins with supervised fine-tuning on curated chain-of-thought examples before large-scale RL takes over, stabilizing early reasoning behavior.' },
+          { title: 'Cost-efficiency as a design goal', body: 'A recurring theme is that these architectural choices were driven by a deliberate focus on training and inference cost-efficiency, not just raw benchmark performance.' },
+        ],
+      },
+    ],
+    quiz: [
+      { prompt: 'What problem does Multi-Head Latent Attention (MLA) primarily address?', options: ['Slow tokenization', 'High memory overhead from the key-value cache during inference', 'Overfitting during pretraining', 'Lack of training data'], answer: 1, explanation: 'MLA compresses KV-cache data into low-rank latent vectors, substantially reducing memory overhead versus standard attention.' },
+      { prompt: "Roughly how does DeepSeek-R1's activated parameter count compare to its total parameter count?", options: ['All parameters are activated on every token', 'Only a small fraction (tens of billions out of hundreds of billions) are activated per token', 'Exactly half are always activated', 'Activation count is unrelated to total size'], answer: 1, explanation: 'DeepSeek-R1 uses MoE sparsity, activating only a fraction of its total parameters (about 37B of 671B) per token.' },
+      { prompt: 'What technique does DeepSeek use to develop reasoning behavior at scale?', options: ['Supervised fine-tuning alone, with no reinforcement learning', 'Large-scale reinforcement learning using Group Relative Policy Optimization (GRPO)', 'Manual rule-based logic systems', 'Random weight initialization only'], answer: 1, explanation: 'DeepSeek relies heavily on large-scale RL, specifically GRPO, to cultivate chain-of-thought reasoning capability.' },
+      { prompt: 'What role does supervised fine-tuning play before the large-scale RL stage?', options: ['None — RL is used from a randomly initialized model', 'It acts as a "cold start" on curated chain-of-thought data to stabilize early reasoning behavior', 'It replaces RL entirely', 'It is only used after RL, never before'], answer: 1, explanation: 'A supervised fine-tuning cold start on curated reasoning examples precedes the large-scale RL phase, stabilizing training.' },
+      { prompt: "What recurring design theme does the video highlight across DeepSeek's architectural choices?", options: ['Maximizing training cost regardless of efficiency', 'A deliberate focus on training/inference cost-efficiency alongside performance', 'Avoiding any use of Mixture-of-Experts', 'Ignoring memory constraints entirely'], answer: 1, explanation: 'The video frames MLA, MoE sparsity, and the RL training recipe as choices driven partly by a cost-efficiency goal, not just raw performance.' },
+      { prompt: "Which two architectural/training innovations are central to the video's explanation of DeepSeek V3/R1?", options: ['Convolutional layers and batch normalization', 'Multi-Head Latent Attention and Mixture-of-Experts, combined with RL-based reasoning training', 'Word2Vec embeddings and LSTM cells', 'Manual rule-based expert systems'], answer: 1, explanation: 'MLA (efficient attention) and MoE (sparse scaling), paired with an RL-driven reasoning training pipeline, are the core innovations covered.' },
     ],
   },
 ];
@@ -2181,14 +3189,34 @@ export const TRACKS: Track[] = [
     modules: generalAdvancedModules,
   },
   {
-    id: 'technical',
-    eyebrow: 'Technical Track',
-    title: 'Under the Hood: Building & Understanding AI',
+    id: 'technical-beginner',
+    eyebrow: 'Technical Track · Beginner',
+    title: 'Under the Hood: AI Foundations',
     subtitle:
-      'Six deep-dive videos — neural networks, LLMs, transformers, RAG, feature engineering, and building AI agents — with a quiz after each.',
+      'Neural networks, LLMs, transformers, tokenization, embeddings, gradient descent, RAG, feature engineering, fine-tuning, and building AI agents — with a quiz after each video.',
     accent: '#4f46e5',
     accentSoft: '#eef2ff',
-    modules: technicalModules,
+    modules: technicalBeginnerModules,
+  },
+  {
+    id: 'technical-intermediate',
+    eyebrow: 'Technical Track · Intermediate',
+    title: 'Building Real AI Systems',
+    subtitle:
+      'Vector databases, evaluation, tool calling, orchestration, quantization, MLOps, RLHF, and more — with a quiz after each video.',
+    accent: '#e11d48',
+    accentSoft: '#fff1f2',
+    modules: technicalIntermediateModules,
+  },
+  {
+    id: 'technical-advanced',
+    eyebrow: 'Technical Track · Advanced',
+    title: 'Research-Level AI',
+    subtitle:
+      'Cutting-edge, research-oriented AI topics — with a quiz after each video.',
+    accent: '#ea580c',
+    accentSoft: '#fff7ed',
+    modules: technicalAdvancedModules,
   },
   {
     id: 'productivity',
