@@ -1,21 +1,12 @@
 'use server';
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { isAdminEmail } from '@/lib/admin';
+import { requireAdmin } from '@/lib/admin';
 import aiversePool from '@/lib/db-aiverse';
 import { getEffectiveTracks, getEffectiveModule } from '@/lib/content-resolver';
 import type { ContentBlock, QuizQuestion, Track, TrackId } from '../content';
 
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const RECENT_ACTIONS_KEPT = 20;
-
-async function requireAdmin(): Promise<string> {
-  const session = await getServerSession(authOptions);
-  const email = session?.user?.email;
-  if (!isAdminEmail(email)) throw new Error('Admins only');
-  return email as string;
-}
 
 type ActionTable = 'module_overrides' | 'track_overrides';
 

@@ -85,3 +85,76 @@ create table if not exists admin_actions (
   previous_row jsonb,
   created_at timestamptz not null default now()
 );
+
+-- 'active' | 'disqualified', app-validated (see src/app/actions/admin-hackathon.ts).
+alter table hackathon_teams add column if not exists status text not null default 'active';
+
+-- Singleton row (id is always 1) holding the hackathon admin's event settings —
+-- registration window, key dates, venue, team-size limits, announcement copy.
+-- Read by the public hackathon page and enforced by createTeam/addTeamMember.
+create table if not exists hackathon_settings (
+  id int primary key default 1,
+  status text not null default 'draft', -- draft | open | closed
+  registration_opens_at timestamptz,
+  registration_closes_at timestamptz,
+  event_start_at timestamptz,
+  submission_deadline_at timestamptz,
+  presentation_at timestamptz,
+  venue text,
+  meeting_link text,
+  min_team_size int not null default 2,
+  max_team_size int not null default 5,
+  contact_email text,
+  eligibility text,
+  announcement text,
+  updated_at timestamptz not null default now(),
+  check (id = 1)
+);
+insert into hackathon_settings (id) values (1) on conflict (id) do nothing;
+
+-- One submission per team, holding project metadata; the actual file(s) live in
+-- hackathon_submission_files below (a submission can have multiple files).
+create table if not exists hackathon_submissions (
+  id uuid primary key default gen_random_uuid(),
+  team_id uuid not null unique references hackathon_teams(id) on delete cascade,
+  title text not null,
+  description text,
+  submitted_by_email text not null references users(email) on delete cascade,
+  submitted_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  is_late boolean not null default false
+);
+-- Kept for databases created before is_late existed (CREATE TABLE above only
+-- applies its column list on first creation).
+alter table hackathon_submissions add column if not exists is_late boolean not null default false;
+
+-- Multiple files per submission. file_data holds the raw bytes directly — fine
+-- at pdf/pptx sizes, no external storage needed. Validated to .pdf/.pptx and
+-- size-capped in the server action.
+create table if not exists hackathon_submission_files (
+  id uuid primary key default gen_random_uuid(),
+  submission_id uuid not null references hackathon_submissions(id) on delete cascade,
+  file_name text not null,
+  file_type text not null, -- 'pdf' | 'pptx'
+  file_size int not null,
+  file_data bytea not null,
+  uploaded_at timestamptz not null default now()
+);
+
+-- One-time migration for databases created before submissions supported
+-- multiple files: move the old single file into the new child table, then
+-- drop the now-redundant columns. Only runs once, while they still exist.
+do $$
+begin
+  if exists (
+    select 1 from information_schema.columns
+    where table_name = 'hackathon_submissions' and column_name = 'file_data'
+  ) then
+    insert into hackathon_submission_files (submission_id, file_name, file_type, file_size, file_data, uploaded_at)
+    select id, file_name, file_type, file_size, file_data, submitted_at from hackathon_submissions;
+    alter table hackathon_submissions drop column file_name;
+    alter table hackathon_submissions drop column file_type;
+    alter table hackathon_submissions drop column file_size;
+    alter table hackathon_submissions drop column file_data;
+  end if;
+end $$;

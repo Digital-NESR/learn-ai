@@ -112,6 +112,14 @@ body {
 @keyframes screen-fade-to-black {
   to { opacity: 1; }
 }
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--glow-color, rgba(69, 192, 122, 0.35)); }
+  50%      { box-shadow: 0 0 0 8px var(--glow-color-transparent, rgba(69, 192, 122, 0)); }
+}
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-120%) skewX(-15deg); }
+  100% { transform: translateX(220%) skewX(-15deg); }
+}
 
 /* ── Animation utilities ── */
 .animate-aurora    { animation: aurora 20s ease-in-out infinite; }
@@ -126,6 +134,8 @@ body {
 .animate-trail-stretch { animation: trail-stretch 1.6s ease-in forwards; }
 .animate-panel-fade-out { animation: panel-fade-out 0.5s ease forwards; }
 .animate-screen-fade-to-black { animation: screen-fade-to-black 0.9s ease-in 0.9s forwards; }
+.animate-glow-pulse { animation: glow-pulse 2.4s ease-in-out infinite; }
+.animate-shimmer-sweep { animation: shimmer-sweep 2.6s ease-in-out infinite; }
 
 .animate-gradient-x {
   background-size: 200% 200%;
@@ -155,7 +165,9 @@ body {
   .animate-ship-liftoff,
   .animate-ship-idle,
   .animate-trail-stretch,
-  .animate-panel-fade-out {
+  .animate-panel-fade-out,
+  .animate-glow-pulse,
+  .animate-shimmer-sweep {
     animation: none !important;
   }
   /* Reduced motion still gets a quick cross-fade instead of the full launch. */

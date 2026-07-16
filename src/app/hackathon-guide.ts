@@ -4,6 +4,8 @@
  * Same block system as the courses (see content.ts), so this can pick up
  * `video` blocks the same way once walkthrough videos exist. Rendered by
  * the shared <Block> component (components/ContentBlocks.tsx).
+ *
+ * Content is derived from the "AI Prototyping Hackathon" internal slide deck.
  */
 
 import type { ContentBlock } from './content';
@@ -16,323 +18,249 @@ export interface GuideChapter {
   sections: ContentBlock[];
 }
 
-export const HACKATHON_ACCENT = '#ea580c';
+// General accent for the hackathon pages — matches the site's brand green
+// family (see globals.css --brand) rather than a one-off color.
+export const HACKATHON_ACCENT = '#45c07a';
+// Brighter neon variant reserved for the countdown timer specifically.
+export const HACKATHON_NEON = '#39ff88';
 
 export const GUIDE_CHAPTERS: GuideChapter[] = [
   {
     id: 'how-it-works',
     label: 'How It Works',
     title: 'How the Hackathon Works',
-    tagline: 'Two build categories, two layers to every solution.',
+    tagline: 'Build bold. Prove the value. Ship something real.',
     sections: [
       {
         kind: 'lead',
-        text: 'Pick a category, then build both the business case and the technical solution.',
-        body: 'Every team chooses one of two build categories. Whichever you pick, your solution needs to work on two layers: what problem it solves and for whom, and what it takes technically to build it.',
+        text: 'Turn real-life pain points into AI prototypes worth piloting.',
+        body: 'Find a slow, manual, or repetitive part of the business, build a working AI prototype for it, prove the business value, and leave with a realistic plan to pilot it for real.',
       },
       {
-        kind: 'cards',
-        heading: 'Two build categories',
-        cards: [
+        kind: 'steps',
+        heading: 'From painpoint to pilot',
+        numbered: true,
+        steps: [
           {
-            title: 'Category A — AI Model / Data Science',
-            body: 'Teams train or evaluate models in Kaggle or Colab. Best if you want to work directly with data and modeling.',
+            title: 'Find the problem',
+            body: 'Where is work slow, manual, or repetitive? What’s something you want to improve?',
           },
           {
-            title: 'Category B — AI Workflow / Power Platform',
-            body: 'Teams use Power Automate, Power Apps, Power BI, SharePoint, Teams, and AI services to turn insights into action. Best if you want to build something end-users touch directly.',
+            title: 'Build practical AI',
+            body: 'Incorporate AI into your solution — build an assistant, automate a workflow, or build a dashboard.',
+          },
+          {
+            title: 'Prove business value',
+            body: 'Show time saved, cost avoided, quality improved, or faster turnaround.',
+          },
+          {
+            title: 'Move from prototype to pilot',
+            body: 'End with a demo and a next-step plan.',
           },
         ],
       },
       {
         kind: 'compare',
-        heading: 'Two layers to every solution',
+        heading: 'Every idea needs two layers',
         left: {
           title: 'Business layer',
           items: [
             'What problem does this solve?',
-            'Who is it for?',
-            'What SDG (Sustainable Development Goal) does it support?',
+            'Who is the user or team affected?',
+            'What is the business value proposition?',
           ],
         },
         right: {
           title: 'Technical layer',
           items: [
-            'What data does it need?',
-            'What model or workflow powers it?',
-            'What architecture, evaluation, and safety controls are required?',
+            'What data is required?',
+            'What model or method is used?',
+            'What is the workflow and architecture?',
+            'How is it evaluated?',
+            'What safety controls are in place?',
           ],
         },
       },
     ],
   },
   {
-    id: 'architecture',
-    label: 'Architecture',
-    title: 'Recommended Build Architecture',
-    tagline: 'The four stages every project should walk through.',
+    id: 'business-layer',
+    label: 'Business Layer',
+    title: 'Business Layer: Problem, User, Value',
+    tagline: 'Every idea needs a clear problem, user, and value proposition.',
     sections: [
       {
-        kind: 'steps',
-        heading: 'The four stages',
-        numbered: true,
-        steps: [
-          { title: 'Data preparation', body: 'Get, clean, and understand your dataset.' },
-          { title: 'AI application layer', body: 'Build the thing people actually interact with.' },
-          { title: 'Modeling', body: 'Pick and justify the model or method behind it.' },
-          { title: 'Responsible AI & risk controls', body: 'Check the solution is safe, fair, and monitored.' },
-        ],
-      },
-      {
-        kind: 'checklist',
-        heading: 'Data preparation checklist',
-        items: [
-          'Use the sample datasets provided in advance where possible',
-          'Read the data dictionary before you start modeling',
-          'Prefer synthetic data if the real company data is sensitive',
-          'Check whether your dataset is labeled safe for public tools, or internal-only',
-        ],
-      },
-      {
         kind: 'list',
-        heading: 'AI application layer — build at least one of',
-        items: [
-          { title: 'Dashboard', body: 'Visualize the insight so someone can act on it at a glance.' },
-          { title: 'Chatbot / copilot', body: 'Let people ask questions in plain language and get answers.' },
-          { title: 'Forecasting tool', body: 'Predict a future number — cost, demand, emissions, usage.' },
-          { title: 'Alerting workflow', body: 'Flag anomalies or thresholds automatically as they happen.' },
-          { title: 'API service', body: 'Expose the model or logic so other tools can call it.' },
-          { title: 'Decision-support simulator', body: '"What if we changed X?" — model the tradeoffs of a choice.' },
-        ],
-      },
-      {
-        kind: 'list',
-        heading: 'Modeling guidance',
+        heading: 'What to define',
         items: [
           {
-            title: 'Any model type is fair game',
-            body: 'Classical ML, deep learning, LLMs, or optimization — pick whatever fits the problem.',
+            title: 'Problem statement',
+            body: 'What specific pain point is the team focusing on? How is it handled today, and what part is slow, inefficient, or error-prone?',
           },
           {
-            title: 'Be ready to explain your choice',
-            body: 'Judges will ask why this model type fits this problem — have a one-sentence answer.',
+            title: 'Target user',
+            body: 'Which team or user group is affected? Who directly benefits once the idea is deployed?',
           },
           {
-            title: 'Small and working beats big and theoretical',
-            body: 'A small prototype that actually runs is worth more than a giant architecture on a slide.',
+            title: 'Value proposition',
+            body: 'Why does this matter to the business — in terms leadership can act on, not just a technical description?',
           },
-        ],
-      },
-      {
-        kind: 'list',
-        heading: 'Every team must define',
-        items: [
-          { title: 'Primary SDG', body: 'The one Sustainable Development Goal your solution supports.' },
-          { title: 'Target indicator or proxy metric', body: 'The number your solution is trying to move.' },
-          { title: 'Baseline', body: 'What that number looks like today, before your solution.' },
-          { title: 'Expected improvement', body: 'What you expect the number to become.' },
-          { title: 'Measurement method', body: 'How you’d actually verify the improvement is real.' },
-        ],
-      },
-      {
-        kind: 'checklist',
-        heading: 'Responsible AI & risk controls — every team must include',
-        items: [
-          'Data privacy review',
-          'Bias / fairness considerations',
-          'Human approval points before high-stakes actions',
-          'Known failure modes',
-          'Safety limitations — what it should NOT be trusted to do',
-          'A monitoring plan for after launch',
         ],
       },
     ],
   },
   {
-    id: 'sdgs',
-    label: 'Pick an SDG',
-    title: 'Choose Your SDG',
-    tagline: 'Pick one primary Sustainable Development Goal and explain how your solution supports it.',
+    id: 'technical-layer',
+    label: 'Technical Layer',
+    title: 'Technical Layer: Building Blocks',
+    tagline: 'The six building blocks behind every technical solution.',
     sections: [
       {
-        kind: 'lead',
-        text: 'Pick one primary SDG.',
-        body: 'These six UN Sustainable Development Goals are the most relevant to energy. Choose one as your primary goal and be ready to explain, in a sentence or two, exactly how your solution supports it.',
-      },
-      {
-        kind: 'glossary',
-        heading: 'SDGs relevant to energy',
-        terms: [
-          { term: 'SDG 7', def: 'Affordable and Clean Energy' },
-          { term: 'SDG 9', def: 'Industry, Innovation and Infrastructure' },
-          { term: 'SDG 11', def: 'Sustainable Cities and Communities' },
-          { term: 'SDG 12', def: 'Responsible Consumption and Production' },
-          { term: 'SDG 13', def: 'Climate Action' },
-          { term: 'SDG 17', def: 'Partnerships for the Goals' },
+        kind: 'list',
+        heading: 'Building blocks',
+        items: [
+          { title: 'Data', body: 'What dataset or documents are used, and where do they come from?' },
+          { title: 'Model', body: 'What AI method or model powers the solution?' },
+          { title: 'Workflow', body: 'What is the end-to-end process, step by step?' },
+          { title: 'Architecture', body: 'How do the components fit together technically?' },
+          { title: 'Evaluation', body: 'How is quality and accuracy measured?' },
+          { title: 'Safety', body: 'What controls guard against misuse or error?' },
         ],
       },
     ],
   },
   {
-    id: 'examples',
-    label: 'Examples',
-    title: 'Example Challenges',
-    tagline: 'Two full worked examples — problem, data, methods, output, and evaluation.',
+    id: 'deliverables',
+    label: 'Deliverables',
+    title: 'Deliverables Checklist',
+    tagline: 'What every team needs to bring to submission.',
     sections: [
       {
-        kind: 'lead',
-        text: 'Example 1 — Emissions Monitoring & Carbon Intelligence',
-        body: 'Primary SDGs: 12, 13. Build an AI dashboard that detects emissions anomalies and recommends reduction actions by asset, site, or process.',
+        kind: 'checklist',
+        heading: 'Deliverables checklist',
+        items: [
+          'Problem statement',
+          'Target user',
+          'Chosen challenge/topic — today’s process and its gaps',
+          'Dataset or documents used',
+          'AI methods or workflows chosen',
+          'Demo or prototype',
+          'Business value proposition',
+          'Impact quantification',
+          'Cost vs. benefit estimate',
+          'Responsible AI, legal & compliance check',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'impact-and-cost',
+    label: 'Impact & Cost',
+    title: 'Quantify Impact & Prove the Math',
+    tagline: 'Quantify the impact — don’t just claim it.',
+    sections: [
+      {
+        kind: 'list',
+        heading: 'What to quantify',
+        items: [
+          { title: 'Time saved', body: 'How much faster is the process now?' },
+          { title: 'Cost saved', body: 'What expense does this reduce or avoid?' },
+          { title: 'Quality improved', body: 'What gets more accurate, consistent, or reliable?' },
+          { title: 'Faster turnaround', body: 'How much sooner does the outcome land?' },
+        ],
       },
       {
         kind: 'compare',
-        heading: 'Example 1 — technical components',
+        heading: 'Cost vs. benefit: prove the math',
         left: {
-          title: 'Input data',
+          title: 'Cost elements to estimate',
           items: [
-            'Fuel consumption',
-            'Production volumes',
-            'Energy mix',
-            'Asset operating conditions',
-            'Emissions factors',
-            'Satellite or IoT emissions data, if available',
+            'AI/compute cost — model usage, API calls, infrastructure to run the solution',
+            'Human review cost — time required for people to check, approve, correct AI output',
+            'Maintenance cost — ongoing upkeep (monitoring, support)',
           ],
         },
         right: {
-          title: 'Possible methods',
+          title: 'The verdict',
           items: [
-            'Regression models for emissions estimation',
-            'Anomaly detection for abnormal emissions spikes',
-            'LLM assistant for summarizing emissions reports',
-            'Scenario modeling — "what happens if we switch fuel mix?"',
+            'Net value created = total benefit − total cost',
+            'Verdict: does the technical solution save more than it costs?',
           ],
         },
       },
+    ],
+  },
+  {
+    id: 'responsible-ai',
+    label: 'Responsible AI',
+    title: 'Responsible AI, Legal & Compliance',
+    tagline: 'Every solution needs a privacy, legal, and policy check.',
+    sections: [
       {
         kind: 'list',
-        heading: 'Example 1 — prototype output & evaluation',
+        heading: 'What to check',
         items: [
-          { title: 'Prototype output', body: 'Emissions dashboard, site-level anomaly alerts, root-cause hypotheses, reduction recommendations, and an SDG 13 impact estimate.' },
-          { title: 'Evaluation', body: 'Accuracy vs. measured emissions, number of anomalies detected, estimated CO₂e reduction, and how explainable the recommendations are.' },
-        ],
-      },
-      {
-        kind: 'lead',
-        text: 'Example 2 — Customer Energy Efficiency Assistant',
-        body: 'Primary SDGs: 7, 11, 12, 13. Build an AI assistant that analyzes a customer’s energy usage and gives personalized recommendations to reduce cost and emissions.',
-      },
-      {
-        kind: 'compare',
-        heading: 'Example 2 — technical components',
-        left: {
-          title: 'Input data',
-          items: [
-            'Smart meter readings',
-            'Tariff data',
-            'Building type',
-            'Appliance or equipment profile',
-            'Weather',
-            'Customer behavior patterns',
-          ],
-        },
-        right: {
-          title: 'Possible methods',
-          items: [
-            'Clustering customers by usage pattern',
-            'Recommendation systems',
-            'LLM chatbot with retrieval over approved energy-saving guidance',
-            'Forecasting monthly bill impact',
-          ],
-        },
-      },
-      {
-        kind: 'list',
-        heading: 'Example 2 — prototype output & evaluation',
-        items: [
-          { title: 'Prototype output', body: 'Personalized recommendations, bill savings estimate, CO₂e savings estimate, a chat interface, and a before/after usage simulation.' },
-          { title: 'Evaluation', body: 'Recommendation relevance, estimated kWh reduction, estimated bill reduction, user satisfaction score, and safety — no misleading financial or technical claims.' },
+          {
+            title: 'Data privacy',
+            body: 'Does the solution touch confidential or personal data? How is it protected?',
+          },
+          {
+            title: 'Legal and regulatory fit',
+            body: 'Are there industry, regional, or contractual rules that apply?',
+          },
+          {
+            title: 'Policy alignment',
+            body: 'Does the idea align with existing company policy, or does it need an exception?',
+          },
         ],
       },
     ],
   },
   {
-    id: 'kaggle-basics',
-    label: 'Kaggle & Colab',
-    title: 'Getting Data: Kaggle & Colab Basics',
-    tagline: 'If you’re in Category A, here’s how to actually get a dataset and start working with it.',
+    id: 'judging',
+    label: 'Judging',
+    title: 'How Submissions Are Judged',
+    tagline: 'The rubric, and what a strong submission looks like.',
     sections: [
       {
-        kind: 'lead',
-        text: 'Kaggle is the easiest place to find a free, ready-to-use dataset.',
-        body: 'It hosts thousands of public datasets, plus free notebooks (with free GPU access) to explore and model them — no local setup required. If your team is in Category A, this is usually the fastest way to get moving.',
-      },
-      {
-        kind: 'steps',
-        heading: 'From zero to a dataset in your notebook',
-        numbered: true,
-        steps: [
+        kind: 'list',
+        heading: 'Judging rubric — heaviest weighted first',
+        items: [
+          { title: 'Business value', body: 'Does the idea solve a real, meaningful problem for the business?' },
           {
-            title: 'Create a free Kaggle account',
-            body: 'Sign up at kaggle.com — a Google account works for instant sign-in.',
+            title: 'Productivity & workflow impact',
+            body: 'How much time, effort, or friction does this remove from a real workflow?',
           },
           {
-            title: 'Find a dataset',
-            body: 'Go to the "Datasets" tab and search by topic (e.g. "energy consumption", "CO2 emissions"). Filter by file type, size, and usability rating — higher-rated datasets have better documentation.',
+            title: 'Scalability & implementation plan',
+            body: 'Could this realistically be piloted and scaled after the event?',
           },
+          { title: 'Cost vs. benefit', body: 'Does the solution save more than it costs to build and run?' },
           {
-            title: 'Check the data dictionary first',
-            body: 'Open the dataset’s "Data Card" / description tab before downloading. It explains what each column means, its units, and any known quality issues.',
+            title: 'Responsible AI, legal & compliance',
+            body: 'Has the team checked privacy, legal, and policy considerations?',
           },
-          {
-            title: 'Get it into a notebook — two ways',
-            body: 'Easiest: click "New Notebook" directly on the dataset page — Kaggle attaches the data for you automatically, free GPU included. Alternative: use a Kaggle Notebook or Google Colab and pull the data in with the Kaggle API (below).',
-          },
-          {
-            title: 'Load it and take a first look',
-            body: 'In Python: `import pandas as pd; df = pd.read_csv(‘/kaggle/input/<dataset>/<file>.csv’)` then `df.head()` and `df.info()` to sanity-check it before doing anything else.',
-          },
-        ],
-      },
-      {
-        kind: 'cards',
-        heading: 'Using the Kaggle API from Google Colab',
-        cards: [
-          {
-            title: '1. Get an API token',
-            body: 'On Kaggle: Account settings → "Create New Token". This downloads a kaggle.json file.',
-          },
-          {
-            title: '2. Upload it in Colab',
-            body: 'Run `from google.colab import files; files.upload()` and select kaggle.json, then move it to `~/.kaggle/` with the right permissions.',
-          },
-          {
-            title: '3. Download the dataset',
-            body: 'Run `!pip install kaggle` then `!kaggle datasets download -d <owner>/<dataset-name>` (the slug is in the dataset’s URL), then unzip it.',
-          },
-        ],
-      },
-      {
-        kind: 'glossary',
-        heading: 'Terms you’ll see',
-        terms: [
-          { term: 'Dataset', def: 'A collection of files (usually CSVs) someone published for others to use.' },
-          { term: 'Notebook / Kernel', def: 'A free, ready-to-run coding environment (Python) attached to a dataset — no install needed.' },
-          { term: 'Data Card', def: 'The dataset’s description page — what’s in it, column meanings, license, and known issues.' },
-          { term: 'Usability score', def: 'Kaggle’s 0–10 rating of how well-documented and clean a dataset is.' },
-          { term: 'kaggle.json (API token)', def: 'Your personal key for downloading datasets by code instead of clicking through the site.' },
-          { term: 'Competition', def: 'A structured challenge with a fixed dataset, task, and leaderboard — good for practice, not required for the hackathon.' },
+          { title: 'Prototype quality', body: 'Does the demo actually work, not just look good on a slide?' },
         ],
       },
       {
         kind: 'checklist',
-        heading: 'Before you start modeling, check…',
+        heading: 'What a strong submission looks like',
         items: [
-          'You’ve read the license — can this data actually be used for this purpose?',
-          'You know what each column means and its units (the data dictionary)',
-          'You’ve checked for missing values, duplicates, or obviously broken rows',
-          'If the data is sensitive or internal, it stays out of public tools — use synthetic data instead',
-          'You’ve noted the dataset’s size limits so your notebook doesn’t run out of memory',
+          'States the problem and user in one clear sentence',
+          'Quantifies impact with a defensible estimate',
+          'Shows a working demo, not just a concept slide',
+          'Includes a real cost-vs-benefit calculation',
+          'Names the data, model, and safety controls used',
+          'Flags privacy, legal, or policy considerations early',
+          'Has a realistic path to piloting after the event',
+          'Maps every deliverable back to the checklist',
         ],
+      },
+      {
+        kind: 'lead',
+        text: 'Before you submit…',
+        body: 'Confirm your team’s problem statement, fill in the deliverables checklist as you build, and revise your pitch against the rubric before submitting.',
       },
     ],
   },
