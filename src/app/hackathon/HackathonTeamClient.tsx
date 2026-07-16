@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Users, Search, UserPlus, LogOut, Crown } from 'lucide-react';
+import Link from 'next/link';
+import { Users, Search, UserPlus, LogOut, Crown, ArrowRight, Upload } from 'lucide-react';
 import {
-  createTeam,
   addTeamMember,
   leaveTeam,
   searchEmployees,
@@ -15,33 +15,22 @@ export default function HackathonTeamClient({
   initialTeam,
   currentUserEmail,
   accent,
+  registrationOpen,
+  submissionsOpen,
 }: {
   initialTeam: Team | null;
   currentUserEmail: string;
   accent: string;
+  registrationOpen: boolean;
+  submissionsOpen: boolean;
 }) {
   const [team, setTeam] = useState<Team | null>(initialTeam);
-  const [teamName, setTeamName] = useState('');
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<DirectoryPerson[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const isCreator = team?.createdByEmail === currentUserEmail;
-
-  function handleCreate(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    startTransition(async () => {
-      try {
-        const t = await createTeam(teamName);
-        setTeam(t);
-        setTeamName('');
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Could not create team');
-      }
-    });
-  }
 
   function handleSearch(value: string) {
     setQuery(value);
@@ -80,7 +69,7 @@ export default function HackathonTeamClient({
   }
 
   return (
-    <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--brand-soft)] p-6">
       <div className="flex items-center gap-2.5 mb-1">
         <Users className="w-5 h-5" style={{ color: accent }} />
         <h3 className="text-lg font-bold text-[var(--text)]">Hackathon team</h3>
@@ -89,26 +78,30 @@ export default function HackathonTeamClient({
       {!team ? (
         <>
           <p className="text-sm text-[var(--muted)] mb-4">
-            No team yet — start one and invite teammates by their work email.
+            {registrationOpen
+              ? 'No team yet — register one and invite teammates, all pulled from the employee directory.'
+              : 'Team registration isn’t open yet — check back once it is.'}
           </p>
-          <form onSubmit={handleCreate} className="flex flex-wrap gap-2">
-            <input
-              type="text"
-              value={teamName}
-              onChange={e => setTeamName(e.target.value)}
-              placeholder="Team name"
-              required
-              className="flex-1 min-w-[180px] px-3 py-2.5 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)] transition-colors placeholder-[var(--muted)]"
-            />
-            <button
-              type="submit"
-              disabled={isPending || !teamName.trim()}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold text-white disabled:opacity-50 transition-colors"
+          {registrationOpen ? (
+            <Link
+              href="/hackathon/register"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors"
               style={{ background: accent }}
             >
-              Create team
+              Register your team
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              disabled
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold text-white opacity-50 cursor-not-allowed"
+              style={{ background: accent }}
+            >
+              Register your team
+              <ArrowRight className="w-4 h-4" />
             </button>
-          </form>
+          )}
         </>
       ) : (
         <>
@@ -127,7 +120,7 @@ export default function HackathonTeamClient({
                   <p className="text-sm font-medium text-[var(--text)] truncate flex items-center gap-1.5">
                     {m.displayName}
                     {m.email === team.createdByEmail && (
-                      <Crown className="w-3.5 h-3.5 text-amber-500 shrink-0" aria-label="Team creator" />
+                      <Crown className="w-3.5 h-3.5 shrink-0" style={{ color: accent }} aria-label="Team creator" />
                     )}
                   </p>
                   <p className="text-xs text-[var(--muted)] truncate">
@@ -175,14 +168,37 @@ export default function HackathonTeamClient({
             </div>
           )}
 
-          <button
-            onClick={handleLeave}
-            disabled={isPending}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--muted)] hover:text-[var(--danger)] transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            Leave team
-          </button>
+          <div className="flex items-center justify-between gap-3">
+            {submissionsOpen ? (
+              <Link
+                href="/hackathon/submit"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
+                style={{ background: accent }}
+              >
+                <Upload className="w-4 h-4" />
+                Submit project
+              </Link>
+            ) : (
+              <button
+                type="button"
+                disabled
+                title="Submissions open once the hackathon starts"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white opacity-50 cursor-not-allowed"
+                style={{ background: accent }}
+              >
+                <Upload className="w-4 h-4" />
+                Submit project
+              </button>
+            )}
+            <button
+              onClick={handleLeave}
+              disabled={isPending}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--muted)] hover:text-[var(--danger)] transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              Leave team
+            </button>
+          </div>
         </>
       )}
 

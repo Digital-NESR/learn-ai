@@ -23,6 +23,14 @@ import {
   type AdminAction,
 } from '../actions/admin';
 import type { ContentBlock, Module, QuizQuestion, Track, TrackId } from '../content';
+import HackathonAdminClient from './HackathonAdminClient';
+import type {
+  HackathonOverview,
+  AdminTeamSummary,
+  HackathonSettings,
+  AdminSubmissionSummary,
+} from '../actions/admin-hackathon';
+import ThemeToggle from '../components/ThemeToggle';
 
 type Tab = 'courses' | 'hackathon';
 
@@ -96,9 +104,17 @@ function patchVideoBlock(sectionsJson: string, patch: Partial<{ youtubeId: strin
 export default function AdminClient({
   initialTracks,
   initialActions,
+  initialHackathonOverview,
+  initialHackathonTeams,
+  initialHackathonSettings,
+  initialHackathonSubmissions,
 }: {
   initialTracks: Track[];
   initialActions: AdminAction[];
+  initialHackathonOverview: HackathonOverview;
+  initialHackathonTeams: AdminTeamSummary[];
+  initialHackathonSettings: HackathonSettings;
+  initialHackathonSubmissions: AdminSubmissionSummary[];
 }) {
   const [tab, setTab] = useState<Tab>('courses');
   const [tracks, setTracks] = useState<Track[]>(initialTracks);
@@ -296,9 +312,12 @@ export default function AdminClient({
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] font-sans">
-      <header className="border-b border-[var(--border)] bg-[var(--card)] px-6 lg:px-8 py-4 flex items-center gap-3">
-        <ShieldCheck className="w-5 h-5 text-[var(--brand)]" />
-        <h1 className="text-lg font-bold tracking-tight">NESR AI Verse — Admin</h1>
+      <header className="border-b border-[var(--border)] bg-[var(--card)] px-6 lg:px-8 py-4 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <ShieldCheck className="w-5 h-5 text-[var(--brand)]" />
+          <h1 className="text-lg font-bold tracking-tight">NESR AI Verse — Admin</h1>
+        </div>
+        <ThemeToggle />
       </header>
 
       <div className="border-b border-[var(--border)] bg-[var(--card)] px-6 lg:px-8">
@@ -355,13 +374,12 @@ export default function AdminClient({
       )}
 
       {tab === 'hackathon' ? (
-        <div className="max-w-2xl mx-auto px-6 py-16 text-center">
-          <Rocket className="w-8 h-8 mx-auto text-[var(--muted)] mb-3" />
-          <p className="font-semibold text-[var(--text)]">Hackathon admin — coming soon</p>
-          <p className="text-sm text-[var(--muted)] mt-1">
-            Team/prep-guide management isn&apos;t built yet. This tab is a placeholder.
-          </p>
-        </div>
+        <HackathonAdminClient
+          initialOverview={initialHackathonOverview}
+          initialTeams={initialHackathonTeams}
+          initialSettings={initialHackathonSettings}
+          initialSubmissions={initialHackathonSubmissions}
+        />
       ) : (
         <div className="grid lg:grid-cols-[280px_1fr] gap-0 lg:gap-6 max-w-6xl mx-auto px-4 lg:px-8 py-6">
           {/* Track/module tree */}

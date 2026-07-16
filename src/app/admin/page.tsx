@@ -5,6 +5,12 @@ import { authOptions } from '@/lib/auth';
 import { isAdminEmail } from '@/lib/admin';
 import { getEffectiveTracks } from '@/lib/content-resolver';
 import { listRecentActions } from '../actions/admin';
+import {
+  getHackathonOverview,
+  listTeamsForAdmin,
+  getHackathonSettings,
+  listSubmissionsForAdmin,
+} from '../actions/admin-hackathon';
 import AdminClient from './AdminClient';
 
 export const metadata: Metadata = { title: 'Admin | NESR AI Verse' };
@@ -16,6 +22,23 @@ export default async function AdminPage() {
   const session = await getServerSession(authOptions);
   if (!isAdminEmail(session?.user?.email)) notFound();
 
-  const [tracks, recentActions] = await Promise.all([getEffectiveTracks(), listRecentActions()]);
-  return <AdminClient initialTracks={tracks} initialActions={recentActions} />;
+  const [tracks, recentActions, hackathonOverview, hackathonTeams, hackathonSettings, hackathonSubmissions] =
+    await Promise.all([
+      getEffectiveTracks(),
+      listRecentActions(),
+      getHackathonOverview(),
+      listTeamsForAdmin(),
+      getHackathonSettings(),
+      listSubmissionsForAdmin(),
+    ]);
+  return (
+    <AdminClient
+      initialTracks={tracks}
+      initialActions={recentActions}
+      initialHackathonOverview={hackathonOverview}
+      initialHackathonTeams={hackathonTeams}
+      initialHackathonSettings={hackathonSettings}
+      initialHackathonSubmissions={hackathonSubmissions}
+    />
+  );
 }
