@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import AiLearningHomeClient from './AiLearningHomeClient';
-import { getMyProgress, getMyCertificate } from './actions/progress';
+import { getMyProgress, getMyCertificate, getMyCertificateStatus } from './actions/progress';
 import { getEffectiveTracks, getEffectiveTotalModules } from '@/lib/content-resolver';
 
 export const metadata: Metadata = { title: 'NESR AI Verse' };
@@ -10,11 +10,12 @@ export const metadata: Metadata = { title: 'NESR AI Verse' };
 export const dynamic = 'force-dynamic';
 
 export default async function AiLearningPage() {
-  const [tracks, totalModules, initialProgress, certificate] = await Promise.all([
+  const [tracks, totalModules, initialProgress, certificate, certificateStatus] = await Promise.all([
     getEffectiveTracks(),
     getEffectiveTotalModules(),
     getMyProgress(),
     getMyCertificate(),
+    getMyCertificateStatus(),
   ]);
   return (
     <AiLearningHomeClient
@@ -22,6 +23,7 @@ export default async function AiLearningPage() {
       totalModules={totalModules}
       initialProgress={initialProgress}
       certificate={certificate}
+      certificateStatus={certificateStatus}
     />
   );
 }

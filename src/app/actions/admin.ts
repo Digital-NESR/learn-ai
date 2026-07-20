@@ -3,7 +3,7 @@
 import { requireAdmin } from '@/lib/admin';
 import aiversePool from '@/lib/db-aiverse';
 import { getEffectiveTracks, getEffectiveModule } from '@/lib/content-resolver';
-import type { ContentBlock, QuizQuestion, Track, TrackId } from '../content';
+import type { ContentBlock, ModuleRequirement, QuizQuestion, Track, TrackId } from '../content';
 
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const RECENT_ACTIONS_KEPT = 20;
@@ -39,10 +39,13 @@ export interface ModuleFormData {
   partLabel: string;
   title: string;
   tagline: string;
+  requirement: ModuleRequirement;
   minutes: number;
   sections: ContentBlock[];
   quiz: QuizQuestion[];
 }
+
+const REQUIREMENTS: ModuleRequirement[] = ['required', 'half', 'optional'];
 
 export async function listTracksForAdmin(): Promise<Track[]> {
   await requireAdmin();
@@ -57,6 +60,7 @@ export async function saveModule(data: ModuleFormData): Promise<void> {
     throw new Error('Module id must be lowercase letters, numbers, and single dashes only (e.g. business-4)');
   }
   if (!data.title.trim()) throw new Error('Title is required');
+  if (!REQUIREMENTS.includes(data.requirement)) throw new Error('Invalid certificate requirement level');
   if (!Array.isArray(data.sections)) throw new Error('Sections must be an array');
   if (!Array.isArray(data.quiz)) throw new Error('Quiz must be an array');
   for (const q of data.quiz) {
@@ -73,14 +77,15 @@ export async function saveModule(data: ModuleFormData): Promise<void> {
   const previousRow = prevRows[0] ?? null;
 
   await aiversePool.query(
-    `insert into module_overrides (id, track_id, part, part_label, title, tagline, minutes, sections, quiz, is_deleted)
-     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,false)
+    `insert into module_overrides (id, track_id, part, part_label, title, tagline, requirement, minutes, sections, quiz, is_deleted)
+     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,false)
      on conflict (id) do update set
        track_id = excluded.track_id,
        part = excluded.part,
        part_label = excluded.part_label,
        title = excluded.title,
        tagline = excluded.tagline,
+       requirement = excluded.requirement,
        minutes = excluded.minutes,
        sections = excluded.sections,
        quiz = excluded.quiz,
@@ -93,6 +98,7 @@ export async function saveModule(data: ModuleFormData): Promise<void> {
       data.partLabel,
       data.title.trim(),
       data.tagline,
+      data.requirement,
       data.minutes,
       JSON.stringify(data.sections),
       JSON.stringify(data.quiz),
@@ -117,8 +123,8 @@ export async function deleteModule(moduleId: string): Promise<void> {
   const previousRow = prevRows[0] ?? null;
 
   await aiversePool.query(
-    `insert into module_overrides (id, track_id, part, part_label, title, tagline, minutes, sections, quiz, is_deleted)
-     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,true)
+    `insert into module_overrides (id, track_id, part, part_label, title, tagline, requirement, minutes, sections, quiz, is_deleted)
+     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,true)
      on conflict (id) do update set is_deleted = true, updated_at = now()`,
     [
       moduleId,
@@ -127,6 +133,7 @@ export async function deleteModule(moduleId: string): Promise<void> {
       existing.module.partLabel,
       existing.module.title,
       existing.module.tagline,
+      existing.module.requirement,
       existing.module.minutes,
       JSON.stringify(existing.module.sections),
       JSON.stringify(existing.module.quiz),
@@ -182,15 +189,15 @@ export async function undoAction(actionId: string): Promise<void> {
     } else {
       const p = previousRow;
       await aiversePool.query(
-        `insert into module_overrides (id, track_id, part, part_label, title, tagline, minutes, sections, quiz, is_deleted)
-         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+        `insert into module_overrides (id, track_id, part, part_label, title, tagline, requirement, minutes, sections, quiz, is_deleted)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
          on conflict (id) do update set
            track_id = excluded.track_id, part = excluded.part, part_label = excluded.part_label,
-           title = excluded.title, tagline = excluded.tagline, minutes = excluded.minutes,
-           sections = excluded.sections, quiz = excluded.quiz, is_deleted = excluded.is_deleted,
-           updated_at = now()`,
+           title = excluded.title, tagline = excluded.tagline, requirement = excluded.requirement,
+           minutes = excluded.minutes, sections = excluded.sections, quiz = excluded.quiz,
+           is_deleted = excluded.is_deleted, updated_at = now()`,
         [
-          p.id, p.track_id, p.part, p.part_label, p.title, p.tagline, p.minutes,
+          p.id, p.track_id, p.part, p.part_label, p.title, p.tagline, p.requirement ?? 'required', p.minutes,
           JSON.stringify(p.sections), JSON.stringify(p.quiz), p.is_deleted,
         ],
       );

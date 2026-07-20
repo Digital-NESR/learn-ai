@@ -30,7 +30,11 @@ export default async function AiLearningModulePage({
   const next = await getEffectiveNextModule(moduleId);
 
   return (
+    // Keyed by module id so navigating between modules (via the "Next part"
+    // button, same route pattern) fully remounts - otherwise quiz/gate state
+    // would leak from one module into the next.
     <ModuleClient
+      key={found.module.id}
       module={found.module}
       track={found.track}
       next={

@@ -120,6 +120,18 @@ body {
   0%   { transform: translateX(-120%) skewX(-15deg); }
   100% { transform: translateX(220%) skewX(-15deg); }
 }
+@keyframes torch-flicker {
+  0%, 100% { opacity: 0.85; filter: brightness(1); }
+  20%      { opacity: 1;    filter: brightness(1.15); }
+  35%      { opacity: 0.75; filter: brightness(0.9); }
+  55%      { opacity: 0.95; filter: brightness(1.05); }
+  70%      { opacity: 0.8;  filter: brightness(0.95); }
+}
+@keyframes fog-drift {
+  0%   { transform: translateX(-6%) translateY(0); }
+  50%  { transform: translateX(4%) translateY(-3%); }
+  100% { transform: translateX(-6%) translateY(0); }
+}
 
 /* ── Animation utilities ── */
 .animate-aurora    { animation: aurora 20s ease-in-out infinite; }
@@ -136,6 +148,8 @@ body {
 .animate-screen-fade-to-black { animation: screen-fade-to-black 0.9s ease-in 0.9s forwards; }
 .animate-glow-pulse { animation: glow-pulse 2.4s ease-in-out infinite; }
 .animate-shimmer-sweep { animation: shimmer-sweep 2.6s ease-in-out infinite; }
+.animate-torch-flicker { animation: torch-flicker 3.2s ease-in-out infinite; }
+.animate-fog-drift { animation: fog-drift 26s ease-in-out infinite; }
 
 .animate-gradient-x {
   background-size: 200% 200%;
@@ -167,7 +181,9 @@ body {
   .animate-trail-stretch,
   .animate-panel-fade-out,
   .animate-glow-pulse,
-  .animate-shimmer-sweep {
+  .animate-shimmer-sweep,
+  .animate-torch-flicker,
+  .animate-fog-drift {
     animation: none !important;
   }
   /* Reduced motion still gets a quick cross-fade instead of the full launch. */

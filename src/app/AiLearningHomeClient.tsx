@@ -4,21 +4,33 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
+  ArrowLeft,
   ArrowRight,
   BookOpen,
   CheckCircle2,
+  ChevronDown,
+  Circle,
   Clock,
   Sparkles,
-  Briefcase,
-  Blocks,
+  Layers,
+  Rocket,
   Cpu,
+  Network,
+  FlaskConical,
   Wand2,
   MessageCircle,
   Award,
+  Swords,
+  Home,
 } from 'lucide-react';
-import type { Track, TrackId } from './content';
+import type { Track, TrackId, ModuleRequirement } from './content';
 import type { ProgressMap } from './actions/progress';
+import type { CertificateStatus, RequirementBucket } from '@/lib/certificate';
 import AiLearningHeader from './components/AiLearningHeader';
+import DungeonGate from './components/dungeon/DungeonGate';
+import RegionCard from './components/dungeon/RegionCard';
+import IslandNode from './components/dungeon/IslandNode';
+import AchievementsMenu, { type Achievement } from './components/dungeon/AchievementsMenu';
 
 /* ─── Animated neural-network hero overlay ───────────────────────────── */
 
@@ -102,15 +114,72 @@ function ProgressRing({ percent, accent }: { percent: number; accent: string }) 
 
 /* ─── Icons per tab ──────────────────────────────────────────────────── */
 
-const TRACK_ICON: Record<TrackId, typeof Briefcase> = {
-  business: Briefcase,
-  'create-ai': Blocks,
-  advanced: Cpu,
-  'use-ai': Wand2,
+const TRACK_ICON: Record<TrackId, typeof BookOpen> = {
+  'general-beginner': BookOpen,
+  'general-intermediate': Layers,
+  'general-advanced': Rocket,
+  'technical-beginner': Cpu,
+  'technical-intermediate': Network,
+  'technical-advanced': FlaskConical,
+  productivity: Wand2,
 };
+
+/* ─── Group tracks with a shared id prefix (general-*, technical-*) under a
+   single collapsible sidebar entry, so the 6 tiers don't flood the list. ── */
+type GroupKey = 'general' | 'technical';
+const GROUP_ICON: Record<GroupKey, typeof BookOpen> = { general: BookOpen, technical: Cpu };
+const GROUP_LABEL: Record<GroupKey, string> = { general: 'General', technical: 'Technical' };
+
+function groupOf(id: TrackId): GroupKey | null {
+  if (id.startsWith('general-')) return 'general';
+  if (id.startsWith('technical-')) return 'technical';
+  return null;
+}
+
+function tierLabel(id: TrackId): string {
+  const tier = id.split('-').slice(1).join('-');
+  return tier.charAt(0).toUpperCase() + tier.slice(1);
+}
 
 const ASSISTANT_ACCENT = '#7c3aed';
 const ASSISTANT_PROMPTS = ['What is a token?', 'Explain RAG simply', 'Prompting tips'];
+
+/* ─── Certificate requirement tiers ─────────────────────────────────────
+   Every module is tagged in content.ts as required / half / optional (see
+   src/lib/certificate.ts for the actual pass rule). These are small visual
+   markers so people can tell, at a glance, which bucket a part falls into. */
+
+const REQUIREMENT_META: Record<ModuleRequirement, { label: string; color: string }> = {
+  required: { label: 'Required', color: '#e11d48' },
+  half: { label: 'Important', color: '#b45309' },
+  optional: { label: 'Specialized', color: '#64748b' },
+};
+
+function RequirementTag({ requirement }: { requirement: ModuleRequirement }) {
+  const { label, color } = REQUIREMENT_META[requirement];
+  return (
+    <span
+      className="hidden shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider sm:inline-block"
+      style={{ background: `${color}1f`, color }}
+    >
+      {label}
+    </span>
+  );
+}
+
+function RequirementChip({ label, bucket }: { label: string; bucket: RequirementBucket }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${
+        bucket.met ? 'bg-[#45c07a]/20 text-[#7ee3a8]' : 'bg-white/10 text-white/70'
+      }`}
+      title={`${label}: ${bucket.done} of ${bucket.total} done, ${bucket.needed} needed for the certificate`}
+    >
+      {bucket.met ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
+      {label} {bucket.done}/{bucket.needed}
+    </span>
+  );
+}
 
 /* ─── Module row (inside the active tab panel) ────────────────────────── */
 
@@ -121,6 +190,7 @@ function ModuleRow({
   tagline,
   minutes,
   accent,
+  requirement,
   result,
   onOpen,
 }: {
@@ -130,6 +200,7 @@ function ModuleRow({
   tagline: string;
   minutes: number;
   accent: string;
+  requirement: ModuleRequirement;
   result?: { score: number; total: number };
   onOpen: (href: string) => void;
 }) {
@@ -151,7 +222,10 @@ function ModuleRow({
       </div>
 
       <div className="min-w-0 flex-1">
-        <h4 className="truncate text-[15px] font-semibold text-[var(--text)]">{title}</h4>
+        <div className="flex items-center gap-2">
+          <h4 className="truncate text-[15px] font-semibold text-[var(--text)]">{title}</h4>
+          <RequirementTag requirement={requirement} />
+        </div>
         <p className="mt-0.5 line-clamp-1 text-[13px] text-[var(--muted)]">{tagline}</p>
       </div>
 
@@ -221,6 +295,7 @@ function TrackPanel({
             tagline={m.tagline}
             minutes={m.minutes}
             accent={track.accent}
+            requirement={m.requirement}
             result={progress[m.id]}
             onOpen={onOpen}
           />
@@ -273,6 +348,17 @@ function AssistantPanel() {
   );
 }
 
+/* ─── Dungeon view state ─────────────────────────────────────────────────
+   The dungeon is an optional, additive mode reached from the dashboard's
+   "Enter the Dungeon" button - it never replaces the dashboard, and every
+   dungeon screen can get back to it via the header's Home button. ──────── */
+
+type View =
+  | { kind: 'dashboard' }
+  | { kind: 'gate' }
+  | { kind: 'regions' }
+  | { kind: 'path'; trackId: TrackId };
+
 /* ─── Page ───────────────────────────────────────────────────────────── */
 
 export default function AiLearningHomeClient({
@@ -280,22 +366,31 @@ export default function AiLearningHomeClient({
   totalModules,
   initialProgress,
   certificate,
+  certificateStatus,
 }: {
   tracks: Track[];
   totalModules: number;
   initialProgress: ProgressMap;
   certificate: { recipientName: string; issuedAt: string } | null;
+  certificateStatus: CertificateStatus;
 }) {
   const router = useRouter();
   const [progress] = useState<ProgressMap>(initialProgress);
+  const [view, setView] = useState<View>({ kind: 'dashboard' });
   const [activeId, setActiveId] = useState<TrackId | 'assistant'>(tracks[0].id);
+  const [openGroup, setOpenGroup] = useState<GroupKey | null>(groupOf(tracks[0].id));
 
-  // Count against the current tracks/modules only, so progress rows left
-  // over from a since-deleted module don't inflate this past totalModules.
-  const completedCount = tracks.reduce(
-    (n, t) => n + t.modules.filter(m => progress[m.id]).length,
-    0,
-  );
+  const standaloneTracks = tracks.filter(t => !groupOf(t.id));
+  const groupedTracks: Record<GroupKey, Track[]> = {
+    general: tracks.filter(t => groupOf(t.id) === 'general'),
+    technical: tracks.filter(t => groupOf(t.id) === 'technical'),
+  };
+
+  function selectTrack(id: TrackId) {
+    setActiveId(id);
+    const g = groupOf(id);
+    if (g) setOpenGroup(g);
+  }
 
   function open(href: string) {
     router.push(href);
@@ -308,160 +403,377 @@ export default function AiLearningHomeClient({
   // dark mode instead of a fixed pastel that's blinding on a dark background.
   const activeAccentSoft = `${activeAccent}14`;
 
+  const completedCount = tracks.reduce((n, t) => n + t.modules.filter(m => progress[m.id]).length, 0);
+
+  function trackDone(t: Track) {
+    return t.modules.length > 0 && t.modules.every(m => progress[m.id]);
+  }
+  function groupDone(group: GroupKey) {
+    const groupTracks = tracks.filter(t => groupOf(t.id) === group);
+    return groupTracks.length > 0 && groupTracks.every(trackDone);
+  }
+  const allDone = tracks.length > 0 && tracks.every(trackDone);
+
+  const achievements: Achievement[] = [
+    ...tracks.map(t => ({ id: t.id, label: `${t.eyebrow} Cleared`, earned: trackDone(t) })),
+    { id: 'general-realm', label: 'General Realm Conquered', earned: groupDone('general') },
+    { id: 'technical-realm', label: 'Technical Realm Conquered', earned: groupDone('technical') },
+    {
+      id: 'certified',
+      label: 'Certified',
+      earned: certificateStatus.earned,
+      href: certificate ? '/certificate' : undefined,
+    },
+    { id: 'dungeon-master', label: 'Dungeon Master (100%)', earned: allDone },
+  ];
+
+  const selectedTrack = view.kind === 'path' ? (tracks.find(t => t.id === view.trackId) ?? null) : null;
+
+  const headerRight = (
+    <div className="flex items-center gap-2">
+      {view.kind !== 'dashboard' && (
+        <button
+          onClick={() => setView({ kind: 'dashboard' })}
+          className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-sm font-medium text-[var(--text)] transition-colors hover:bg-[var(--card-2)]"
+        >
+          <Home className="h-4 w-4" />
+          Dashboard
+        </button>
+      )}
+      {view.kind !== 'dashboard' && view.kind !== 'regions' && <AchievementsMenu achievements={achievements} />}
+    </div>
+  );
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)]">
-      <AiLearningHeader />
+      <AiLearningHeader rightExtra={headerRight} />
 
-      {/* ── Hero (always-dark animated banner) ── */}
-      <section className="relative overflow-hidden bg-[#070b09] text-white">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[#307c4c]/40 blur-3xl animate-aurora" />
-          <div
-            className="absolute -right-16 top-8 h-80 w-80 rounded-full bg-[#2563eb]/25 blur-3xl animate-aurora"
-            style={{ animationDuration: '26s' }}
-          />
-          <div
-            className="absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-[#45c07a]/25 blur-3xl animate-aurora"
-            style={{ animationDuration: '32s' }}
-          />
-        </div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px)',
-            backgroundSize: '44px 44px',
-            maskImage: 'radial-gradient(ellipse at 70% 25%, black, transparent 75%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at 70% 25%, black, transparent 75%)',
-          }}
-        />
-        <NeuralNet />
+      {view.kind === 'dashboard' && (
+        <>
+          {/* ── Hero (always-dark animated banner) ── */}
+          <section className="relative overflow-hidden bg-[#070b09] text-white">
+            <div aria-hidden className="pointer-events-none absolute inset-0">
+              <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[#307c4c]/40 blur-3xl animate-aurora" />
+              <div
+                className="absolute -right-16 top-8 h-80 w-80 rounded-full bg-[#2563eb]/25 blur-3xl animate-aurora"
+                style={{ animationDuration: '26s' }}
+              />
+              <div
+                className="absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-[#45c07a]/25 blur-3xl animate-aurora"
+                style={{ animationDuration: '32s' }}
+              />
+            </div>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 opacity-[0.12]"
+              style={{
+                backgroundImage:
+                  'linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px)',
+                backgroundSize: '44px 44px',
+                maskImage: 'radial-gradient(ellipse at 70% 25%, black, transparent 75%)',
+                WebkitMaskImage: 'radial-gradient(ellipse at 70% 25%, black, transparent 75%)',
+              }}
+            />
+            <NeuralNet />
 
-        <div className="relative mx-auto max-w-5xl px-6 lg:px-8 pt-16 pb-16">
-          <div className="animate-fade-up mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 backdrop-blur">
-            <Sparkles className="h-4 w-4 text-[#7ee3a8]" />
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#a7f3c6]">NESR AI Verse</span>
-          </div>
+            <div className="relative mx-auto max-w-5xl px-6 lg:px-8 pt-16 pb-16">
+              <div className="animate-fade-up mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 backdrop-blur">
+                <Sparkles className="h-4 w-4 text-[#7ee3a8]" />
+                <span className="text-[11px] font-semibold uppercase tracking-widest text-[#a7f3c6]">NESR AI Verse</span>
+              </div>
 
-          <h1
-            className="animate-fade-up text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl"
-            style={{ animationDelay: '80ms' }}
-          >
-            <span className="text-gradient">Learn AI</span> - for business
-            <br className="hidden sm:block" /> and for building.
-          </h1>
-
-          <p
-            className="animate-fade-up mt-4 max-w-2xl text-lg leading-relaxed text-white/70"
-            style={{ animationDelay: '160ms' }}
-          >
-            Four beginner tracks, three short parts each. Watch the videos, then take a quick quiz
-            after every part to check what stuck.
-          </p>
-
-          <div className="animate-fade-up mt-6 flex flex-wrap items-center gap-3" style={{ animationDelay: '240ms' }}>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-sm text-white/80">
-              <BookOpen className="h-4 w-4" />
-              {totalModules} parts · {totalModules} quizzes
-            </span>
-            {completedCount > 0 && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#45c07a]/20 px-3 py-1 text-sm font-medium text-[#7ee3a8]">
-                <CheckCircle2 className="h-4 w-4" />
-                {completedCount} of {totalModules} completed
-              </span>
-            )}
-            {certificate && (
-              <Link
-                href="/certificate"
-                className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-3 py-1 text-sm font-medium text-amber-200 hover:bg-amber-400/30 transition-colors"
+              <h1
+                className="animate-fade-up text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl"
+                style={{ animationDelay: '80ms' }}
               >
-                <Award className="h-4 w-4" />
-                View your certificate
-              </Link>
-            )}
-          </div>
-        </div>
-      </section>
+                <span className="text-gradient">Learn AI</span> - for business
+                <br className="hidden sm:block" /> and for building.
+              </h1>
 
-      {/* ── Tabs: sidebar + panel ── */}
-      <main className="w-full flex-1">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8 py-10">
-          <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
-            {/* Sidebar tabs */}
-            <nav className="flex gap-2 overflow-x-auto pb-1 lg:sticky lg:top-24 lg:h-fit lg:flex-col lg:overflow-visible lg:pb-0">
-              {tracks.map(track => {
-                const Icon = TRACK_ICON[track.id];
-                const isActive = activeId === track.id;
-                const completed = track.modules.filter(m => progress[m.id]).length;
-                return (
+              <p
+                className="animate-fade-up mt-4 max-w-2xl text-lg leading-relaxed text-white/70"
+                style={{ animationDelay: '160ms' }}
+              >
+                General, Technical, and Productivity tracks - short videos with a quick, timed quiz
+                after every one to check what stuck.
+              </p>
+
+              <div className="animate-fade-up mt-6 flex flex-wrap items-center gap-2" style={{ animationDelay: '240ms' }}>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-sm text-white/80">
+                  <BookOpen className="h-4 w-4" />
+                  {totalModules} parts · {totalModules} quizzes
+                </span>
+                {certificate ? (
+                  <Link
+                    href="/certificate"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-3 py-1 text-sm font-medium text-amber-200 hover:bg-amber-400/30 transition-colors"
+                  >
+                    <Award className="h-4 w-4" />
+                    View your certificate
+                  </Link>
+                ) : (
+                  <>
+                    <RequirementChip label="Required" bucket={certificateStatus.required} />
+                    <RequirementChip label="Important" bucket={certificateStatus.half} />
+                    <RequirementChip label="Specialized" bucket={certificateStatus.optional} />
+                  </>
+                )}
+                <button
+                  onClick={() => setView({ kind: 'gate' })}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#45c07a]/20 px-3 py-1 text-sm font-medium text-[#7ee3a8] transition-colors hover:bg-[#45c07a]/30"
+                >
+                  <Swords className="h-4 w-4" />
+                  Enter the Dungeon
+                </button>
+              </div>
+              {!certificate && (
+                <p
+                  className="animate-fade-up mt-3 max-w-2xl text-xs text-white/50"
+                  style={{ animationDelay: '280ms' }}
+                >
+                  Certificate rule: every Required part, at least half of Important, and{' '}
+                  {certificateStatus.optional.needed} of Specialized - pick whichever ones interest you.
+                </p>
+              )}
+            </div>
+          </section>
+
+          {/* ── Tabs: sidebar + panel ── */}
+          <main className="w-full flex-1">
+            <div className="mx-auto max-w-5xl px-6 lg:px-8 py-10">
+              <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
+                {/* Sidebar tabs */}
+                <nav className="flex gap-2 overflow-x-auto pb-1 lg:sticky lg:top-24 lg:h-fit lg:flex-col lg:overflow-visible lg:pb-0">
+                  {(['general', 'technical'] as GroupKey[]).map(group => {
+                    const groupTracks = groupedTracks[group];
+                    if (groupTracks.length === 0) return null;
+                    const isOpen = openGroup === group;
+                    const hasActive = groupTracks.some(t => t.id === activeId);
+                    const GroupIcon = GROUP_ICON[group];
+                    const groupCompleted = groupTracks.reduce(
+                      (n, t) => n + t.modules.filter(m => progress[m.id]).length,
+                      0,
+                    );
+                    const groupTotal = groupTracks.reduce((n, t) => n + t.modules.length, 0);
+                    return (
+                      <div key={group} className="shrink-0 lg:w-full">
+                        <button
+                          onClick={() => setOpenGroup(isOpen ? null : group)}
+                          className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm font-medium transition-colors ${
+                            hasActive ? 'text-[var(--text)]' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
+                          }`}
+                        >
+                          <span
+                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+                            style={{ background: 'var(--card-2)', color: hasActive ? 'var(--text)' : 'var(--muted)' }}
+                          >
+                            <GroupIcon className="h-4 w-4" />
+                          </span>
+                          <span className="min-w-0 flex-1 whitespace-nowrap lg:whitespace-normal">
+                            {GROUP_LABEL[group]}
+                          </span>
+                          <span
+                            className="hidden shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-bold lg:inline-block"
+                            style={{ background: 'var(--border)', color: 'var(--muted)' }}
+                          >
+                            {groupCompleted}/{groupTotal}
+                          </span>
+                          <ChevronDown
+                            className={`h-4 w-4 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                          />
+                        </button>
+
+                        {isOpen && (
+                          <div className="mt-1 ml-4 flex flex-col gap-1 border-l border-[var(--border)] pl-3 lg:flex">
+                            {groupTracks.map(track => {
+                              const Icon = TRACK_ICON[track.id];
+                              const isActive = activeId === track.id;
+                              const completed = track.modules.filter(m => progress[m.id]).length;
+                              return (
+                                <button
+                                  key={track.id}
+                                  onClick={() => selectTrack(track.id)}
+                                  className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                                    isActive ? '' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
+                                  }`}
+                                  style={isActive ? { background: `${track.accent}26`, color: track.accent } : undefined}
+                                >
+                                  <Icon className="h-3.5 w-3.5 shrink-0" />
+                                  <span className="min-w-0 flex-1 truncate whitespace-nowrap lg:whitespace-normal">
+                                    {tierLabel(track.id)}
+                                  </span>
+                                  <span
+                                    className="shrink-0 text-[10px] font-bold"
+                                    style={{ color: isActive ? track.accent : 'var(--muted)' }}
+                                  >
+                                    {completed}/{track.modules.length}
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  {standaloneTracks.map(track => {
+                    const Icon = TRACK_ICON[track.id];
+                    const isActive = activeId === track.id;
+                    const completed = track.modules.filter(m => progress[m.id]).length;
+                    return (
+                      <button
+                        key={track.id}
+                        onClick={() => selectTrack(track.id)}
+                        className={`flex shrink-0 items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm font-medium transition-colors lg:w-full ${
+                          isActive ? '' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
+                        }`}
+                        style={isActive ? { background: `${track.accent}26`, color: track.accent } : undefined}
+                      >
+                        <span
+                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+                          style={{
+                            background: isActive ? 'var(--card)' : 'var(--card-2)',
+                            color: isActive ? track.accent : 'var(--muted)',
+                          }}
+                        >
+                          <Icon className="h-4 w-4" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block whitespace-nowrap lg:whitespace-normal">{track.eyebrow.replace(' Track', '')}</span>
+                        </span>
+                        <span
+                          className="hidden shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-bold lg:inline-block"
+                          style={{
+                            background: isActive ? track.accent : 'var(--border)',
+                            color: isActive ? '#fff' : 'var(--muted)',
+                          }}
+                        >
+                          {completed}/{track.modules.length}
+                        </span>
+                      </button>
+                    );
+                  })}
+
                   <button
-                    key={track.id}
-                    onClick={() => setActiveId(track.id)}
+                    onClick={() => setActiveId('assistant')}
                     className={`flex shrink-0 items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm font-medium transition-colors lg:w-full ${
-                      isActive ? '' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
+                      activeId === 'assistant' ? '' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
                     }`}
-                    style={isActive ? { background: `${track.accent}26`, color: track.accent } : undefined}
+                    style={activeId === 'assistant' ? { background: `${ASSISTANT_ACCENT}26`, color: ASSISTANT_ACCENT } : undefined}
                   >
                     <span
                       className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
                       style={{
-                        background: isActive ? 'var(--card)' : 'var(--card-2)',
-                        color: isActive ? track.accent : 'var(--muted)',
+                        background: activeId === 'assistant' ? 'var(--card)' : 'var(--card-2)',
+                        color: activeId === 'assistant' ? ASSISTANT_ACCENT : 'var(--muted)',
                       }}
                     >
-                      <Icon className="h-4 w-4" />
+                      <MessageCircle className="h-4 w-4" />
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block whitespace-nowrap lg:whitespace-normal">{track.eyebrow.replace(' Track', '')}</span>
-                    </span>
-                    <span
-                      className="hidden shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-bold lg:inline-block"
-                      style={{
-                        background: isActive ? track.accent : 'var(--border)',
-                        color: isActive ? '#fff' : 'var(--muted)',
-                      }}
-                    >
-                      {completed}/{track.modules.length}
-                    </span>
+                    <span className="whitespace-nowrap lg:whitespace-normal">AI Assistant</span>
                   </button>
-                );
-              })}
+                </nav>
 
-              <button
-                onClick={() => setActiveId('assistant')}
-                className={`flex shrink-0 items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm font-medium transition-colors lg:w-full ${
-                  activeId === 'assistant' ? '' : 'text-[var(--muted)] hover:bg-[var(--card-2)]'
-                }`}
-                style={activeId === 'assistant' ? { background: `${ASSISTANT_ACCENT}26`, color: ASSISTANT_ACCENT } : undefined}
-              >
-                <span
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                  style={{
-                    background: activeId === 'assistant' ? 'var(--card)' : 'var(--card-2)',
-                    color: activeId === 'assistant' ? ASSISTANT_ACCENT : 'var(--muted)',
-                  }}
+                {/* Active panel */}
+                <div
+                  className="rounded-2xl border p-6"
+                  style={{ borderColor: 'var(--border)', background: `linear-gradient(135deg, ${activeAccentSoft}, var(--card) 60%)` }}
                 >
-                  <MessageCircle className="h-4 w-4" />
-                </span>
-                <span className="whitespace-nowrap lg:whitespace-normal">AI Assistant</span>
-              </button>
-            </nav>
+                  {activeId === 'assistant' ? (
+                    <AssistantPanel />
+                  ) : activeTrack ? (
+                    <TrackPanel track={activeTrack} progress={progress} onOpen={open} />
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </main>
+        </>
+      )}
 
-            {/* Active panel */}
-            <div
-              className="rounded-2xl border p-6"
-              style={{ borderColor: 'var(--border)', background: `linear-gradient(135deg, ${activeAccentSoft}, var(--card) 60%)` }}
-            >
-              {activeId === 'assistant' ? (
-                <AssistantPanel />
-              ) : activeTrack ? (
-                <TrackPanel track={activeTrack} progress={progress} onOpen={open} />
-              ) : null}
+      {view.kind === 'gate' && (
+        <DungeonGate
+          totalModules={totalModules}
+          completedCount={completedCount}
+          onEnter={() => setView({ kind: 'regions' })}
+        />
+      )}
+
+      {view.kind === 'regions' && (
+        <main className="flex-1">
+          <div className="mx-auto max-w-6xl px-6 py-10 lg:px-8">
+            <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+              <div>
+                <div className="mb-8 flex flex-col gap-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--muted)]">
+                    The Dungeon Map
+                  </p>
+                  <h1 className="text-2xl font-bold leading-tight text-[var(--text)]">Choose a realm</h1>
+                  <p className="text-sm text-[var(--muted)]">
+                    {completedCount} of {totalModules} islands cleared across all realms.
+                  </p>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {tracks.map(track => (
+                    <RegionCard
+                      key={track.id}
+                      track={track}
+                      icon={TRACK_ICON[track.id]}
+                      completed={track.modules.filter(m => progress[m.id]).length}
+                      onSelect={() => setView({ kind: 'path', trackId: track.id })}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Always visible here - this is the dungeon's main/landing page,
+                  so progress toward every achievement should be in view without
+                  an extra click. */}
+              <AchievementsMenu achievements={achievements} variant="pinned" />
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      )}
+
+      {view.kind === 'path' && selectedTrack && (
+        <main className="flex-1">
+          <div className="mx-auto max-w-lg px-6 py-10">
+            <button
+              onClick={() => setView({ kind: 'regions' })}
+              className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--text)]"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to the map
+            </button>
+
+            <p
+              className="text-[11px] font-semibold uppercase tracking-widest"
+              style={{ color: selectedTrack.accent }}
+            >
+              {selectedTrack.eyebrow}
+            </p>
+            <h1 className="mt-1 text-2xl font-bold leading-tight text-[var(--text)]">{selectedTrack.title}</h1>
+            <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{selectedTrack.subtitle}</p>
+
+            <div className="relative mt-10 flex flex-col gap-8 pb-4">
+              <div
+                aria-hidden
+                className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2"
+                style={{
+                  backgroundImage: `repeating-linear-gradient(to bottom, ${selectedTrack.accent}55 0 10px, transparent 10px 22px)`,
+                }}
+              />
+              {selectedTrack.modules.map((m, i) => (
+                <div key={m.id} className="relative z-10">
+                  <IslandNode module={m} index={i} accent={selectedTrack.accent} done={!!progress[m.id]} onOpen={open} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </main>
+      )}
     </div>
   );
 }

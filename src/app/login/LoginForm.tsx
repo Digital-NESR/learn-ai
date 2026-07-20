@@ -17,11 +17,11 @@ export default function LoginForm({
   const panelFadingOut = phase !== 'idle';
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-black flex flex-col items-center justify-center px-4 py-12">
+    <div className="relative h-dvh w-full overflow-hidden bg-black flex flex-col items-center justify-center px-4 py-4">
       <Starfield />
 
-      <div className="relative z-10 w-full max-w-sm flex flex-col items-center gap-6 sm:gap-8">
-        <div className="w-40 sm:w-48 md:w-56">
+      <div className="relative z-10 w-full max-w-sm flex flex-col items-center gap-3 sm:gap-5 min-h-0">
+        <div className="w-[clamp(6.5rem,20vh,13rem)] shrink-0">
           <Spaceship phase={shipPhase} />
         </div>
         <LoginPanel
@@ -35,7 +35,7 @@ export default function LoginForm({
         />
       </div>
 
-      <p className="relative z-10 mt-10 text-center text-xs text-white/30">NESR Digital Supply Chain</p>
+      <p className="relative z-10 mt-3 shrink-0 text-center text-xs text-white/50">NESR Digital Supply Chain</p>
 
       {/* Masks the underlying page navigation once the ship is mid-launch. */}
       <div

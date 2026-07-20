@@ -22,7 +22,7 @@ import {
   type ModuleFormData,
   type AdminAction,
 } from '../actions/admin';
-import type { ContentBlock, Module, QuizQuestion, Track, TrackId } from '../content';
+import type { ContentBlock, Module, ModuleRequirement, QuizQuestion, Track, TrackId } from '../content';
 import HackathonAdminClient from './HackathonAdminClient';
 import type {
   HackathonOverview,
@@ -42,10 +42,17 @@ interface Draft {
   partLabel: string;
   title: string;
   tagline: string;
+  requirement: ModuleRequirement;
   minutes: number;
   sectionsJson: string;
   quiz: QuizQuestion[];
 }
+
+const REQUIREMENT_LABEL: Record<ModuleRequirement, string> = {
+  required: 'Required - everyone must complete it',
+  half: 'Important - at least half of this bucket is required',
+  optional: 'Specialized - only a couple across the whole bucket are required',
+};
 
 function moduleToDraft(trackId: TrackId, m: Module): Draft {
   return {
@@ -56,6 +63,7 @@ function moduleToDraft(trackId: TrackId, m: Module): Draft {
     partLabel: m.partLabel,
     title: m.title,
     tagline: m.tagline,
+    requirement: m.requirement,
     minutes: m.minutes,
     sectionsJson: JSON.stringify(m.sections, null, 2),
     quiz: m.quiz.map(q => ({ ...q, options: [...q.options] })),
@@ -71,6 +79,7 @@ function blankDraft(trackId: TrackId, nextPart: number): Draft {
     partLabel: `Part ${nextPart}`,
     title: '',
     tagline: '',
+    requirement: 'required',
     minutes: 5,
     sectionsJson: JSON.stringify([{ kind: 'lead', text: '', body: '' }], null, 2),
     quiz: [],
@@ -266,6 +275,7 @@ export default function AdminClient({
       partLabel: draft.partLabel,
       title: draft.title,
       tagline: draft.tagline,
+      requirement: draft.requirement,
       minutes: draft.minutes,
       sections,
       quiz: draft.quiz,
@@ -282,6 +292,7 @@ export default function AdminClient({
         part: draft.part,
         title: draft.title,
         tagline: draft.tagline,
+        requirement: draft.requirement,
         minutes: draft.minutes,
         sections,
         quiz: draft.quiz,
@@ -488,6 +499,20 @@ export default function AdminClient({
                       onChange={e => updateDraft({ partLabel: e.target.value })}
                       className="w-full px-3 py-2 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
                     />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-medium text-[var(--muted)] mb-1">Certificate requirement</label>
+                    <select
+                      value={draft.requirement}
+                      onChange={e => updateDraft({ requirement: e.target.value as ModuleRequirement })}
+                      className="w-full px-3 py-2 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]"
+                    >
+                      {(Object.keys(REQUIREMENT_LABEL) as ModuleRequirement[]).map(r => (
+                        <option key={r} value={r}>
+                          {REQUIREMENT_LABEL[r]}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>

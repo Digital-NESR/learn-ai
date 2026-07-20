@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Sparkles, X, Send } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import { useChatVisibility } from '../chat-visibility';
 
 type Role = 'user' | 'assistant';
 interface Message {
@@ -16,8 +18,44 @@ const GREETING: Message = {
   content: "Hi! I'm the AI Verse assistant. Ask me anything about AI or the courses.",
 };
 
+/** Compact Markdown rendering for chat bubbles - no typography plugin, just
+ * tight element-level overrides so headings/lists/code don't blow out the
+ * bubble's spacing. */
+const MARKDOWN_COMPONENTS = {
+  p: (props: React.ComponentPropsWithoutRef<'p'>) => <p className="mb-2 last:mb-0" {...props} />,
+  ul: (props: React.ComponentPropsWithoutRef<'ul'>) => (
+    <ul className="mb-2 list-disc pl-5 last:mb-0" {...props} />
+  ),
+  ol: (props: React.ComponentPropsWithoutRef<'ol'>) => (
+    <ol className="mb-2 list-decimal pl-5 last:mb-0" {...props} />
+  ),
+  li: (props: React.ComponentPropsWithoutRef<'li'>) => <li className="mb-0.5" {...props} />,
+  h1: (props: React.ComponentPropsWithoutRef<'h1'>) => (
+    <h1 className="mb-1.5 mt-2 text-base font-bold first:mt-0" {...props} />
+  ),
+  h2: (props: React.ComponentPropsWithoutRef<'h2'>) => (
+    <h2 className="mb-1.5 mt-2 text-[15px] font-bold first:mt-0" {...props} />
+  ),
+  h3: (props: React.ComponentPropsWithoutRef<'h3'>) => (
+    <h3 className="mb-1 mt-2 text-sm font-bold first:mt-0" {...props} />
+  ),
+  strong: (props: React.ComponentPropsWithoutRef<'strong'>) => (
+    <strong className="font-semibold" {...props} />
+  ),
+  code: (props: React.ComponentPropsWithoutRef<'code'>) => (
+    <code className="rounded bg-[var(--card-2)] px-1 py-0.5 text-[13px]" {...props} />
+  ),
+  pre: (props: React.ComponentPropsWithoutRef<'pre'>) => (
+    <pre className="mb-2 overflow-x-auto rounded-lg bg-[var(--card-2)] p-2.5 text-[13px] last:mb-0" {...props} />
+  ),
+  a: (props: React.ComponentPropsWithoutRef<'a'>) => (
+    <a className="underline underline-offset-2" target="_blank" rel="noopener noreferrer" {...props} />
+  ),
+};
+
 export default function AiChat() {
   const pathname = usePathname();
+  const { hidden } = useChatVisibility();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([GREETING]);
@@ -40,8 +78,15 @@ export default function AiChat() {
     return () => window.removeEventListener('aiverse:open-chat', onOpen);
   }, []);
 
-  // The widget is for signed-in, in-app pages only - never on the login screen.
-  if (pathname === '/login') return null;
+  // Close the panel (rather than leave it open-but-invisible) whenever a
+  // timed quiz session hides the widget.
+  useEffect(() => {
+    if (hidden) setOpen(false);
+  }, [hidden]);
+
+  // The widget is for signed-in, in-app pages only - never on the login
+  // screen, and never during a timed quiz (so it can't be used to cheat).
+  if (pathname === '/login' || hidden) return null;
 
   async function send() {
     const text = input.trim();
@@ -87,7 +132,17 @@ export default function AiChat() {
 
   return (
     <>
-      {/* Opened via the "AI Verse Assistant" card / prompt chips (aiverse:open-chat). */}
+      {/* Floating trigger - also opened via the "AI Verse Assistant" card /
+          prompt chips (aiverse:open-chat custom event). */}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open AI Verse Assistant"
+          className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-lg transition-transform hover:scale-105 hover:bg-[#276041]"
+        >
+          <Sparkles className="h-6 w-6" />
+        </button>
+      )}
 
       {/* Panel */}
       {open && (
@@ -123,7 +178,11 @@ export default function AiChat() {
                         : 'border border-[var(--border)] bg-[var(--card)] text-[var(--text)]'
                   }`}
                 >
-                  {m.content}
+                  {m.role === 'assistant' && !m.error ? (
+                    <ReactMarkdown components={MARKDOWN_COMPONENTS}>{m.content}</ReactMarkdown>
+                  ) : (
+                    m.content
+                  )}
                 </div>
               </div>
             ))}

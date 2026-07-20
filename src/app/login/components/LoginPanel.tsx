@@ -21,18 +21,18 @@ export default function LoginPanel({
 }: LoginPanelProps) {
   return (
     <div
-      className={`flex flex-col items-center text-center px-4 ${fadingOut ? 'animate-panel-fade-out' : ''}`}
+      className={`flex flex-col items-center text-center px-4 min-h-0 ${fadingOut ? 'animate-panel-fade-out' : ''}`}
     >
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
         Let&apos;s launch your <span className="text-[#39ff88]">AI</span> journey.
       </h1>
-      <p className="mt-3 text-sm sm:text-base text-white/60 max-w-sm">
+      <p className="mt-2 text-sm sm:text-base text-white/80 max-w-sm">
         Sign in with your NESR Microsoft account to board.
       </p>
 
-      <div className="mt-8 w-full max-w-xs">
+      <div className="mt-5 sm:mt-6 w-full max-w-xs">
         {!ssoEnabled ? (
-          <p className="rounded-xl border border-[#39ff88]/25 bg-white/5 px-4 py-3 text-sm text-white/70">
+          <p className="rounded-xl border border-[#39ff88]/25 bg-white/5 px-4 py-3 text-sm text-white/90">
             Single sign-on isn&apos;t configured yet. Contact IT to get access.
           </p>
         ) : (
@@ -65,7 +65,7 @@ export default function LoginPanel({
         {error && (
           <p
             role="alert"
-            className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-300"
+            className="mt-4 rounded-xl border border-red-500/40 bg-red-500/15 px-4 py-2.5 text-sm text-red-200"
           >
             {error}
           </p>
@@ -76,7 +76,7 @@ export default function LoginPanel({
             type="button"
             onClick={onDevBypass}
             disabled={loading}
-            className="mt-3 w-full rounded-xl border border-dashed border-white/25 px-4 py-2.5 text-xs font-medium text-white/50 hover:text-white/80 hover:border-white/50 disabled:opacity-50 transition-colors"
+            className="mt-3 w-full rounded-xl border border-dashed border-white/30 px-4 py-2.5 text-xs font-medium text-white/70 hover:text-white hover:border-white/60 disabled:opacity-50 transition-colors"
           >
             Continue as Dev User (local only)
           </button>
