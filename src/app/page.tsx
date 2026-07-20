@@ -6,7 +6,7 @@ import { getEffectiveTracks, getEffectiveTotalModules } from '@/lib/content-reso
 export const metadata: Metadata = { title: 'NESR AI Verse' };
 
 // Progress/certificate are per-person DB reads, and course content can be
-// edited by admins at any time — never statically cache this page.
+// edited by admins at any time - never statically cache this page.
 export const dynamic = 'force-dynamic';
 
 export default async function AiLearningPage() {

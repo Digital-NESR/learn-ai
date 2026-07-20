@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import Link from 'next/link';
-import { FileText, CheckCircle2, Download, Home, X, Video, ExternalLink, Save, Send, Lock } from 'lucide-react';
+import { FileText, CheckCircle2, Download, Home, X, Video, ExternalLink, Save, Send } from 'lucide-react';
 import { submitProject, submitFinalProject, removeSubmissionFile, type SubmissionMeta } from '../../actions/hackathon-submission';
 import { DELIVERABLE_QUESTIONS, DELIVERABLE_QUESTION_IDS } from '../../hackathon-deliverables';
 
@@ -135,7 +135,7 @@ export default function SubmissionClient({
       setSubmission(result);
       setAnswers(result.answers);
       setPendingFiles([]);
-      setStatus('Submitted! Your project is locked in — contact an admin if you need to make changes.');
+      setStatus('Submitted!');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not submit');
     } finally {
@@ -150,7 +150,7 @@ export default function SubmissionClient({
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle2 className="h-5 w-5 shrink-0 text-[var(--success)]" />
             <p className="text-sm font-medium text-[var(--text)] flex items-center gap-2">
-              Submitted — {submission.files.length} file{submission.files.length === 1 ? '' : 's'}
+              Submitted - {submission.files.length} file{submission.files.length === 1 ? '' : 's'}
               {submission.videoLink ? ' + video link' : ''}
               {submission.isLate && (
                 <span className="inline-flex px-1.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-[var(--warning-soft)] text-[var(--warning)] border border-[var(--warning-border)]">
@@ -211,15 +211,6 @@ export default function SubmissionClient({
       )}
 
       <form onSubmit={handleSaveDraft} className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 flex flex-col gap-4">
-        {isLocked && (
-          <div className="rounded-lg border border-[var(--border)] bg-[var(--card-2)] px-3 py-2.5 flex items-center gap-2">
-            <Lock className="h-4 w-4 shrink-0 text-[var(--muted)]" />
-            <p className="text-sm text-[var(--text)]">
-              This submission is locked. Ask an admin to reopen it if you need to make changes.
-            </p>
-          </div>
-        )}
-
         <fieldset disabled={isLocked} className="flex flex-col gap-4 border-0 p-0 m-0 min-w-0">
           <div>
             <label className="block text-xs font-medium text-[var(--muted)] mb-1.5">Project title</label>
@@ -235,7 +226,7 @@ export default function SubmissionClient({
 
           <div>
             <label className="block text-xs font-medium text-[var(--muted)] mb-1.5">
-              Video link (OneDrive) — for mp4 submissions
+              Video link (OneDrive) - for mp4 submissions
             </label>
             <input
               type="url"
@@ -249,7 +240,7 @@ export default function SubmissionClient({
           <div className="pt-2 border-t border-[var(--border)]">
             <p className="text-sm font-semibold text-[var(--text)] mb-0.5">Deliverables</p>
             <p className="text-xs text-[var(--muted)] mb-3">
-              Answer what you can now and save — you can keep editing this up until the submission deadline.
+              Answer what you can now and save - you can keep editing this up until the submission deadline.
               Answer all 8 and add a file or video link to unlock the Submit button.
             </p>
             <div className="flex flex-col gap-4">
@@ -344,7 +335,7 @@ export default function SubmissionClient({
         {!isLocked && (
           <p className="text-xs text-center text-[var(--muted)] -mt-2">
             {readyToSubmit
-              ? 'Ready to submit — Submit locks your project in as final.'
+              ? 'Ready to submit - Submit locks your project in as final.'
               : 'You can save a draft and keep editing anytime before the submission deadline.'}
           </p>
         )}

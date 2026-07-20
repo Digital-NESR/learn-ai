@@ -29,7 +29,7 @@ export default function AiChat() {
   }, [messages, loading, open]);
 
   // Let other parts of the app (e.g. the landing "AI Assistant" card) open the
-  // widget — optionally pre-filling a suggested prompt.
+  // widget - optionally pre-filling a suggested prompt.
   useEffect(() => {
     function onOpen(e: Event) {
       setOpen(true);
@@ -40,7 +40,7 @@ export default function AiChat() {
     return () => window.removeEventListener('aiverse:open-chat', onOpen);
   }, []);
 
-  // The widget is for signed-in, in-app pages only — never on the login screen.
+  // The widget is for signed-in, in-app pages only - never on the login screen.
   if (pathname === '/login') return null;
 
   async function send() {
@@ -71,7 +71,7 @@ export default function AiChat() {
     } catch {
       setMessages([
         ...next,
-        { role: 'assistant', content: 'Network error — please try again.', error: true },
+        { role: 'assistant', content: 'Network error - please try again.', error: true },
       ]);
     } finally {
       setLoading(false);

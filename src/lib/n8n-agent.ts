@@ -3,7 +3,7 @@ import tls from 'node:tls';
 
 /**
  * n8n.nesr.com's TLS server is misconfigured: it serves only its leaf
- * certificate, not the full chain (confirmed via SSL Labs — "Chain issues:
+ * certificate, not the full chain (confirmed via SSL Labs - "Chain issues:
  * Incomplete"). Browsers and curl silently patch this gap themselves
  * (Windows' Schannel fetches missing intermediates via AIA); Node's TLS
  * stack does not, and rejects the connection with
@@ -11,11 +11,11 @@ import tls from 'node:tls';
  *
  * The correct fix is server-side (whoever manages n8n.nesr.com should serve
  * the full chain). Until that happens, this agent supplements Node's normal
- * trusted-root bundle with just the one missing intermediate — Sectigo
- * Public Server Authentication CA DV R36 — so this specific connection can
+ * trusted-root bundle with just the one missing intermediate - Sectigo
+ * Public Server Authentication CA DV R36 - so this specific connection can
  * complete its chain. This does NOT disable certificate verification; it
  * only fills in the one legitimate, publicly-known certificate the server
- * should have sent itself. Scoped to this agent only — no other outbound
+ * should have sent itself. Scoped to this agent only - no other outbound
  * request in the app is affected.
  */
 const SECTIGO_SERVER_AUTH_CA_DV_R36 = `-----BEGIN CERTIFICATE-----

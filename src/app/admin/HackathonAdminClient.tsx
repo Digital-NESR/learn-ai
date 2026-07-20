@@ -24,6 +24,7 @@ import {
   X,
   Lock,
   Unlock,
+  Send,
 } from 'lucide-react';
 import {
   getHackathonOverview,
@@ -40,6 +41,7 @@ import {
   saveHackathonSettings,
   listSubmissionsForAdmin,
   reopenSubmissionAdmin,
+  sendHackathonAnnouncement,
   type HackathonOverview,
   type AdminTeamSummary,
   type AdminTeamDetail,
@@ -62,7 +64,7 @@ const INPUT_CLS =
   'w-full px-3 py-2 text-sm bg-[var(--card-2)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/20 focus:border-[var(--brand)]';
 
 function fmtDate(iso: string | null): string {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
@@ -459,6 +461,92 @@ function NewTeamForm({
   );
 }
 
+function AnnouncementForm({
+  totalParticipants,
+  onSend,
+  onCancel,
+}: {
+  totalParticipants: number;
+  onSend: (subject: string, message: string, testOnly: boolean) => Promise<number>;
+  onCancel: () => void;
+}) {
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [testOnly, setTestOnly] = useState(true);
+  const [sending, setSending] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSend() {
+    if (!subject.trim() || !message.trim()) return;
+    if (!testOnly && !window.confirm(`Send this announcement to all ${totalParticipants} registered participants?`)) {
+      return;
+    }
+    setSending(true);
+    setError(null);
+    setResult(null);
+    try {
+      const sent = await onSend(subject.trim(), message.trim(), testOnly);
+      setResult(testOnly ? 'Test email sent to your own address.' : `Sent to ${sent} participant${sent === 1 ? '' : 's'}.`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not send announcement');
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--card-2)] p-5 mb-6">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-semibold text-[var(--text)]">Send announcement</h3>
+        <button onClick={onCancel} className="text-[var(--muted)] hover:text-[var(--text)]" aria-label="Cancel">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+      <div className="flex flex-col gap-3">
+        <div>
+          <label className="block text-xs font-medium text-[var(--muted)] mb-1.5">Subject</label>
+          <input value={subject} onChange={e => setSubject(e.target.value)} placeholder="e.g. Submission deadline reminder" className={INPUT_CLS} />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-[var(--muted)] mb-1.5">Message</label>
+          <textarea
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            rows={5}
+            placeholder="Write your announcement…"
+            className={INPUT_CLS}
+          />
+        </div>
+        <label className="flex items-center gap-2 text-sm text-[var(--text)]">
+          <input type="checkbox" checked={testOnly} onChange={e => setTestOnly(e.target.checked)} />
+          Send as a test to my own email only (recommended before a real send)
+        </label>
+
+        {error && (
+          <p className="text-sm text-[var(--danger)] bg-[var(--danger-soft)] border border-[var(--danger-border)] rounded-lg px-3 py-2">
+            {error}
+          </p>
+        )}
+        {result && (
+          <p className="text-sm text-[var(--success)] bg-[var(--success-soft)] border border-[var(--success-border)] rounded-lg px-3 py-2">
+            {result}
+          </p>
+        )}
+
+        <button
+          onClick={handleSend}
+          disabled={sending || !subject.trim() || !message.trim()}
+          className="self-start inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg text-white bg-[var(--brand)] disabled:opacity-50 transition-colors"
+        >
+          <Send className="w-4 h-4" />
+          {sending ? 'Sending…' : testOnly ? 'Send test' : `Send to ${totalParticipants} participant${totalParticipants === 1 ? '' : 's'}`}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function HackathonAdminClient({
   initialOverview,
   initialTeams,
@@ -482,6 +570,7 @@ export default function HackathonAdminClient({
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [showNewTeamForm, setShowNewTeamForm] = useState(false);
+  const [showAnnouncementForm, setShowAnnouncementForm] = useState(false);
   const [expandedSubmissionId, setExpandedSubmissionId] = useState<string | null>(null);
   const [reopeningId, setReopeningId] = useState<string | null>(null);
   const [, startTransition] = useTransition();
@@ -577,6 +666,11 @@ export default function HackathonAdminClient({
     }
   }
 
+  async function handleSendAnnouncement(subject: string, message: string, testOnly: boolean): Promise<number> {
+    const result = await sendHackathonAnnouncement(subject, message, testOnly);
+    return result.sent;
+  }
+
   async function handleSaveSettings(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
@@ -664,7 +758,24 @@ export default function HackathonAdminClient({
               <Download className="w-4 h-4" />
               Export participants (CSV)
             </a>
+            {!showAnnouncementForm && (
+              <button
+                onClick={() => setShowAnnouncementForm(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-semibold rounded-lg border border-[var(--border)] hover:bg-[var(--card-2)] transition-colors"
+              >
+                <Send className="w-4 h-4" />
+                Send announcement
+              </button>
+            )}
           </div>
+
+          {showAnnouncementForm && (
+            <AnnouncementForm
+              totalParticipants={overview.totalParticipants}
+              onSend={handleSendAnnouncement}
+              onCancel={() => setShowAnnouncementForm(false)}
+            />
+          )}
 
           <h3 className="text-sm font-semibold text-[var(--text)] mb-2">Recent registrations</h3>
           <ul className="flex flex-col gap-2">
@@ -753,7 +864,7 @@ export default function HackathonAdminClient({
                             {t.departments.join(', ')}
                           </span>
                         ) : (
-                          '—'
+                          '-'
                         )}
                       </td>
                       <td className="px-3 py-2.5 text-[var(--muted)]">{fmtDate(t.createdAt)}</td>
@@ -871,7 +982,7 @@ export default function HackathonAdminClient({
                         </td>
                         <td className="px-3 py-2.5 text-[var(--muted)] align-top">
                           {s.files.length === 0 && !s.videoLink ? (
-                            '—'
+                            '-'
                           ) : (
                             <ul className="flex flex-col gap-1">
                               {s.files.map(f => (

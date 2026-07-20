@@ -36,7 +36,7 @@ export async function requireSessionEmail() {
   return { email, name };
 }
 
-/** Read-only directory search by name or email — never writes to this database. */
+/** Read-only directory search by name or email - never writes to this database. */
 export async function searchEmployees(query: string): Promise<DirectoryPerson[]> {
   const q = query.trim();
   if (q.length < 2) return [];
@@ -107,7 +107,7 @@ export interface PublicHackathonSettings {
   announcement: string | null;
 }
 
-/** Read-only settings for the public hackathon page — no admin gate. */
+/** Read-only settings for the public hackathon page - no admin gate. */
 export async function getPublicHackathonSettings(): Promise<PublicHackathonSettings> {
   const { rows } = await aiversePool.query(`select * from hackathon_settings where id = 1`);
   const r = rows[0];
@@ -285,7 +285,7 @@ export interface IncomingJoinRequest {
   requestedAt: string;
 }
 
-/** Sends a request to join a team — the team's creator must approve it before it takes effect. */
+/** Sends a request to join a team - the team's creator must approve it before it takes effect. */
 export async function requestToJoinTeam(teamId: string): Promise<MyJoinRequest> {
   const { email, name } = await requireSessionEmail();
   await requireOpenRegistration();
@@ -368,7 +368,7 @@ export async function cancelJoinRequest(requestId: string): Promise<void> {
   );
 }
 
-/** Pending requests to join the signed-in user's own team — only meaningful if they're the creator. */
+/** Pending requests to join the signed-in user's own team - only meaningful if they're the creator. */
 export async function listJoinRequestsForMyTeam(): Promise<IncomingJoinRequest[]> {
   const { email } = await requireSessionEmail();
   const { rows: teamRows } = await aiversePool.query(`select id from hackathon_teams where created_by_email = $1`, [email]);
@@ -389,7 +389,7 @@ export async function listJoinRequestsForMyTeam(): Promise<IncomingJoinRequest[]
   }));
 }
 
-/** Approves a pending request — only the team's creator can do this. */
+/** Approves a pending request - only the team's creator can do this. */
 export async function approveJoinRequest(requestId: string): Promise<Team> {
   const { email } = await requireSessionEmail();
   const { rows } = await aiversePool.query(
@@ -433,7 +433,7 @@ export async function approveJoinRequest(requestId: string): Promise<Team> {
   return (await loadTeamById(req.team_id)) as Team;
 }
 
-/** Rejects a pending request — only the team's creator can do this. */
+/** Rejects a pending request - only the team's creator can do this. */
 export async function rejectJoinRequest(requestId: string): Promise<void> {
   const { email } = await requireSessionEmail();
   const { rows } = await aiversePool.query(
@@ -460,7 +460,7 @@ export async function leaveTeam(teamId: string): Promise<void> {
       const nextOwner = team.members.find(m => m.email !== email);
       if (nextOwner) {
         // hackathon_teams.created_by_email has a FK into users, but addTeamMember never creates
-        // one for the person it adds (only requireSessionEmail — an actual sign-in — does), so
+        // one for the person it adds (only requireSessionEmail - an actual sign-in - does), so
         // upsert one first or promoting someone who's never logged in would violate that FK.
         await client.query(
           `insert into users (email, name) values ($1, $2) on conflict (email) do nothing`,

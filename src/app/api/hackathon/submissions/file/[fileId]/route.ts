@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { isAdminEmail } from '@/lib/admin';
+import { isJudgeEmail } from '@/lib/judge';
 import aiversePool from '@/lib/db-aiverse';
 
 export const runtime = 'nodejs';
@@ -12,7 +13,7 @@ const CONTENT_TYPES: Record<string, string> = {
 };
 
 // Outside middleware.ts's matcher like the other /api routes, so this checks
-// its own session — an admin, or a member of the team that owns the submission.
+// its own session - an admin, a judge, or a member of the team that owns the submission.
 export async function GET(_req: Request, { params }: { params: Promise<{ fileId: string }> }) {
   const { fileId } = await params;
 
@@ -30,7 +31,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ fileId:
   if (!rows.length) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   const file = rows[0];
 
-  if (!isAdminEmail(email)) {
+  if (!isAdminEmail(email) && !isJudgeEmail(email)) {
     const { rows: memberRows } = await aiversePool.query(
       `select 1 from hackathon_team_members where team_id = $1 and email = $2`,
       [file.team_id, email],

@@ -342,7 +342,7 @@ export default function ModuleClient({
                 style={{ background: track.accent }}
               >
                 <CheckCircle2 className="w-4 h-4" />
-                Finish — back to series
+                Finish - back to series
               </Link>
             )}
           </div>

@@ -11,7 +11,7 @@ const RECENT_ACTIONS_KEPT = 20;
 type ActionTable = 'module_overrides' | 'track_overrides';
 
 /** Records one undo-able write. `previousRow` is what was in the row before this
- * action ran — null means the row didn't exist, so undo means deleting it. */
+ * action ran - null means the row didn't exist, so undo means deleting it. */
 async function logAction(
   actorEmail: string,
   tableName: ActionTable,

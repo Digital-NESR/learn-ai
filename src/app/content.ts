@@ -1,11 +1,11 @@
 /**
- * NESR AI Verse — beginner content.
+ * NESR AI Verse - beginner content.
  *
  * Four tracks (Business, Create AI for Business, Advanced, Use AI for
  * Business), three video modules ("parts") each, and a short quiz after
  * every module.
  *
- * This is static, data-driven content — no database. The landing page and
+ * This is static, data-driven content - no database. The landing page and
  * the module pages both render straight from the TRACKS array below, and
  * per-user progress is kept in localStorage (see lib/progress.ts).
  */
@@ -96,7 +96,7 @@ const businessModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'AI, defined', body: 'Machines that simulate human intelligence — learning, reasoning, and problem-solving.' },
+          { title: 'AI, defined', body: 'Machines that simulate human intelligence - learning, reasoning, and problem-solving.' },
           { title: 'You already use it', body: 'Virtual assistants, recommendations, spam filters, and self-driving cars.' },
           { title: 'Three types', body: 'Narrow AI (one task), General AI (human-level), and Super AI (beyond human). Today’s AI is Narrow.' },
           { title: 'Powered by data', body: 'AI systems learn patterns from large amounts of data.' },
@@ -113,7 +113,7 @@ const businessModules: Module[] = [
           'A type of spreadsheet',
         ],
         answer: 0,
-        explanation: 'AI is about machines simulating human intelligence — learning, reasoning, and solving problems.',
+        explanation: 'AI is about machines simulating human intelligence - learning, reasoning, and solving problems.',
       },
       {
         prompt: 'Which is an everyday example of AI in action?',
@@ -129,10 +129,10 @@ const businessModules: Module[] = [
       {
         prompt: 'Today’s AI systems are mostly which type?',
         options: [
-          'Narrow AI — built for a specific task',
-          'General AI — human-level at everything',
-          'Super AI — beyond human ability',
-          'None — AI has no types',
+          'Narrow AI - built for a specific task',
+          'General AI - human-level at everything',
+          'Super AI - beyond human ability',
+          'None - AI has no types',
         ],
         answer: 0,
         explanation: 'Current AI is Narrow (or “weak”) AI, designed for specific tasks. General and Super AI are still hypothetical.',
@@ -160,7 +160,7 @@ const businessModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Generative AI creates new content — text, images, and code.',
+        text: 'Generative AI creates new content - text, images, and code.',
         body: 'Henrik Kniberg’s popular explainer walks through what generative AI is, why it differs from traditional software, and practical ways to use it as a drafting and thinking partner.',
       },
       {
@@ -175,7 +175,7 @@ const businessModules: Module[] = [
         items: [
           { title: 'It generates new content', body: 'Unlike a search engine, it produces new text, images, or code on request.' },
           { title: 'It learns patterns from data', body: 'Trained on huge amounts of data, it predicts likely, useful output.' },
-          { title: 'Capable but fallible', body: 'It can be confidently wrong — treat its output as a draft to review, not a final answer.' },
+          { title: 'Capable but fallible', body: 'It can be confidently wrong - treat its output as a draft to review, not a final answer.' },
           { title: 'You steer it with prompts', body: 'Clear instructions and good context lead to much better results.' },
         ],
       },
@@ -238,7 +238,7 @@ const businessModules: Module[] = [
       {
         kind: 'lead',
         text: 'Powerful tools need guardrails.',
-        body: 'This IBM explainer introduces AI ethics — the principles that help organizations capture AI’s benefits while reducing harms like bias and loss of trust.',
+        body: 'This IBM explainer introduces AI ethics - the principles that help organizations capture AI’s benefits while reducing harms like bias and loss of trust.',
       },
       {
         kind: 'video',
@@ -250,10 +250,10 @@ const businessModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'What AI ethics is', body: 'A set of principles for developing and using AI responsibly — maximizing benefit while reducing harm.' },
+          { title: 'What AI ethics is', body: 'A set of principles for developing and using AI responsibly - maximizing benefit while reducing harm.' },
           { title: 'Bias is a core risk', body: 'AI trained on skewed data can produce unfair outcomes.' },
           { title: 'Transparency & explainability', body: 'People should be able to understand and question how AI reaches a decision.' },
-          { title: 'Accountability', body: 'Organizations and people — not the AI — are responsible for outcomes.' },
+          { title: 'Accountability', body: 'Organizations and people - not the AI - are responsible for outcomes.' },
         ],
       },
     ],
@@ -261,13 +261,13 @@ const businessModules: Module[] = [
       {
         prompt: 'What is AI ethics mainly about?',
         options: [
-          'Principles for using AI responsibly — maximizing benefit and reducing harm',
+          'Principles for using AI responsibly - maximizing benefit and reducing harm',
           'Making AI models run faster',
           'Choosing which hardware to buy',
           'A new programming language',
         ],
         answer: 0,
-        explanation: 'AI ethics is about responsible development and use — getting the benefits while limiting harm.',
+        explanation: 'AI ethics is about responsible development and use - getting the benefits while limiting harm.',
       },
       {
         prompt: 'Why can an AI system produce unfair results?',
@@ -278,7 +278,7 @@ const businessModules: Module[] = [
           'It has too many users',
         ],
         answer: 0,
-        explanation: 'Bias in the training data can lead to unfair or skewed outcomes — a central AI-ethics concern.',
+        explanation: 'Bias in the training data can lead to unfair or skewed outcomes - a central AI-ethics concern.',
       },
       {
         prompt: 'What does “transparency” or “explainability” mean for AI?',
@@ -300,7 +300,7 @@ const businessModules: Module[] = [
           'Only the end customer',
         ],
         answer: 0,
-        explanation: 'Accountability stays with the people and organizations deploying AI — not the tool.',
+        explanation: 'Accountability stays with the people and organizations deploying AI - not the tool.',
       },
     ],
   },
@@ -322,7 +322,7 @@ const createAiModules: Module[] = [
       {
         kind: 'lead',
         text: 'RAG lets an AI look things up before it answers.',
-        body: 'Retrieval-Augmented Generation (RAG) connects a language model to an external knowledge base — your documents, policies, or databases — so it can pull in relevant, current information before generating a response, instead of relying only on what it learned during training.',
+        body: 'Retrieval-Augmented Generation (RAG) connects a language model to an external knowledge base - your documents, policies, or databases - so it can pull in relevant, current information before generating a response, instead of relying only on what it learned during training.',
       },
       {
         kind: 'video',
@@ -337,7 +337,7 @@ const createAiModules: Module[] = [
           { title: 'Two steps: retrieve, then generate', body: 'First search a knowledge base for relevant content, then hand that content to the model along with the question.' },
           { title: 'Grounds answers in real data', body: 'The model answers using retrieved facts instead of guessing from memory alone.' },
           { title: 'Reduces hallucinations', body: 'Because the answer is backed by retrieved documents, it’s far less likely to be confidently wrong.' },
-          { title: 'No retraining needed', body: 'Update the knowledge base and the model’s answers update too — no expensive retraining required.' },
+          { title: 'No retraining needed', body: 'Update the knowledge base and the model’s answers update too - no expensive retraining required.' },
         ],
       },
       {
@@ -387,13 +387,13 @@ const createAiModules: Module[] = [
       {
         prompt: 'How do you update what a RAG system "knows" about new information?',
         options: [
-          'Update the knowledge base it retrieves from — no retraining needed',
+          'Update the knowledge base it retrieves from - no retraining needed',
           'Retrain the entire model from scratch every time',
           'Buy a bigger computer',
           'It can never be updated',
         ],
         answer: 0,
-        explanation: 'Since RAG retrieves from an external knowledge base, updating that source updates the answers — no costly retraining required.',
+        explanation: 'Since RAG retrieves from an external knowledge base, updating that source updates the answers - no costly retraining required.',
       },
     ],
   },
@@ -408,7 +408,7 @@ const createAiModules: Module[] = [
       {
         kind: 'lead',
         text: 'Good features make a good model.',
-        body: 'Feature engineering is the process of selecting, transforming, and creating the input variables (“features”) that a machine learning model learns from. Raw data is rarely ready to use as-is — this is the step that shapes it into something a model can work with well.',
+        body: 'Feature engineering is the process of selecting, transforming, and creating the input variables (“features”) that a machine learning model learns from. Raw data is rarely ready to use as-is - this is the step that shapes it into something a model can work with well.',
       },
       {
         kind: 'video',
@@ -465,7 +465,7 @@ const createAiModules: Module[] = [
           'Early on, after collecting and cleaning the data, before training',
           'After the model is already deployed to users',
           'Only after the project is cancelled',
-          'It never really happens — models use raw data directly',
+          'It never really happens - models use raw data directly',
         ],
         answer: 0,
         explanation: 'Feature engineering happens early in the pipeline, shaping the data before it’s used to train a model.',
@@ -479,7 +479,7 @@ const createAiModules: Module[] = [
           'Because it’s required by law',
         ],
         answer: 0,
-        explanation: 'A model can only learn as well as the data it’s given — strong features often matter more than the choice of algorithm.',
+        explanation: 'A model can only learn as well as the data it’s given - strong features often matter more than the choice of algorithm.',
       },
     ],
   },
@@ -493,8 +493,8 @@ const createAiModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'An agent doesn’t just answer — it acts.',
-        body: 'An AI agent extends a language model with the ability to make decisions, call tools or APIs, and carry out multi-step tasks toward a goal — rather than simply generating a single reply to a question.',
+        text: 'An agent doesn’t just answer - it acts.',
+        body: 'An AI agent extends a language model with the ability to make decisions, call tools or APIs, and carry out multi-step tasks toward a goal - rather than simply generating a single reply to a question.',
       },
       {
         kind: 'video',
@@ -516,8 +516,8 @@ const createAiModules: Module[] = [
         kind: 'list',
         heading: 'Business examples',
         items: [
-          { title: 'Order processing agent', body: 'Checks inventory, confirms pricing, and places an order — across multiple systems.' },
-          { title: 'IT helpdesk agent', body: 'Diagnoses an issue, checks a knowledge base, and resets an account if appropriate — without a human doing each step.' },
+          { title: 'Order processing agent', body: 'Checks inventory, confirms pricing, and places an order - across multiple systems.' },
+          { title: 'IT helpdesk agent', body: 'Diagnoses an issue, checks a knowledge base, and resets an account if appropriate - without a human doing each step.' },
           { title: 'Research agent', body: 'Searches multiple sources, compares findings, and compiles a summary report.' },
         ],
       },
@@ -532,7 +532,7 @@ const createAiModules: Module[] = [
           'It cannot be a language model',
         ],
         answer: 0,
-        explanation: 'Agents go beyond a single reply — they can plan steps, call tools, and act toward completing a goal.',
+        explanation: 'Agents go beyond a single reply - they can plan steps, call tools, and act toward completing a goal.',
       },
       {
         prompt: 'What can an AI agent do that a plain chatbot typically can’t?',
@@ -582,13 +582,13 @@ const advancedModules: Module[] = [
     partLabel: 'Part 1 of 3',
     part: 1,
     title: 'What Is a Neural Network?',
-    tagline: 'The building block behind modern AI — built up from scratch, and visualized.',
+    tagline: 'The building block behind modern AI - built up from scratch, and visualized.',
     minutes: 20,
     sections: [
       {
         kind: 'lead',
         text: 'A neural network learns patterns from examples.',
-        body: 'This 3Blue1Brown video uses the classic task of recognizing handwritten digits to show how a network of simple “neurons,” arranged in layers, turns raw pixels into an answer — without anyone writing the rules by hand.',
+        body: 'This 3Blue1Brown video uses the classic task of recognizing handwritten digits to show how a network of simple “neurons,” arranged in layers, turns raw pixels into an answer - without anyone writing the rules by hand.',
       },
       {
         kind: 'video',
@@ -600,10 +600,10 @@ const advancedModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Neurons hold a number', body: 'Each neuron carries an “activation” — a value between 0 and 1.' },
+          { title: 'Neurons hold a number', body: 'Each neuron carries an “activation” - a value between 0 and 1.' },
           { title: 'Organized in layers', body: 'An input layer, one or more hidden layers, and an output layer.' },
           { title: 'The digit example', body: 'A 28×28 image feeds 784 input neurons; 10 output neurons score the digits 0–9.' },
-          { title: 'Weights and biases', body: 'Connections have weights and each neuron a bias — the values the network tunes to “learn.”' },
+          { title: 'Weights and biases', body: 'Connections have weights and each neuron a bias - the values the network tunes to “learn.”' },
         ],
       },
     ],
@@ -628,7 +628,7 @@ const advancedModules: Module[] = [
           'Only a yes/no flag',
         ],
         answer: 0,
-        explanation: 'A neuron holds an activation — a number between 0 and 1 representing how “lit up” it is.',
+        explanation: 'A neuron holds an activation - a number between 0 and 1 representing how “lit up” it is.',
       },
       {
         prompt: 'What are the layers between the input and output layers called?',
@@ -654,7 +654,7 @@ const advancedModules: Module[] = [
     partLabel: 'Part 2 of 3',
     part: 2,
     title: 'Large Language Models, Briefly',
-    tagline: 'What an LLM actually does, and how it gets trained — in plain terms.',
+    tagline: 'What an LLM actually does, and how it gets trained - in plain terms.',
     minutes: 8,
     sections: [
       {
@@ -689,7 +689,7 @@ const advancedModules: Module[] = [
           'Sort words alphabetically',
         ],
         answer: 0,
-        explanation: 'An LLM is, at heart, a next-word predictor — it outputs how likely each possible next word is.',
+        explanation: 'An LLM is, at heart, a next-word predictor - it outputs how likely each possible next word is.',
       },
       {
         prompt: 'How does an LLM produce a whole passage of text?',
@@ -711,7 +711,7 @@ const advancedModules: Module[] = [
           'The number of languages it speaks',
         ],
         answer: 0,
-        explanation: '“Large” refers to the enormous number of tunable parameters — often hundreds of billions.',
+        explanation: '“Large” refers to the enormous number of tunable parameters - often hundreds of billions.',
       },
       {
         prompt: 'After learning from huge amounts of text, what extra step helps make the model a helpful assistant?',
@@ -766,13 +766,13 @@ const advancedModules: Module[] = [
           'Global Pattern Tracker',
         ],
         answer: 0,
-        explanation: 'GPT = Generative Pretrained Transformer — the transformer is the core architecture.',
+        explanation: 'GPT = Generative Pretrained Transformer - the transformer is the core architecture.',
       },
       {
         prompt: 'Before a transformer processes text, the text is first broken into…',
         options: ['Tokens', 'Pixels', 'Folders', 'Whole sentences only'],
         answer: 0,
-        explanation: 'Text is split into tokens — small chunks such as words or word-pieces.',
+        explanation: 'Text is split into tokens - small chunks such as words or word-pieces.',
       },
       {
         prompt: 'How does a transformer represent each token?',
@@ -783,7 +783,7 @@ const advancedModules: Module[] = [
           'As a row in a spreadsheet',
         ],
         answer: 0,
-        explanation: 'Each token becomes an embedding — a vector — and vectors with similar meanings sit near each other.',
+        explanation: 'Each token becomes an embedding - a vector - and vectors with similar meanings sit near each other.',
       },
       {
         prompt: 'What does the “attention” mechanism let the model do?',
@@ -816,7 +816,7 @@ const useAiModules: Module[] = [
       {
         kind: 'lead',
         text: 'Copilot is an AI assistant woven into your everyday work tools.',
-        body: 'Microsoft Copilot is built into apps like Word, Excel, PowerPoint, Outlook, and Teams. You describe what you need in plain language, and Copilot drafts, analyzes, or summarizes — grounded in your own work content, with your permission.',
+        body: 'Microsoft Copilot is built into apps like Word, Excel, PowerPoint, Outlook, and Teams. You describe what you need in plain language, and Copilot drafts, analyzes, or summarizes - grounded in your own work content, with your permission.',
       },
       {
         kind: 'video',
@@ -828,10 +828,10 @@ const useAiModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Built into Microsoft 365', body: 'Copilot works inside Word, Excel, PowerPoint, Outlook, Teams, and more — no separate app needed.' },
-          { title: 'You talk to it in plain language', body: 'Describe what you want — "summarize this thread," "draft a proposal" — and Copilot responds.' },
+          { title: 'Built into Microsoft 365', body: 'Copilot works inside Word, Excel, PowerPoint, Outlook, Teams, and more - no separate app needed.' },
+          { title: 'You talk to it in plain language', body: 'Describe what you want - "summarize this thread," "draft a proposal" - and Copilot responds.' },
           { title: 'Grounded in your work', body: 'With permission, Copilot can reference your documents, emails, and meetings for relevant answers.' },
-          { title: 'A starting point, not a final answer', body: 'Copilot drafts fast — you still review and refine before sending or publishing.' },
+          { title: 'A starting point, not a final answer', body: 'Copilot drafts fast - you still review and refine before sending or publishing.' },
         ],
       },
     ],
@@ -893,7 +893,7 @@ const useAiModules: Module[] = [
       {
         kind: 'lead',
         text: 'Same assistant, different job in every app.',
-        body: 'Copilot adapts to what each app is for: drafting and rewriting in Word, analyzing data in Excel, and building slides in PowerPoint — all from a plain-language prompt.',
+        body: 'Copilot adapts to what each app is for: drafting and rewriting in Word, analyzing data in Excel, and building slides in PowerPoint - all from a plain-language prompt.',
       },
       {
         kind: 'video',
@@ -908,7 +908,7 @@ const useAiModules: Module[] = [
           { title: 'Word', body: 'Draft a first version of a document, rewrite a paragraph, or summarize a long file into key points.' },
           { title: 'Excel', body: 'Ask Copilot to analyze a dataset, spot trends, or explain what a formula does in plain English.' },
           { title: 'PowerPoint', body: 'Turn a Word document into a draft slide deck, or generate slides directly from a prompt.' },
-          { title: 'Prompt, then refine', body: 'The first result is a starting point — ask follow-up questions to adjust tone, detail, or structure.' },
+          { title: 'Prompt, then refine', body: 'The first result is a starting point - ask follow-up questions to adjust tone, detail, or structure.' },
         ],
       },
     ],
@@ -955,7 +955,7 @@ const useAiModules: Module[] = [
           'Assume it can never be changed',
         ],
         answer: 0,
-        explanation: 'Copilot supports follow-up prompts — treat the first result as a draft you can refine further.',
+        explanation: 'Copilot supports follow-up prompts - treat the first result as a draft you can refine further.',
       },
     ],
   },
@@ -970,7 +970,7 @@ const useAiModules: Module[] = [
       {
         kind: 'lead',
         text: 'A better prompt gets a better answer, faster.',
-        body: 'Copilot responds to how you ask, not just what you ask. A few simple habits — giving it a clear goal, useful context, and a specific format — make its answers far more useful on the first try.',
+        body: 'Copilot responds to how you ask, not just what you ask. A few simple habits - giving it a clear goal, useful context, and a specific format - make its answers far more useful on the first try.',
       },
       {
         kind: 'video',
@@ -983,8 +983,8 @@ const useAiModules: Module[] = [
         heading: 'Key ideas from the video',
         items: [
           { title: 'Goal, context, expectations, source', body: 'A strong prompt states what you want, gives background, describes the format you expect, and points to a source if relevant.' },
-          { title: 'Order matters', body: 'Copilot weighs the end of a prompt more heavily — put the most important instructions or source last.' },
-          { title: 'Use natural, clear language', body: 'Write like you’re talking to a colleague — plain language, clear punctuation.' },
+          { title: 'Order matters', body: 'Copilot weighs the end of a prompt more heavily - put the most important instructions or source last.' },
+          { title: 'Use natural, clear language', body: 'Write like you’re talking to a colleague - plain language, clear punctuation.' },
           { title: 'Iterate', body: 'If the first answer isn’t right, refine your prompt rather than starting over from nothing.' },
         ],
       },
@@ -995,7 +995,7 @@ const useAiModules: Module[] = [
           'Have you stated a clear goal?',
           'Have you given enough context for Copilot to understand the situation?',
           'Have you said what format or length you expect?',
-          'If relevant, have you pointed it at the right file or source — placed last in the prompt?',
+          'If relevant, have you pointed it at the right file or source - placed last in the prompt?',
           'Will you review the answer before using it?',
         ],
       },
@@ -1007,7 +1007,7 @@ const useAiModules: Module[] = [
           'Goal, context, expectations, and source',
           'Font, color, size, and margin',
           'Username, password, date, and time',
-          'Only the goal — nothing else matters',
+          'Only the goal - nothing else matters',
         ],
         answer: 0,
         explanation: 'A well-structured prompt can include a goal, context, your expectations for the response, and a source to draw from.',
@@ -1021,7 +1021,7 @@ const useAiModules: Module[] = [
           'Prompts must be exactly one sentence long',
         ],
         answer: 0,
-        explanation: 'Later parts of a prompt are emphasized more — so put key instructions or a source near the end.',
+        explanation: 'Later parts of a prompt are emphasized more - so put key instructions or a source near the end.',
       },
       {
         prompt: 'What should you do if Copilot’s first response isn’t what you wanted?',
@@ -1032,7 +1032,7 @@ const useAiModules: Module[] = [
           'Restart your computer',
         ],
         answer: 0,
-        explanation: 'Iterating on your prompt — clarifying or adjusting it — usually gets you a much better result.',
+        explanation: 'Iterating on your prompt - clarifying or adjusting it - usually gets you a much better result.',
       },
       {
         prompt: 'Why should you always review Copilot’s output before using it?',
@@ -1043,7 +1043,7 @@ const useAiModules: Module[] = [
           'It never needs review, only sometimes',
         ],
         answer: 0,
-        explanation: 'Like any AI tool, Copilot can occasionally get things wrong — reviewing before use is a basic safety habit.',
+        explanation: 'Like any AI tool, Copilot can occasionally get things wrong - reviewing before use is a basic safety habit.',
       },
     ],
   },
@@ -1058,7 +1058,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'Business Track',
     title: 'AI for Business: Watch & Learn',
     subtitle:
-      'A three-part video series — what AI is, using generative AI at work, and using it responsibly — with a short quiz after each.',
+      'A three-part video series - what AI is, using generative AI at work, and using it responsibly - with a short quiz after each.',
     accent: '#307c4c',
     accentSoft: '#f0f9f4',
     modules: businessModules,
@@ -1068,7 +1068,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'Create AI Track',
     title: 'Create AI for Business',
     subtitle:
-      'A three-part video series on building AI — retrieval-augmented generation, feature engineering, and AI agents — with a short quiz after each.',
+      'A three-part video series on building AI - retrieval-augmented generation, feature engineering, and AI agents - with a short quiz after each.',
     accent: '#0891b2',
     accentSoft: '#ecfeff',
     modules: createAiModules,
@@ -1078,7 +1078,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'Advanced Track',
     title: 'Advanced AI: Watch & Learn',
     subtitle:
-      'A three-part video series — neural networks, large language models, and transformers — with a short quiz after each. Videos by 3Blue1Brown.',
+      'A three-part video series - neural networks, large language models, and transformers - with a short quiz after each. Videos by 3Blue1Brown.',
     accent: '#4f46e5',
     accentSoft: '#eef2ff',
     modules: advancedModules,
@@ -1088,7 +1088,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'Use AI Track',
     title: 'Use AI for Business',
     subtitle:
-      'A three-part video series on Microsoft Copilot — what it is, using it in Word/Excel/PowerPoint, and writing better prompts — with a short quiz after each.',
+      'A three-part video series on Microsoft Copilot - what it is, using it in Word/Excel/PowerPoint, and writing better prompts - with a short quiz after each.',
     accent: '#2563eb',
     accentSoft: '#eff6ff',
     modules: useAiModules,

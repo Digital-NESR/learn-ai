@@ -1,5 +1,5 @@
 /**
- * Fixed deliverables questionnaire for hackathon submissions — maps onto the
+ * Fixed deliverables questionnaire for hackathon submissions - maps onto the
  * "Deliverables Checklist" and judging rubric in the prep guide (see
  * hackathon-guide.ts). Answers are stored as a jsonb map keyed by `id` on
  * hackathon_submissions.answers (see actions/hackathon-submission.ts).
@@ -15,7 +15,7 @@ export const DELIVERABLE_QUESTIONS: DeliverableQuestion[] = [
   {
     id: 'problemStatement',
     label: 'Problem Statement',
-    prompt: 'Explain your problem statement — what challenge does it address, and who does it benefit?',
+    prompt: 'Explain your problem statement - what challenge does it address, and who does it benefit?',
   },
   {
     id: 'techStack',
@@ -30,17 +30,17 @@ export const DELIVERABLE_QUESTIONS: DeliverableQuestion[] = [
   {
     id: 'businessValue',
     label: 'Business Value Proposition',
-    prompt: 'Explain the business value proposition — why does this matter to the business, in terms leadership can act on?',
+    prompt: 'Explain the business value proposition - why does this matter to the business, in terms leadership can act on?',
   },
   {
     id: 'costBenefit',
     label: 'Cost vs. Benefit Estimate',
-    prompt: 'Give a cost vs. benefit estimate — what does it cost to build and run, versus the value it creates?',
+    prompt: 'Give a cost vs. benefit estimate - what does it cost to build and run, versus the value it creates?',
   },
   {
     id: 'impact',
     label: 'Impact Quantification',
-    prompt: 'Quantify the impact — time saved, cost avoided, quality improved, or faster turnaround.',
+    prompt: 'Quantify the impact - time saved, cost avoided, quality improved, or faster turnaround.',
   },
   {
     id: 'responsibleAI',

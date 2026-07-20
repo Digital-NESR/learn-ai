@@ -25,7 +25,7 @@ function clientKey(req: NextRequest): string {
 }
 
 export async function POST(req: NextRequest) {
-  // 1. Require an authenticated session — the widget only renders in-app.
+  // 1. Require an authenticated session - the widget only renders in-app.
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   if (!token) {
     return NextResponse.json({ error: 'Not authenticated.' }, { status: 401 });
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     const rl = !burst.ok ? burst : daily;
     const retry = Math.max(1, Math.ceil((rl.reset - Date.now()) / 1000));
     const message = !burst.ok
-      ? `You're sending messages too fast — try again in ${retry}s.`
+      ? `You're sending messages too fast - try again in ${retry}s.`
       : "You've reached today's message limit. Please try again tomorrow.";
     return NextResponse.json(message ? { error: message } : {}, {
       status: 429,
@@ -68,19 +68,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Empty message.' }, { status: 400 });
   }
 
-  // 4. Forward to the n8n workflow — or return a scaffold reply until it's wired.
+  // 4. Forward to the n8n workflow - or return a scaffold reply until it's wired.
   const webhook = process.env.N8N_CHAT_WEBHOOK_URL;
   if (!webhook) {
     return NextResponse.json({
       reply:
-        "The AI Verse assistant isn't connected yet — the n8n workflow is on its way. " +
+        "The AI Verse assistant isn't connected yet - the n8n workflow is on its way. " +
         "Once it's live, ask me anything about the AI courses and I'll answer right here.",
       scaffold: true,
     });
   }
 
   try {
-    // n8n.nesr.com serves an incomplete TLS chain (missing intermediate) —
+    // n8n.nesr.com serves an incomplete TLS chain (missing intermediate) -
     // see src/lib/n8n-agent.ts for the full explanation. This patched agent
     // supplements Node's trust store with the one missing certificate so
     // this connection can complete verification; nothing else changes.
@@ -107,12 +107,12 @@ export async function POST(req: NextRequest) {
       typeof data.reply === 'string' ? data.reply
       : typeof data.output === 'string' ? data.output
       : typeof data.text === 'string' ? data.text
-      : 'I got an empty response — please try again.';
+      : 'I got an empty response - please try again.';
 
     return NextResponse.json({ reply });
   } catch (err) {
     // Log the real cause (DNS failure, connection refused, TLS error, genuine
-    // abort, etc.) — the user-facing message stays generic on purpose.
+    // abort, etc.) - the user-facing message stays generic on purpose.
     console.error('[chat] fetch to n8n webhook failed:', webhook, err);
     return NextResponse.json({ error: 'The assistant timed out. Please try again.' }, { status: 504 });
   }

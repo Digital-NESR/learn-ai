@@ -14,7 +14,7 @@ import {
 import AdminClient from './AdminClient';
 
 export const metadata: Metadata = { title: 'Admin | NESR AI Verse' };
-// Content can be edited at any time, and this page must never be cached —
+// Content can be edited at any time, and this page must never be cached -
 // not linked from anywhere in the nav, reachable only by typing the URL.
 export const dynamic = 'force-dynamic';
 

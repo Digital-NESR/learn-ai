@@ -142,7 +142,7 @@ export default function HackathonTeamClient({
             <div className="rounded-xl border border-[var(--warning-border)] bg-[var(--warning-soft)] px-4 py-3 flex items-center justify-between gap-3">
               <p className="text-sm font-medium text-[var(--text)] flex items-center gap-2">
                 <Clock className="w-4 h-4 shrink-0 text-[var(--warning)]" />
-                Request sent to join <span className="font-semibold">{myJoinRequest.teamName}</span> — waiting for
+                Request sent to join <span className="font-semibold">{myJoinRequest.teamName}</span> - waiting for
                 the team leader to approve.
               </p>
               <button
@@ -158,8 +158,8 @@ export default function HackathonTeamClient({
             <>
               <p className="text-sm text-[var(--muted)] mb-4">
                 {registrationOpen
-                  ? 'No team yet — register one and invite teammates, all pulled from the employee directory.'
-                  : 'Team registration isn’t open yet — check back once it is.'}
+                  ? 'No team yet - register one and invite teammates, all pulled from the employee directory.'
+                  : 'Team registration isn’t open yet - check back once it is.'}
               </p>
               <div className="flex flex-wrap gap-3">
                 {registrationOpen ? (

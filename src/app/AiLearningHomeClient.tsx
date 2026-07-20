@@ -244,7 +244,7 @@ function AssistantPanel() {
       </p>
       <h2 className="mt-1 text-2xl font-bold leading-tight text-[var(--text)]">AI Verse Assistant</h2>
       <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-        Stuck on a concept? Ask anything about AI or the courses and get a clear, plain-English answer — available 24/7.
+        Stuck on a concept? Ask anything about AI or the courses and get a clear, plain-English answer - available 24/7.
       </p>
 
       <div className="mt-5 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
@@ -348,7 +348,7 @@ export default function AiLearningHomeClient({
             className="animate-fade-up text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl"
             style={{ animationDelay: '80ms' }}
           >
-            <span className="text-gradient">Learn AI</span> — for business
+            <span className="text-gradient">Learn AI</span> - for business
             <br className="hidden sm:block" /> and for building.
           </h1>
 

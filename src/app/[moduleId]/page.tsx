@@ -4,7 +4,7 @@ import { getEffectiveModule, getEffectiveNextModule } from '@/lib/content-resolv
 import ModuleClient from './ModuleClient';
 
 // Course content (including which module ids exist) can change at any time
-// via /admin, so this route can't be statically prebuilt — always render
+// via /admin, so this route can't be statically prebuilt - always render
 // on demand against the current effective content.
 export const dynamic = 'force-dynamic';
 
