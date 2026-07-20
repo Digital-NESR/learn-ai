@@ -276,6 +276,82 @@ export async function getTeamDetailForAdmin(teamId: string): Promise<AdminTeamDe
   };
 }
 
+export async function createTeamAdmin(
+  name: string,
+  creatorEmail: string,
+  memberEmails: string[] = [],
+): Promise<AdminTeamDetail> {
+  await requireAdmin();
+  const trimmedName = name.trim();
+  if (!trimmedName) throw new Error('Team name is required');
+
+  const target = creatorEmail.trim().toLowerCase();
+  const extraTargets = Array.from(new Set(memberEmails.map(e => e.trim().toLowerCase()))).filter(e => e !== target);
+
+  const { maxTeamSize } = await getTeamSizeLimits();
+  if (1 + extraTargets.length > maxTeamSize) throw new Error(`Teams are capped at ${maxTeamSize} members`);
+
+  const allEmails = [target, ...extraTargets];
+  const { rows: dirRows } = await employeeDirectoryPool.query(
+    `select mail, display_name, department, job_title from azure_ad_users_staging where mail = any($1)`,
+    [allEmails],
+  );
+  const dirByEmail = new Map(dirRows.map(r => [r.mail.toLowerCase(), r]));
+  const missing = allEmails.filter(e => !dirByEmail.has(e));
+  if (missing.length) throw new Error(`No employee found for: ${missing.join(', ')}`);
+
+  const client = await aiversePool.connect();
+  try {
+    await client.query('begin');
+
+    // hackathon_teams.created_by_email has a FK into users, but a directory match alone doesn't
+    // guarantee that person has ever signed in (only requireSessionEmail creates a users row) —
+    // upsert everyone's users row before the team insert, which needs the creator's row to exist.
+    for (const email of allEmails) {
+      const dir = dirByEmail.get(email)!;
+      await client.query(`insert into users (email, name) values ($1, $2) on conflict (email) do nothing`, [
+        email,
+        dir.display_name,
+      ]);
+    }
+
+    let teamId: string;
+    try {
+      const { rows: teamRows } = await client.query(
+        `insert into hackathon_teams (name, created_by_email) values ($1, $2) returning id`,
+        [trimmedName, target],
+      );
+      teamId = teamRows[0].id;
+    } catch (err) {
+      if (err instanceof Error && /unique/i.test(err.message)) throw new Error('That team name is already taken');
+      throw err;
+    }
+
+    for (const email of allEmails) {
+      const dir = dirByEmail.get(email)!;
+      try {
+        await client.query(
+          `insert into hackathon_team_members (team_id, email, display_name, department, job_title)
+           values ($1, $2, $3, $4, $5)`,
+          [teamId, email, dir.display_name, dir.department, dir.job_title],
+        );
+      } catch (err) {
+        if (err instanceof Error && /unique/i.test(err.message)) throw new Error(`${dir.display_name} is already on a team`);
+        throw err;
+      }
+    }
+
+    await client.query('commit');
+    const detail = await getTeamDetailForAdmin(teamId);
+    return detail as AdminTeamDetail;
+  } catch (err) {
+    await client.query('rollback');
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
 export async function renameTeamAdmin(teamId: string, newName: string): Promise<void> {
   await requireAdmin();
   const trimmed = newName.trim();
@@ -440,17 +516,22 @@ export interface AdminSubmissionSummary {
   teamId: string;
   teamName: string;
   title: string;
+  videoLink: string | null;
+  answers: Record<string, string>;
   submittedByEmail: string;
   submittedAt: string;
   updatedAt: string;
   isLate: boolean;
+  isFinal: boolean;
+  finalSubmittedAt: string | null;
   files: AdminSubmissionFile[];
 }
 
 export async function listSubmissionsForAdmin(): Promise<AdminSubmissionSummary[]> {
   await requireAdmin();
   const { rows } = await aiversePool.query(
-    `select s.id, s.team_id, t.name as team_name, s.title, s.submitted_by_email, s.submitted_at, s.updated_at, s.is_late
+    `select s.id, s.team_id, t.name as team_name, s.title, s.video_link, s.answers, s.submitted_by_email,
+            s.submitted_at, s.updated_at, s.is_late, s.is_final, s.final_submitted_at
      from hackathon_submissions s
      join hackathon_teams t on t.id = s.team_id
      order by s.submitted_at desc`,
@@ -471,10 +552,23 @@ export async function listSubmissionsForAdmin(): Promise<AdminSubmissionSummary[
     teamId: r.team_id,
     teamName: r.team_name,
     title: r.title,
+    videoLink: r.video_link,
+    answers: r.answers ?? {},
     submittedByEmail: r.submitted_by_email,
     submittedAt: r.submitted_at.toISOString(),
     updatedAt: r.updated_at.toISOString(),
     isLate: r.is_late,
+    isFinal: r.is_final,
+    finalSubmittedAt: r.final_submitted_at ? r.final_submitted_at.toISOString() : null,
     files: filesBySubmission.get(r.id) ?? [],
   }));
+}
+
+/** Unlocks a team's final submission so they can go back to editing it. */
+export async function reopenSubmissionAdmin(teamId: string): Promise<void> {
+  await requireAdmin();
+  await aiversePool.query(
+    `update hackathon_submissions set is_final = false, final_submitted_at = null where team_id = $1`,
+    [teamId],
+  );
 }

@@ -119,14 +119,26 @@ create table if not exists hackathon_submissions (
   team_id uuid not null unique references hackathon_teams(id) on delete cascade,
   title text not null,
   description text,
+  video_link text, -- Google Drive link, for mp4/video submissions instead of a file upload.
   submitted_by_email text not null references users(email) on delete cascade,
   submitted_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  is_late boolean not null default false
+  is_late boolean not null default false,
+  answers jsonb not null default '{}'::jsonb,
+  is_final boolean not null default false,
+  final_submitted_at timestamptz
 );
--- Kept for databases created before is_late existed (CREATE TABLE above only
--- applies its column list on first creation).
+-- Kept for databases created before these columns existed (CREATE TABLE above
+-- only applies its column list on first creation).
 alter table hackathon_submissions add column if not exists is_late boolean not null default false;
+alter table hackathon_submissions add column if not exists video_link text;
+-- Answers to the fixed deliverables questionnaire (see src/app/hackathon-deliverables.ts),
+-- keyed by question id. Editable any time (draft-friendly) until the event wraps up.
+alter table hackathon_submissions add column if not exists answers jsonb not null default '{}'::jsonb;
+-- Once a team clicks "Submit" (as opposed to "Save draft"), is_final locks the submission —
+-- server actions refuse further edits until an admin reopens it (see reopenSubmissionAdmin).
+alter table hackathon_submissions add column if not exists is_final boolean not null default false;
+alter table hackathon_submissions add column if not exists final_submitted_at timestamptz;
 
 -- Multiple files per submission. file_data holds the raw bytes directly — fine
 -- at pdf/pptx sizes, no external storage needed. Validated to .pdf/.pptx and
@@ -158,3 +170,21 @@ begin
     alter table hackathon_submissions drop column file_data;
   end if;
 end $$;
+
+-- A request to join an existing team, requiring the team's creator to approve
+-- it before the requester actually becomes a member (see requestToJoinTeam /
+-- approveJoinRequest / rejectJoinRequest in src/app/actions/hackathon.ts).
+-- The partial unique index below enforces one outstanding request per person.
+create table if not exists hackathon_join_requests (
+  id uuid primary key default gen_random_uuid(),
+  team_id uuid not null references hackathon_teams(id) on delete cascade,
+  requester_email text not null references users(email) on delete cascade,
+  requester_display_name text not null,
+  requester_department text,
+  requester_job_title text,
+  status text not null default 'pending', -- pending | approved | rejected
+  requested_at timestamptz not null default now(),
+  resolved_at timestamptz
+);
+create unique index if not exists hackathon_join_requests_one_pending_per_person
+  on hackathon_join_requests(requester_email) where status = 'pending';

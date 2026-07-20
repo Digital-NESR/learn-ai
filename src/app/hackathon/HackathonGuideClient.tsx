@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import { Block } from '../components/ContentBlocks';
 import Accordion from '../components/Accordion';
 import type { ContentBlock } from '../content';
@@ -57,6 +57,16 @@ export default function HackathonGuideClient({
             </button>
           );
         })}
+
+        <a
+          href="/hackathon-slide-deck.pdf"
+          download
+          className="mt-2 flex shrink-0 items-center justify-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white shadow-md transition-opacity hover:opacity-90 lg:w-full"
+          style={{ background: accent }}
+        >
+          <Download className="h-4 w-4" />
+          Download Slideset
+        </a>
       </nav>
 
       {/* Active chapter */}

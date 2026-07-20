@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState, useTransition } from 'react';
+import { Fragment, useEffect, useState, useTransition } from 'react';
 import {
   Users,
   Search,
@@ -18,11 +18,18 @@ import {
   Rocket,
   Megaphone,
   FileText,
+  Video,
+  ExternalLink,
+  Plus,
+  X,
+  Lock,
+  Unlock,
 } from 'lucide-react';
 import {
   getHackathonOverview,
   listTeamsForAdmin,
   getTeamDetailForAdmin,
+  createTeamAdmin,
   renameTeamAdmin,
   addTeamMemberAdmin,
   removeTeamMemberAdmin,
@@ -32,6 +39,7 @@ import {
   setTeamStatusAdmin,
   saveHackathonSettings,
   listSubmissionsForAdmin,
+  reopenSubmissionAdmin,
   type HackathonOverview,
   type AdminTeamSummary,
   type AdminTeamDetail,
@@ -39,6 +47,7 @@ import {
   type AdminSubmissionSummary,
 } from '../actions/admin-hackathon';
 import { searchEmployees, type DirectoryPerson } from '../actions/hackathon';
+import { DELIVERABLE_QUESTIONS } from '../hackathon-deliverables';
 
 type SubTab = 'overview' | 'teams' | 'settings' | 'submissions';
 
@@ -274,6 +283,182 @@ function TeamDetailPanel({
   );
 }
 
+function NewTeamForm({
+  busy,
+  onCreate,
+  onCancel,
+}: {
+  busy: boolean;
+  onCreate: (name: string, email: string, memberEmails: string[]) => void;
+  onCancel: () => void;
+}) {
+  const [name, setName] = useState('');
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<DirectoryPerson[]>([]);
+  const [creator, setCreator] = useState<DirectoryPerson | null>(null);
+  const [members, setMembers] = useState<DirectoryPerson[]>([]);
+  const [memberQuery, setMemberQuery] = useState('');
+  const [memberResults, setMemberResults] = useState<DirectoryPerson[]>([]);
+  const [searchPending, startSearchTransition] = useTransition();
+  const [memberSearchPending, startMemberSearchTransition] = useTransition();
+
+  function handleSearch(value: string) {
+    setQuery(value);
+    setCreator(null);
+    if (value.trim().length < 2) {
+      setResults([]);
+      return;
+    }
+    startSearchTransition(async () => {
+      setResults(await searchEmployees(value));
+    });
+  }
+
+  function handleMemberSearch(value: string) {
+    setMemberQuery(value);
+    if (value.trim().length < 2) {
+      setMemberResults([]);
+      return;
+    }
+    startMemberSearchTransition(async () => {
+      setMemberResults(await searchEmployees(value));
+    });
+  }
+
+  function addMember(p: DirectoryPerson) {
+    if (creator?.email === p.email || members.some(m => m.email === p.email)) return;
+    setMembers(prev => [...prev, p]);
+    setMemberQuery('');
+    setMemberResults([]);
+  }
+
+  function removeMember(email: string) {
+    setMembers(prev => prev.filter(m => m.email !== email));
+  }
+
+  return (
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--card-2)] p-5 mb-4">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-semibold text-[var(--text)]">New team</h3>
+        <button onClick={onCancel} className="text-[var(--muted)] hover:text-[var(--text)]" aria-label="Cancel">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-medium text-[var(--muted)] mb-1.5">Team name</label>
+          <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. Data Wizards" className={INPUT_CLS} />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-[var(--muted)] mb-1.5">Team leader (search directory)</label>
+          {creator ? (
+            <div className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2">
+              <span className="min-w-0">
+                <span className="block text-sm font-medium text-[var(--text)] truncate">{creator.displayName}</span>
+                <span className="block text-xs text-[var(--muted)] truncate">{creator.email}</span>
+              </span>
+              <button onClick={() => setCreator(null)} className="text-[var(--muted)] hover:text-[var(--danger)] shrink-0">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
+              <input
+                value={query}
+                onChange={e => handleSearch(e.target.value)}
+                placeholder="Search by name or email…"
+                className={`${INPUT_CLS} pl-9`}
+              />
+              {results.length > 0 && (
+                <ul className="mt-2 flex flex-col gap-1 rounded-lg border border-[var(--border)] overflow-hidden bg-[var(--card)] absolute z-10 w-full">
+                  {results.map(p => (
+                    <li key={p.email}>
+                      <button
+                        onClick={() => {
+                          setCreator(p);
+                          setResults([]);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-left text-sm hover:bg-[var(--card-2)] transition-colors"
+                      >
+                        <UserPlus className="w-4 h-4 shrink-0 text-[var(--muted)]" />
+                        <span className="min-w-0 flex-1">
+                          <span className="block font-medium text-[var(--text)] truncate">{p.displayName}</span>
+                          <span className="block text-xs text-[var(--muted)] truncate">{p.email}</span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {searchPending && <p className="mt-1 text-xs text-[var(--muted)]">Searching…</p>}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <label className="block text-xs font-medium text-[var(--muted)] mb-1.5">Other members (optional)</label>
+        {members.length > 0 && (
+          <ul className="mb-2 flex flex-col gap-1.5">
+            {members.map(m => (
+              <li
+                key={m.email}
+                className="flex items-center justify-between gap-2 rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2"
+              >
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium text-[var(--text)] truncate">{m.displayName}</span>
+                  <span className="block text-xs text-[var(--muted)] truncate">{m.email}</span>
+                </span>
+                <button onClick={() => removeMember(m.email)} className="text-[var(--muted)] hover:text-[var(--danger)] shrink-0">
+                  <X className="w-4 h-4" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
+          <input
+            value={memberQuery}
+            onChange={e => handleMemberSearch(e.target.value)}
+            placeholder="Search by name or email…"
+            className={`${INPUT_CLS} pl-9`}
+          />
+          {memberResults.length > 0 && (
+            <ul className="mt-2 flex flex-col gap-1 rounded-lg border border-[var(--border)] overflow-hidden bg-[var(--card)] absolute z-10 w-full">
+              {memberResults.map(p => (
+                <li key={p.email}>
+                  <button
+                    onClick={() => addMember(p)}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-left text-sm hover:bg-[var(--card-2)] transition-colors"
+                  >
+                    <UserPlus className="w-4 h-4 shrink-0 text-[var(--muted)]" />
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-medium text-[var(--text)] truncate">{p.displayName}</span>
+                      <span className="block text-xs text-[var(--muted)] truncate">{p.email}</span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+          {memberSearchPending && <p className="mt-1 text-xs text-[var(--muted)]">Searching…</p>}
+        </div>
+      </div>
+
+      <button
+        onClick={() => creator && name.trim() && onCreate(name.trim(), creator.email, members.map(m => m.email))}
+        disabled={busy || !name.trim() || !creator}
+        className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg text-white bg-[var(--brand)] disabled:opacity-50 transition-colors"
+      >
+        <Plus className="w-4 h-4" />
+        Create team
+      </button>
+    </div>
+  );
+}
+
 export default function HackathonAdminClient({
   initialOverview,
   initialTeams,
@@ -296,7 +481,16 @@ export default function HackathonAdminClient({
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [showNewTeamForm, setShowNewTeamForm] = useState(false);
+  const [expandedSubmissionId, setExpandedSubmissionId] = useState<string | null>(null);
+  const [reopeningId, setReopeningId] = useState<string | null>(null);
   const [, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (!status) return;
+    const timer = setTimeout(() => setStatus(null), 5000);
+    return () => clearTimeout(timer);
+  }, [status]);
 
   function refreshTeams(search: string) {
     startTransition(async () => {
@@ -314,6 +508,21 @@ export default function HackathonAdminClient({
     startTransition(async () => {
       setSubmissions(await listSubmissionsForAdmin());
     });
+  }
+
+  async function handleReopen(teamId: string) {
+    setError(null);
+    setStatus(null);
+    setReopeningId(teamId);
+    try {
+      await reopenSubmissionAdmin(teamId);
+      setSubmissions(await listSubmissionsForAdmin());
+      setStatus('Submission reopened for editing.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not reopen submission');
+    } finally {
+      setReopeningId(null);
+    }
   }
 
   function handleSearch(value: string) {
@@ -346,6 +555,23 @@ export default function HackathonAdminClient({
       setStatus(successMsg);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleCreateTeam(name: string, email: string, memberEmails: string[]) {
+    setSaving(true);
+    setError(null);
+    setStatus(null);
+    try {
+      await createTeamAdmin(name, email, memberEmails);
+      refreshTeams(query);
+      refreshOverview();
+      setShowNewTeamForm(false);
+      setStatus('Team created.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not create team');
     } finally {
       setSaving(false);
     }
@@ -460,15 +686,30 @@ export default function HackathonAdminClient({
 
       {subTab === 'teams' && (
         <div>
-          <div className="relative mb-4 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
-            <input
-              value={query}
-              onChange={e => handleSearch(e.target.value)}
-              placeholder="Search by team, name, email, or department…"
-              className={`${INPUT_CLS} pl-9`}
-            />
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <div className="relative max-w-md flex-1 min-w-[220px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
+              <input
+                value={query}
+                onChange={e => handleSearch(e.target.value)}
+                placeholder="Search by team, name, email, or department…"
+                className={`${INPUT_CLS} pl-9`}
+              />
+            </div>
+            {!showNewTeamForm && (
+              <button
+                onClick={() => setShowNewTeamForm(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-semibold rounded-lg text-white bg-[var(--brand)] hover:opacity-90 transition-colors shrink-0"
+              >
+                <Plus className="w-4 h-4" />
+                New team
+              </button>
+            )}
           </div>
+
+          {showNewTeamForm && (
+            <NewTeamForm busy={saving} onCreate={handleCreateTeam} onCancel={() => setShowNewTeamForm(false)} />
+          )}
 
           <div className="overflow-x-auto rounded-xl border border-[var(--border)]">
             <table className="w-full text-sm border-collapse">
@@ -585,8 +826,10 @@ export default function HackathonAdminClient({
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="bg-[var(--card-2)] text-left text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
+                  <th className="px-3 py-2.5 w-6" />
                   <th className="px-3 py-2.5">Team</th>
                   <th className="px-3 py-2.5">Title</th>
+                  <th className="px-3 py-2.5">Status</th>
                   <th className="px-3 py-2.5">Files</th>
                   <th className="px-3 py-2.5">Submitted by</th>
                   <th className="px-3 py-2.5">Submitted</th>
@@ -595,50 +838,128 @@ export default function HackathonAdminClient({
               <tbody>
                 {submissions.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-3 py-6 text-center text-[var(--muted)]">
+                    <td colSpan={7} className="px-3 py-6 text-center text-[var(--muted)]">
                       No submissions yet.
                     </td>
                   </tr>
                 )}
-                {submissions.map(s => (
-                  <tr key={s.id} className="border-t border-[var(--border)] bg-[var(--card)]">
-                    <td className="px-3 py-2.5 font-medium text-[var(--text)] align-top">{s.teamName}</td>
-                    <td className="px-3 py-2.5 text-[var(--text)] align-top">{s.title}</td>
-                    <td className="px-3 py-2.5 text-[var(--muted)] align-top">
-                      {s.files.length === 0 ? (
-                        '—'
-                      ) : (
-                        <ul className="flex flex-col gap-1">
-                          {s.files.map(f => (
-                            <li key={f.id} className="flex items-center gap-1.5">
-                              <FileText className="w-3.5 h-3.5 shrink-0" />
-                              <span>
-                                {f.fileName} ({fmtBytes(f.fileSize)})
+                {submissions.map(s => {
+                  const answerCount = Object.keys(s.answers).length;
+                  const expanded = expandedSubmissionId === s.id;
+                  return (
+                    <Fragment key={s.id}>
+                      <tr
+                        onClick={() => setExpandedSubmissionId(expanded ? null : s.id)}
+                        className="border-t border-[var(--border)] bg-[var(--card)] hover:bg-[var(--card-2)] cursor-pointer transition-colors"
+                      >
+                        <td className="px-3 py-2.5 text-[var(--muted)] align-top">
+                          {expanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                        </td>
+                        <td className="px-3 py-2.5 font-medium text-[var(--text)] align-top">{s.teamName}</td>
+                        <td className="px-3 py-2.5 text-[var(--text)] align-top">{s.title}</td>
+                        <td className="px-3 py-2.5 align-top">
+                          {s.isFinal ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border text-[var(--brand)] bg-[var(--brand-soft)] border-[var(--border)]">
+                              <Lock className="w-3 h-3" />
+                              Submitted
+                            </span>
+                          ) : (
+                            <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-semibold border text-[var(--muted)] bg-[var(--card-2)] border-[var(--border)]">
+                              Draft
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-3 py-2.5 text-[var(--muted)] align-top">
+                          {s.files.length === 0 && !s.videoLink ? (
+                            '—'
+                          ) : (
+                            <ul className="flex flex-col gap-1">
+                              {s.files.map(f => (
+                                <li key={f.id} className="flex items-center gap-1.5">
+                                  <FileText className="w-3.5 h-3.5 shrink-0" />
+                                  <span>
+                                    {f.fileName} ({fmtBytes(f.fileSize)})
+                                  </span>
+                                  <a
+                                    href={`/api/hackathon/submissions/file/${f.id}`}
+                                    onClick={e => e.stopPropagation()}
+                                    className="inline-flex items-center gap-1 text-xs font-semibold hover:underline text-[var(--brand)]"
+                                  >
+                                    <Download className="w-3.5 h-3.5" />
+                                  </a>
+                                </li>
+                              ))}
+                              {s.videoLink && (
+                                <li className="flex items-center gap-1.5">
+                                  <Video className="w-3.5 h-3.5 shrink-0" />
+                                  <span>Video link</span>
+                                  <a
+                                    href={s.videoLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={e => e.stopPropagation()}
+                                    className="inline-flex items-center gap-1 text-xs font-semibold hover:underline text-[var(--brand)]"
+                                  >
+                                    <ExternalLink className="w-3.5 h-3.5" />
+                                  </a>
+                                </li>
+                              )}
+                            </ul>
+                          )}
+                        </td>
+                        <td className="px-3 py-2.5 text-[var(--muted)] align-top">{s.submittedByEmail}</td>
+                        <td className="px-3 py-2.5 text-[var(--muted)] align-top">
+                          <span className="inline-flex items-center gap-1.5">
+                            {fmtDateTime(s.submittedAt)}
+                            {s.isLate && (
+                              <span className="inline-flex px-1.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-[var(--warning-soft)] text-[var(--warning)] border border-[var(--warning-border)]">
+                                Late
                               </span>
-                              <a
-                                href={`/api/hackathon/submissions/file/${f.id}`}
-                                className="inline-flex items-center gap-1 text-xs font-semibold hover:underline text-[var(--brand)]"
-                              >
-                                <Download className="w-3.5 h-3.5" />
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </td>
-                    <td className="px-3 py-2.5 text-[var(--muted)] align-top">{s.submittedByEmail}</td>
-                    <td className="px-3 py-2.5 text-[var(--muted)] align-top">
-                      <span className="inline-flex items-center gap-1.5">
-                        {fmtDateTime(s.submittedAt)}
-                        {s.isLate && (
-                          <span className="inline-flex px-1.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-[var(--warning-soft)] text-[var(--warning)] border border-[var(--warning-border)]">
-                            Late
+                            )}
                           </span>
-                        )}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                        </td>
+                      </tr>
+                      {expanded && (
+                        <tr>
+                          <td colSpan={7} className="px-3 pb-4 bg-[var(--card)]">
+                            <div className="rounded-xl border border-[var(--border)] bg-[var(--card-2)] p-4">
+                              <div className="flex items-center justify-between mb-3">
+                                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
+                                  Deliverables ({answerCount} of {DELIVERABLE_QUESTIONS.length} answered)
+                                </p>
+                                {s.isFinal && (
+                                  <button
+                                    onClick={e => {
+                                      e.stopPropagation();
+                                      handleReopen(s.teamId);
+                                    }}
+                                    disabled={reopeningId === s.teamId}
+                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg border border-[var(--border)] hover:bg-[var(--card)] disabled:opacity-50 transition-colors"
+                                  >
+                                    <Unlock className="w-3.5 h-3.5" />
+                                    {reopeningId === s.teamId ? 'Reopening…' : 'Reopen for editing'}
+                                  </button>
+                                )}
+                              </div>
+                              {answerCount === 0 ? (
+                                <p className="text-sm text-[var(--muted)]">No deliverable questions answered yet.</p>
+                              ) : (
+                                <div className="flex flex-col gap-3">
+                                  {DELIVERABLE_QUESTIONS.filter(q => s.answers[q.id]).map(q => (
+                                    <div key={q.id}>
+                                      <p className="text-xs font-semibold text-[var(--text)]">{q.label}</p>
+                                      <p className="text-sm text-[var(--muted)] whitespace-pre-wrap">{s.answers[q.id]}</p>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </Fragment>
+                  );
+                })}
               </tbody>
             </table>
           </div>
