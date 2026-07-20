@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -39,7 +39,7 @@ function NavTab({
   );
 }
 
-export default function AiLearningHeader() {
+export default function AiLearningHeader({ rightExtra }: { rightExtra?: ReactNode } = {}) {
   const pathname = usePathname();
   const onHackathon = pathname?.startsWith('/hackathon') ?? false;
   const { data: session } = useSession();
@@ -73,6 +73,7 @@ export default function AiLearningHeader() {
             {jobTitle && <span className="text-xs text-[var(--muted)]">{jobTitle}</span>}
           </div>
         )}
+        {rightExtra}
         <ThemeToggle />
         <SignOutButton />
       </div>
