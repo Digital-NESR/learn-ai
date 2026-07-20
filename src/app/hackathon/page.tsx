@@ -8,7 +8,7 @@ import HackathonTeamClient from './HackathonTeamClient';
 import CountdownTimer from './CountdownTimer';
 import { GUIDE_CHAPTERS, HACKATHON_ACCENT, HACKATHON_NEON } from '../hackathon-guide';
 import { authOptions } from '@/lib/auth';
-import { getMyTeam, getPublicHackathonSettings } from '../actions/hackathon';
+import { getMyTeam, getPublicHackathonSettings, getMyJoinRequest, listJoinRequestsForMyTeam } from '../actions/hackathon';
 
 export const metadata: Metadata = { title: 'Hackathon | NESR AI Verse' };
 export const dynamic = 'force-dynamic';
@@ -59,10 +59,12 @@ function fmtDateTime(iso: string | null): string | null {
 export default async function HackathonPage() {
   const session = await getServerSession(authOptions);
   const currentUserEmail = session?.user?.email?.toLowerCase() ?? '';
-  const [myTeam, settings] = await Promise.all([
+  const [myTeam, settings, myJoinRequest] = await Promise.all([
     getMyTeam().catch(() => null),
     getPublicHackathonSettings(),
+    getMyJoinRequest().catch(() => null),
   ]);
+  const incomingJoinRequests = myTeam?.createdByEmail === currentUserEmail ? await listJoinRequestsForMyTeam() : [];
   const statusCopy = STATUS_COPY[settings.status] ?? STATUS_COPY.draft;
 
   const details: { label: string; value: string }[] = [];
@@ -74,10 +76,10 @@ export default async function HackathonPage() {
   if (submissionDeadline) details.push({ label: 'Submission deadline', value: submissionDeadline });
   const presentation = fmtDateTime(settings.presentationAt);
   if (presentation) details.push({ label: 'Presentations', value: presentation });
-  if (settings.contactEmail) details.push({ label: 'Questions', value: settings.contactEmail });
   if (settings.eligibility) details.push({ label: 'Who can join', value: settings.eligibility });
 
   const eventHasStarted = settings.eventStartAt ? new Date(settings.eventStartAt) <= new Date() : false;
+  const registrationOpen = settings.status === 'open';
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg)] font-sans text-[var(--text)]">
@@ -125,7 +127,7 @@ export default async function HackathonPage() {
 
             {settings.announcement && (
               <div
-                className="animate-glow-pulse relative mx-auto mt-6 max-w-xl overflow-hidden rounded-2xl border px-5 py-4 text-left shadow-lg"
+                className="animate-glow-pulse relative mx-auto mt-6 max-w-xl overflow-hidden rounded-2xl border px-5 py-4 text-center shadow-lg"
                 style={{
                   borderColor: `${HACKATHON_ACCENT}66`,
                   background: `linear-gradient(120deg, ${HACKATHON_ACCENT}2e, ${HACKATHON_ACCENT}0d 45%, ${HACKATHON_ACCENT}2e)`,
@@ -137,7 +139,7 @@ export default async function HackathonPage() {
                   className="animate-shimmer-sweep pointer-events-none absolute inset-y-0 left-0 w-1/3"
                   style={{ background: 'linear-gradient(100deg, transparent, rgba(255,255,255,0.28), transparent)' }}
                 />
-                <div className="relative flex items-start gap-3">
+                <div className="relative flex flex-col items-center gap-2 text-center">
                   <div
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
                     style={{ background: `${HACKATHON_ACCENT}26`, color: HACKATHON_ACCENT }}
@@ -167,6 +169,23 @@ export default async function HackathonPage() {
                   </div>
                 ))}
               </dl>
+            )}
+
+            {registrationOpen && !myTeam && (
+              <div className="mt-8 flex justify-center">
+                <Link
+                  href="/hackathon/register"
+                  className="animate-glow-pulse inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-base font-extrabold uppercase tracking-wide text-[#070b09] shadow-lg transition-transform hover:scale-105"
+                  style={{
+                    background: HACKATHON_NEON,
+                    ['--glow-color' as string]: `${HACKATHON_NEON}99`,
+                    ['--glow-color-transparent' as string]: `${HACKATHON_NEON}00`,
+                  }}
+                >
+                  <Rocket className="h-5 w-5" />
+                  Register Now
+                </Link>
+              </div>
             )}
 
             <div className="mt-10 grid gap-4 sm:grid-cols-3 text-left">
@@ -221,8 +240,10 @@ export default async function HackathonPage() {
             initialTeam={myTeam}
             currentUserEmail={currentUserEmail}
             accent={HACKATHON_ACCENT}
-            registrationOpen={settings.status === 'open'}
+            registrationOpen={registrationOpen}
             submissionsOpen={eventHasStarted}
+            initialMyJoinRequest={myJoinRequest}
+            initialIncomingRequests={incomingJoinRequests}
           />
         </div>
 
