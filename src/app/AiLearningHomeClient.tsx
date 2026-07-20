@@ -440,7 +440,7 @@ export default function AiLearningHomeClient({
           Dashboard
         </button>
       )}
-      {view.kind !== 'dashboard' && <AchievementsMenu achievements={achievements} />}
+      {view.kind !== 'dashboard' && view.kind !== 'regions' && <AchievementsMenu achievements={achievements} />}
     </div>
   );
 
@@ -702,27 +702,36 @@ export default function AiLearningHomeClient({
 
       {view.kind === 'regions' && (
         <main className="flex-1">
-          <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8">
-            <div className="mb-8 flex flex-col gap-1">
-              <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--muted)]">
-                The Dungeon Map
-              </p>
-              <h1 className="text-2xl font-bold leading-tight text-[var(--text)]">Choose a realm</h1>
-              <p className="text-sm text-[var(--muted)]">
-                {completedCount} of {totalModules} islands cleared across all realms.
-              </p>
-            </div>
+          <div className="mx-auto max-w-6xl px-6 py-10 lg:px-8">
+            <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+              <div>
+                <div className="mb-8 flex flex-col gap-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--muted)]">
+                    The Dungeon Map
+                  </p>
+                  <h1 className="text-2xl font-bold leading-tight text-[var(--text)]">Choose a realm</h1>
+                  <p className="text-sm text-[var(--muted)]">
+                    {completedCount} of {totalModules} islands cleared across all realms.
+                  </p>
+                </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {tracks.map(track => (
-                <RegionCard
-                  key={track.id}
-                  track={track}
-                  icon={TRACK_ICON[track.id]}
-                  completed={track.modules.filter(m => progress[m.id]).length}
-                  onSelect={() => setView({ kind: 'path', trackId: track.id })}
-                />
-              ))}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {tracks.map(track => (
+                    <RegionCard
+                      key={track.id}
+                      track={track}
+                      icon={TRACK_ICON[track.id]}
+                      completed={track.modules.filter(m => progress[m.id]).length}
+                      onSelect={() => setView({ kind: 'path', trackId: track.id })}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Always visible here — this is the dungeon's main/landing page,
+                  so progress toward every achievement should be in view without
+                  an extra click. */}
+              <AchievementsMenu achievements={achievements} variant="pinned" />
             </div>
           </div>
         </main>
