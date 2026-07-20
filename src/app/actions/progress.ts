@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import aiversePool from '@/lib/db-aiverse';
 import { getEffectiveAllModules } from '@/lib/content-resolver';
+import { computeCertificateStatus, type CertificateStatus } from '@/lib/certificate';
 
 export interface ModuleResult {
   score: number;
@@ -75,10 +76,10 @@ export async function recordModuleResult(
     [email],
   );
   const completedIds = new Set(completedRows.map(r => r.module_id));
-  const completedCount = effectiveModules.filter(m => completedIds.has(m.module.id)).length;
+  const status = computeCertificateStatus(effectiveModules.map(m => m.module), completedIds);
 
   let certificateEarned = false;
-  if (effectiveModules.length > 0 && completedCount >= effectiveModules.length) {
+  if (status.earned) {
     const res = await aiversePool.query(
       `insert into certificates (user_email, recipient_name) values ($1, $2)
        on conflict (user_email) do nothing`,
@@ -88,6 +89,21 @@ export async function recordModuleResult(
   }
 
   return { certificateEarned };
+}
+
+/** Per-tier completion status against the certificate rule, for progress UI. */
+export async function getMyCertificateStatus(): Promise<CertificateStatus> {
+  const effectiveModules = await getEffectiveAllModules();
+  const session = await getServerSession(authOptions);
+  const email = session?.user?.email?.toLowerCase();
+  if (!email) return computeCertificateStatus(effectiveModules.map(m => m.module), new Set());
+
+  const { rows } = await aiversePool.query(
+    `select module_id from module_progress where user_email = $1`,
+    [email],
+  );
+  const completedIds = new Set(rows.map(r => r.module_id));
+  return computeCertificateStatus(effectiveModules.map(m => m.module), completedIds);
 }
 
 export async function getMyCertificate(): Promise<{ recipientName: string; issuedAt: string } | null> {

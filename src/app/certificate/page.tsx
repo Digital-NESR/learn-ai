@@ -2,14 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import AiLearningHeader from '../components/AiLearningHeader';
-import { getMyCertificate } from '../actions/progress';
+import { getMyCertificate, getMyCertificateStatus } from '../actions/progress';
 import CertificateView from './CertificateView';
 
 export const metadata: Metadata = { title: 'Certificate | NESR AI Verse' };
 export const dynamic = 'force-dynamic';
 
 export default async function CertificatePage() {
-  const certificate = await getMyCertificate();
+  const [certificate, status] = await Promise.all([getMyCertificate(), getMyCertificateStatus()]);
 
   if (!certificate) {
     return (
@@ -18,8 +18,14 @@ export default async function CertificatePage() {
         <main className="flex-1 flex flex-col items-center justify-center px-6 text-center gap-4">
           <p className="text-lg font-semibold text-[var(--text)]">No certificate yet</p>
           <p className="text-[var(--muted)] max-w-sm">
-            Finish every part across all four tracks to unlock your certificate of completion.
+            Finish every Required part, at least half of the Important parts, and{' '}
+            {status.optional.needed} of the Specialized parts to unlock your certificate.
           </p>
+          <div className="flex flex-col gap-1 text-sm text-[var(--muted)]">
+            <span>Required: {status.required.done} / {status.required.total}</span>
+            <span>Important: {status.half.done} / {status.half.needed} needed (of {status.half.total})</span>
+            <span>Specialized: {status.optional.done} / {status.optional.needed} needed (of {status.optional.total})</span>
+          </div>
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--brand)] hover:underline"

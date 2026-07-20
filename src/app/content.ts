@@ -45,6 +45,14 @@ export interface QuizQuestion {
 
 /* ─── Module + track ─────────────────────────────────────────────────── */
 
+/**
+ * How a module counts toward the certificate (see src/lib/certificate.ts):
+ *  - "required" — must be completed, no exceptions.
+ *  - "half"     — completing roughly half of this bucket (across all tracks) is enough.
+ *  - "optional" — completing a small fixed number of these (across all tracks) is enough.
+ */
+export type ModuleRequirement = 'required' | 'half' | 'optional';
+
 export interface Module {
   /** url slug, e.g. "general-beginner-1" */
   id: string;
@@ -53,6 +61,7 @@ export interface Module {
   part: number;
   title: string;
   tagline: string;
+  requirement: ModuleRequirement;
   /** rough time to read + quiz */
   minutes: number;
   sections: ContentBlock[];
@@ -91,6 +100,7 @@ const generalBeginnerModules: Module[] = [
     part: 1,
     title: 'What Is AI?',
     tagline: 'A five-minute primer on what artificial intelligence really means.',
+    requirement: 'required',
     minutes: 5,
     sections: [
       {
@@ -168,6 +178,7 @@ const generalBeginnerModules: Module[] = [
     part: 2,
     title: 'Generative AI at Work',
     tagline: 'What generative AI is, how it works, and how to actually use it well.',
+    requirement: 'required',
     minutes: 18,
     sections: [
       {
@@ -245,6 +256,7 @@ const generalBeginnerModules: Module[] = [
     part: 3,
     title: 'Using AI Responsibly',
     tagline: 'The ethics questions every team should ask before leaning on AI.',
+    requirement: 'required',
     minutes: 7,
     sections: [
       {
@@ -322,6 +334,7 @@ const generalBeginnerModules: Module[] = [
     part: 4,
     title: 'AI vs. Machine Learning vs. Deep Learning',
     tagline: 'The three terms people mix up constantly — and how they actually nest inside each other.',
+    requirement: 'required',
     minutes: 9,
     sections: [
       {
@@ -362,6 +375,7 @@ const generalBeginnerModules: Module[] = [
     part: 5,
     title: 'How Chatbots Actually Work',
     tagline: 'What is happening behind that little chat window when you type a message.',
+    requirement: 'half',
     minutes: 7,
     sections: [
       {
@@ -402,6 +416,7 @@ const generalBeginnerModules: Module[] = [
     part: 6,
     title: 'AI in Your Everyday Apps',
     tagline: 'The AI you are already using without noticing — from streaming recommendations to maps.',
+    requirement: 'optional',
     minutes: 5,
     sections: [
       {
@@ -442,6 +457,7 @@ const generalBeginnerModules: Module[] = [
     part: 7,
     title: 'A Brief History of AI',
     tagline: 'From wartime code-breaking to today’s chatbots, in about six minutes.',
+    requirement: 'optional',
     minutes: 8,
     sections: [
       {
@@ -482,6 +498,7 @@ const generalBeginnerModules: Module[] = [
     part: 8,
     title: 'Common AI Myths — Debunked',
     tagline: 'Separating what AI actually does from what movies and headlines make you think it does.',
+    requirement: 'half',
     minutes: 6,
     sections: [
       {
@@ -522,6 +539,7 @@ const generalBeginnerModules: Module[] = [
     part: 9,
     title: 'Prompt Basics: How to Talk to an AI Chatbot',
     tagline: 'The simple habits that turn a vague question into a genuinely useful AI answer.',
+    requirement: 'required',
     minutes: 8,
     sections: [
       {
@@ -562,6 +580,7 @@ const generalBeginnerModules: Module[] = [
     part: 10,
     title: 'What Is a Large Language Model?',
     tagline: 'The plain-language explanation behind the tech powering tools like ChatGPT and Claude.',
+    requirement: 'required',
     minutes: 15,
     sections: [
       {
@@ -610,6 +629,7 @@ const generalIntermediateModules: Module[] = [
     part: 1,
     title: 'Prompt Engineering: Four Ways to Talk to an AI',
     tagline: 'Beyond "write a good prompt" — the actual named techniques that make LLMs more accurate.',
+    requirement: 'required',
     minutes: 9,
     sections: [
       {
@@ -651,6 +671,7 @@ const generalIntermediateModules: Module[] = [
     part: 2,
     title: 'Why AI Chatbots Sometimes Make Things Up',
     tagline: 'Hallucinations explained: why a confident-sounding AI answer can still be wrong.',
+    requirement: 'required',
     minutes: 7,
     sections: [
       {
@@ -691,6 +712,7 @@ const generalIntermediateModules: Module[] = [
     part: 3,
     title: 'Multimodal AI: One Model, Many Kinds of Input',
     tagline: 'How modern AI systems handle text, images, and audio together, not separately.',
+    requirement: 'half',
     minutes: 10,
     sections: [
       {
@@ -731,6 +753,7 @@ const generalIntermediateModules: Module[] = [
     part: 4,
     title: 'AI in the Supply Chain',
     tagline: 'How AI is being applied to real supply chain and procurement operations.',
+    requirement: 'half',
     minutes: 7,
     sections: [
       {
@@ -771,6 +794,7 @@ const generalIntermediateModules: Module[] = [
     part: 5,
     title: 'AI, Machine Learning, Deep Learning, and Generative AI: What’s the Difference?',
     tagline: 'How models actually learn from data, and where each buzzword fits.',
+    requirement: 'half',
     minutes: 12,
     sections: [
       {
@@ -811,6 +835,7 @@ const generalIntermediateModules: Module[] = [
     part: 6,
     title: 'Five AI Risks That Can Get You Fired',
     tagline: 'The real security and governance pitfalls of using AI carelessly at work.',
+    requirement: 'required',
     minutes: 11,
     sections: [
       {
@@ -852,6 +877,7 @@ const generalIntermediateModules: Module[] = [
     part: 7,
     title: 'The Future of AI: A Conversation With Sam Altman',
     tagline: 'A live, unscripted look at where one of AI’s most influential leaders thinks the field is headed.',
+    requirement: 'optional',
     minutes: 49,
     sections: [
       {
@@ -892,6 +918,7 @@ const generalIntermediateModules: Module[] = [
     part: 8,
     title: 'The Rise of Generative AI for Business',
     tagline: 'Zooming out: why generative AI is being called a defining, industrial-revolution-scale moment for business.',
+    requirement: 'half',
     minutes: 13,
     sections: [
       {
@@ -932,6 +959,7 @@ const generalIntermediateModules: Module[] = [
     part: 9,
     title: 'Can You Trust Synthetic Data?',
     tagline: 'AI-generated "fake" data is quietly becoming a real training tool — here is where it helps and where it can bite you.',
+    requirement: 'optional',
     minutes: 9,
     sections: [
       {
@@ -972,6 +1000,7 @@ const generalIntermediateModules: Module[] = [
     part: 10,
     title: 'Can Technology Catch a Deepfake Before You Do?',
     tagline: 'AI-generated video and images are now good enough to fool most people — a look at the detection arms race trying to keep up.',
+    requirement: 'optional',
     minutes: 9,
     sections: [
       {
@@ -1020,6 +1049,7 @@ const generalAdvancedModules: Module[] = [
     part: 1,
     title: 'AI Strategy for Organizations',
     tagline: 'How companies actually move from AI pilots to enterprise-wide impact.',
+    requirement: 'half',
     minutes: 22,
     sections: [
       {
@@ -1056,6 +1086,7 @@ const generalAdvancedModules: Module[] = [
     part: 2,
     title: 'The AI Regulation Landscape',
     tagline: 'What the EU AI Act actually requires, explained without the legal jargon.',
+    requirement: 'half',
     minutes: 17,
     sections: [
       {
@@ -1091,6 +1122,7 @@ const generalAdvancedModules: Module[] = [
     part: 3,
     title: 'AI and the Future of Work',
     tagline: 'What credible research says about AI, jobs, and how work is changing.',
+    requirement: 'optional',
     minutes: 6,
     sections: [
       {
@@ -1125,6 +1157,7 @@ const generalAdvancedModules: Module[] = [
     part: 4,
     title: 'Advanced Prompt Engineering for Business Users',
     tagline: 'Zero-shot, few-shot, and chain-of-thought prompting — explained without the math.',
+    requirement: 'required',
     minutes: 14,
     sections: [
       {
@@ -1161,6 +1194,7 @@ const generalAdvancedModules: Module[] = [
     part: 5,
     title: 'Evaluating AI Vendors and Tools',
     tagline: 'The questions a smart buyer asks before adopting any AI product.',
+    requirement: 'half',
     minutes: 8,
     sections: [
       {
@@ -1195,6 +1229,7 @@ const generalAdvancedModules: Module[] = [
     part: 6,
     title: 'Responsible AI and Governance Frameworks',
     tagline: 'Why "legal" and "ethical" are not the same thing when it comes to AI.',
+    requirement: 'half',
     minutes: 11,
     sections: [
       {
@@ -1229,6 +1264,7 @@ const generalAdvancedModules: Module[] = [
     part: 7,
     title: 'The Limits of Current AI — A Critical View',
     tagline: 'Meta’s chief AI scientist explains what today’s AI still cannot do.',
+    requirement: 'half',
     minutes: 61,
     sections: [
       {
@@ -1265,6 +1301,7 @@ const generalAdvancedModules: Module[] = [
     part: 8,
     title: 'Case Study: AI Transformation at Scale',
     tagline: 'How Bank of America turned a chatbot into a company-wide AI transformation.',
+    requirement: 'optional',
     minutes: 42,
     sections: [
       {
@@ -1300,6 +1337,7 @@ const generalAdvancedModules: Module[] = [
     part: 9,
     title: 'Building an AI-Literate Culture',
     tagline: 'Why adapting to AI is a leadership and culture challenge, not just a technology rollout.',
+    requirement: 'optional',
     minutes: 12,
     sections: [
       {
@@ -1334,6 +1372,7 @@ const generalAdvancedModules: Module[] = [
     part: 10,
     title: 'Advanced Generative AI Use Cases: Agentic AI in Business',
     tagline: 'How AI agents chain multiple steps together to create real business value.',
+    requirement: 'half',
     minutes: 22,
     sections: [
       {
@@ -1377,6 +1416,7 @@ const technicalBeginnerModules: Module[] = [
     part: 1,
     title: 'What Is a Neural Network?',
     tagline: 'The building block behind modern AI — built up from scratch, and visualized.',
+    requirement: 'required',
     minutes: 20,
     sections: [
       {
@@ -1449,6 +1489,7 @@ const technicalBeginnerModules: Module[] = [
     part: 2,
     title: 'Large Language Models, Briefly',
     tagline: 'What an LLM actually does, and how it gets trained — in plain terms.',
+    requirement: 'required',
     minutes: 8,
     sections: [
       {
@@ -1526,6 +1567,7 @@ const technicalBeginnerModules: Module[] = [
     part: 3,
     title: 'Transformers: The Tech Behind LLMs',
     tagline: 'A look under the hood at the architecture powering tools like ChatGPT.',
+    requirement: 'required',
     minutes: 27,
     sections: [
       {
@@ -1598,6 +1640,7 @@ const technicalBeginnerModules: Module[] = [
     part: 4,
     title: 'Retrieval-Augmented Generation (RAG)',
     tagline: 'How to ground an AI’s answers in your own real, up-to-date data.',
+    requirement: 'required',
     minutes: 8,
     sections: [
       {
@@ -1684,6 +1727,7 @@ const technicalBeginnerModules: Module[] = [
     part: 5,
     title: 'Feature Engineering',
     tagline: 'Turning raw data into the inputs a model can actually learn from.',
+    requirement: 'half',
     minutes: 10,
     sections: [
       {
@@ -1770,6 +1814,7 @@ const technicalBeginnerModules: Module[] = [
     part: 6,
     title: 'Building AI Agents',
     tagline: 'The difference between an AI that answers and an AI that acts.',
+    requirement: 'required',
     minutes: 10,
     sections: [
       {
@@ -1856,6 +1901,7 @@ const technicalBeginnerModules: Module[] = [
     part: 7,
     title: 'Tokenization: How Text Becomes Tokens',
     tagline: 'Before a model can "read" anything, your text gets chopped into tokens — this is that process, explained.',
+    requirement: 'half',
     minutes: 14,
     sections: [
       {
@@ -1897,6 +1943,7 @@ const technicalBeginnerModules: Module[] = [
     part: 8,
     title: 'What Are Embeddings? Turning Meaning Into Vectors',
     tagline: 'How AI represents the meaning of words as points in space — and why nearby points mean similar things.',
+    requirement: 'required',
     minutes: 17,
     sections: [
       {
@@ -1938,6 +1985,7 @@ const technicalBeginnerModules: Module[] = [
     part: 9,
     title: 'Gradient Descent: How Models Actually Learn',
     tagline: 'The step-by-step process models use to gradually get better at their task — nudging parameters downhill toward fewer errors.',
+    requirement: 'half',
     minutes: 26,
     sections: [
       {
@@ -1986,6 +2034,7 @@ const technicalIntermediateModules: Module[] = [
     part: 1,
     title: 'Vector Databases Explained',
     tagline: 'How AI systems store and search meaning, not just keywords.',
+    requirement: 'half',
     minutes: 11,
     sections: [
       {
@@ -2025,6 +2074,7 @@ const technicalIntermediateModules: Module[] = [
     part: 2,
     title: 'Fine-Tuning vs RAG vs Prompt Engineering',
     tagline: 'Three different levers for customizing an AI model — and when to pull each one.',
+    requirement: 'required',
     minutes: 15,
     sections: [
       {
@@ -2064,6 +2114,7 @@ const technicalIntermediateModules: Module[] = [
     part: 3,
     title: 'How Do You Know an LLM Is Actually "Good"?',
     tagline: 'Benchmarks, evaluation datasets, and why leaderboard numbers only tell part of the story.',
+    requirement: 'half',
     minutes: 18,
     sections: [
       {
@@ -2103,6 +2154,7 @@ const technicalIntermediateModules: Module[] = [
     part: 4,
     title: 'How LLM Tool Calling Works',
     tagline: 'The mechanism that lets a model reach outside itself and act on the real world.',
+    requirement: 'required',
     minutes: 12,
     sections: [
       {
@@ -2141,6 +2193,7 @@ const technicalIntermediateModules: Module[] = [
     part: 5,
     title: 'Prompt Chaining and Orchestration with LangChain',
     tagline: 'Turning one big prompt into a pipeline of smaller, composable steps.',
+    requirement: 'half',
     minutes: 17,
     sections: [
       {
@@ -2180,6 +2233,7 @@ const technicalIntermediateModules: Module[] = [
     part: 6,
     title: 'Model Quantization: Making LLMs Smaller and Faster',
     tagline: 'How compressing model weights trades a little precision for a lot of speed and memory savings.',
+    requirement: 'optional',
     minutes: 22,
     sections: [
       {
@@ -2219,6 +2273,7 @@ const technicalIntermediateModules: Module[] = [
     part: 7,
     title: 'MLOps Fundamentals: Getting Models into Production',
     tagline: 'Training a good model is only half the job — MLOps is how it stays good in production.',
+    requirement: 'optional',
     minutes: 12,
     sections: [
       {
@@ -2257,6 +2312,7 @@ const technicalIntermediateModules: Module[] = [
     part: 8,
     title: 'Open-Source vs Closed AI: Choosing Your Stack',
     tagline: 'Weighing control and cost against convenience and support when picking a model.',
+    requirement: 'half',
     minutes: 12,
     sections: [
       {
@@ -2295,6 +2351,7 @@ const technicalIntermediateModules: Module[] = [
     part: 9,
     title: 'RLHF: Aligning Models with Human Preferences',
     tagline: 'The training step that turns a raw text predictor into an assistant that behaves the way people want.',
+    requirement: 'half',
     minutes: 20,
     sections: [
       {
@@ -2334,6 +2391,7 @@ const technicalIntermediateModules: Module[] = [
     part: 10,
     title: 'Context Windows and Their Limitations',
     tagline: 'Why an LLM seems to "forget" things — and why bigger isn\'t always simply better.',
+    requirement: 'required',
     minutes: 17,
     sections: [
       {
@@ -2380,6 +2438,7 @@ const technicalAdvancedModules: Module[] = [
     part: 1,
     title: 'Mixture-of-Experts Architecture',
     tagline: 'How modern frontier models get bigger without getting proportionally slower.',
+    requirement: 'optional',
     minutes: 62,
     sections: [
       {
@@ -2421,6 +2480,7 @@ const technicalAdvancedModules: Module[] = [
     part: 2,
     title: 'Diffusion Models Explained',
     tagline: 'The math behind how models like Stable Diffusion turn noise into images.',
+    requirement: 'optional',
     minutes: 42,
     sections: [
       {
@@ -2462,6 +2522,7 @@ const technicalAdvancedModules: Module[] = [
     part: 3,
     title: 'The Technical AI Alignment Problem',
     tagline: 'Why "just tell the AI what you want" is much harder than it sounds — the research problem, not the policy debate.',
+    requirement: 'half',
     minutes: 20,
     sections: [
       {
@@ -2502,6 +2563,7 @@ const technicalAdvancedModules: Module[] = [
     part: 4,
     title: 'Reinforcement Learning Fundamentals',
     tagline: 'The foundational framework — MDPs, value functions, and policies — behind everything from AlphaGo to RLHF.',
+    requirement: 'optional',
     minutes: 92,
     sections: [
       {
@@ -2543,6 +2605,7 @@ const technicalAdvancedModules: Module[] = [
     part: 5,
     title: 'Speculative Decoding for Faster Inference',
     tagline: 'How a small "draft" model can make a large model generate text faster without changing its output.',
+    requirement: 'optional',
     minutes: 20,
     sections: [
       {
@@ -2583,6 +2646,7 @@ const technicalAdvancedModules: Module[] = [
     part: 6,
     title: 'Distributed Training at Scale',
     tagline: 'How you actually spread the training of a massive model across many GPUs and machines.',
+    requirement: 'optional',
     minutes: 52,
     sections: [
       {
@@ -2623,6 +2687,7 @@ const technicalAdvancedModules: Module[] = [
     part: 7,
     title: 'Multi-Agent AI Systems: Technical Architecture',
     tagline: 'How multiple specialized AI agents actually coordinate — the architecture, not just the business pitch.',
+    requirement: 'half',
     minutes: 19,
     sections: [
       {
@@ -2663,6 +2728,7 @@ const technicalAdvancedModules: Module[] = [
     part: 8,
     title: 'Mechanistic Interpretability',
     tagline: 'Reverse-engineering what a trained neural network is actually computing internally.',
+    requirement: 'optional',
     minutes: 37,
     sections: [
       {
@@ -2703,6 +2769,7 @@ const technicalAdvancedModules: Module[] = [
     part: 9,
     title: 'Scaling Laws in Deep Learning',
     tagline: 'The surprisingly predictable power-law relationship between model size, data, compute, and performance.',
+    requirement: 'optional',
     minutes: 57,
     sections: [
       {
@@ -2743,6 +2810,7 @@ const technicalAdvancedModules: Module[] = [
     part: 10,
     title: 'Inside a State-of-the-Art Model: DeepSeek V3 and R1',
     tagline: "A recent, credible technical deep-dive into the architecture and training innovations behind DeepSeek's frontier models.",
+    requirement: 'optional',
     minutes: 24,
     sections: [
       {
@@ -2790,6 +2858,7 @@ const productivityModules: Module[] = [
     part: 1,
     title: 'How to Use Claude Pro',
     tagline: 'Understand what the $20/month Pro tier actually buys you before you decide to upgrade.',
+    requirement: 'required',
     minutes: 13,
     sections: [
       {
@@ -2917,6 +2986,7 @@ const productivityModules: Module[] = [
     part: 2,
     title: 'What Is Microsoft Copilot?',
     tagline: 'Your AI assistant, built directly into the Microsoft 365 apps you already use.',
+    requirement: 'required',
     minutes: 6,
     sections: [
       {
@@ -2994,6 +3064,7 @@ const productivityModules: Module[] = [
     part: 3,
     title: 'Copilot in Word, Excel & PowerPoint',
     tagline: 'Hands-on ways to use Copilot in the apps you use every day.',
+    requirement: 'required',
     minutes: 12,
     sections: [
       {
@@ -3071,6 +3142,7 @@ const productivityModules: Module[] = [
     part: 4,
     title: 'Writing Better Copilot Prompts',
     tagline: 'Small changes to how you ask make a big difference in what you get back.',
+    requirement: 'required',
     minutes: 7,
     sections: [
       {

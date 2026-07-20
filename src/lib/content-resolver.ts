@@ -1,5 +1,5 @@
 import aiversePool from './db-aiverse';
-import { TRACKS as STATIC_TRACKS, type Track, type Module, type TrackId } from '../app/content';
+import { TRACKS as STATIC_TRACKS, type Track, type Module, type ModuleRequirement, type TrackId } from '../app/content';
 
 interface OverrideRow {
   id: string;
@@ -8,6 +8,7 @@ interface OverrideRow {
   partLabel: string;
   title: string;
   tagline: string;
+  requirement: ModuleRequirement;
   minutes: number;
   sections: Module['sections'];
   quiz: Module['quiz'];
@@ -16,7 +17,7 @@ interface OverrideRow {
 
 async function loadOverrides(): Promise<OverrideRow[]> {
   const { rows } = await aiversePool.query(
-    `select id, track_id, part, part_label, title, tagline, minutes, sections, quiz, is_deleted
+    `select id, track_id, part, part_label, title, tagline, requirement, minutes, sections, quiz, is_deleted
      from module_overrides`,
   );
   return rows.map(r => ({
@@ -26,6 +27,7 @@ async function loadOverrides(): Promise<OverrideRow[]> {
     partLabel: r.part_label,
     title: r.title,
     tagline: r.tagline,
+    requirement: r.requirement,
     minutes: r.minutes,
     sections: r.sections,
     quiz: r.quiz,
@@ -45,6 +47,7 @@ function toModule(o: OverrideRow): Module {
     part: o.part,
     title: o.title,
     tagline: o.tagline,
+    requirement: o.requirement,
     minutes: o.minutes,
     sections: o.sections,
     quiz: o.quiz,

@@ -8,6 +8,7 @@ import {
   BookOpen,
   CheckCircle2,
   ChevronDown,
+  Circle,
   Clock,
   Sparkles,
   Layers,
@@ -19,8 +20,9 @@ import {
   MessageCircle,
   Award,
 } from 'lucide-react';
-import type { Track, TrackId } from './content';
+import type { Track, TrackId, ModuleRequirement } from './content';
 import type { ProgressMap } from './actions/progress';
+import type { CertificateStatus, RequirementBucket } from '@/lib/certificate';
 import AiLearningHeader from './components/AiLearningHeader';
 
 /* ─── Animated neural-network hero overlay ───────────────────────────── */
@@ -135,6 +137,43 @@ function tierLabel(id: TrackId): string {
 const ASSISTANT_ACCENT = '#7c3aed';
 const ASSISTANT_PROMPTS = ['What is a token?', 'Explain RAG simply', 'Prompting tips'];
 
+/* ─── Certificate requirement tiers ─────────────────────────────────────
+   Every module is tagged in content.ts as required / half / optional (see
+   src/lib/certificate.ts for the actual pass rule). These are small visual
+   markers so people can tell, at a glance, which bucket a part falls into. */
+
+const REQUIREMENT_META: Record<ModuleRequirement, { label: string; color: string }> = {
+  required: { label: 'Required', color: '#e11d48' },
+  half: { label: 'Important', color: '#b45309' },
+  optional: { label: 'Specialized', color: '#64748b' },
+};
+
+function RequirementTag({ requirement }: { requirement: ModuleRequirement }) {
+  const { label, color } = REQUIREMENT_META[requirement];
+  return (
+    <span
+      className="hidden shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider sm:inline-block"
+      style={{ background: `${color}1f`, color }}
+    >
+      {label}
+    </span>
+  );
+}
+
+function RequirementChip({ label, bucket }: { label: string; bucket: RequirementBucket }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${
+        bucket.met ? 'bg-[#45c07a]/20 text-[#7ee3a8]' : 'bg-white/10 text-white/70'
+      }`}
+      title={`${label}: ${bucket.done} of ${bucket.total} done, ${bucket.needed} needed for the certificate`}
+    >
+      {bucket.met ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
+      {label} {bucket.done}/{bucket.needed}
+    </span>
+  );
+}
+
 /* ─── Module row (inside the active tab panel) ────────────────────────── */
 
 function ModuleRow({
@@ -144,6 +183,7 @@ function ModuleRow({
   tagline,
   minutes,
   accent,
+  requirement,
   result,
   onOpen,
 }: {
@@ -153,6 +193,7 @@ function ModuleRow({
   tagline: string;
   minutes: number;
   accent: string;
+  requirement: ModuleRequirement;
   result?: { score: number; total: number };
   onOpen: (href: string) => void;
 }) {
@@ -174,7 +215,10 @@ function ModuleRow({
       </div>
 
       <div className="min-w-0 flex-1">
-        <h4 className="truncate text-[15px] font-semibold text-[var(--text)]">{title}</h4>
+        <div className="flex items-center gap-2">
+          <h4 className="truncate text-[15px] font-semibold text-[var(--text)]">{title}</h4>
+          <RequirementTag requirement={requirement} />
+        </div>
         <p className="mt-0.5 line-clamp-1 text-[13px] text-[var(--muted)]">{tagline}</p>
       </div>
 
@@ -244,6 +288,7 @@ function TrackPanel({
             tagline={m.tagline}
             minutes={m.minutes}
             accent={track.accent}
+            requirement={m.requirement}
             result={progress[m.id]}
             onOpen={onOpen}
           />
@@ -303,11 +348,13 @@ export default function AiLearningHomeClient({
   totalModules,
   initialProgress,
   certificate,
+  certificateStatus,
 }: {
   tracks: Track[];
   totalModules: number;
   initialProgress: ProgressMap;
   certificate: { recipientName: string; issuedAt: string } | null;
+  certificateStatus: CertificateStatus;
 }) {
   const router = useRouter();
   const [progress] = useState<ProgressMap>(initialProgress);
@@ -325,13 +372,6 @@ export default function AiLearningHomeClient({
     const g = groupOf(id);
     if (g) setOpenGroup(g);
   }
-
-  // Count against the current tracks/modules only, so progress rows left
-  // over from a since-deleted module don't inflate this past totalModules.
-  const completedCount = tracks.reduce(
-    (n, t) => n + t.modules.filter(m => progress[m.id]).length,
-    0,
-  );
 
   function open(href: string) {
     router.push(href);
@@ -396,18 +436,12 @@ export default function AiLearningHomeClient({
             after every one to check what stuck.
           </p>
 
-          <div className="animate-fade-up mt-6 flex flex-wrap items-center gap-3" style={{ animationDelay: '240ms' }}>
+          <div className="animate-fade-up mt-6 flex flex-wrap items-center gap-2" style={{ animationDelay: '240ms' }}>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-sm text-white/80">
               <BookOpen className="h-4 w-4" />
               {totalModules} parts · {totalModules} quizzes
             </span>
-            {completedCount > 0 && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#45c07a]/20 px-3 py-1 text-sm font-medium text-[#7ee3a8]">
-                <CheckCircle2 className="h-4 w-4" />
-                {completedCount} of {totalModules} completed
-              </span>
-            )}
-            {certificate && (
+            {certificate ? (
               <Link
                 href="/certificate"
                 className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-3 py-1 text-sm font-medium text-amber-200 hover:bg-amber-400/30 transition-colors"
@@ -415,8 +449,23 @@ export default function AiLearningHomeClient({
                 <Award className="h-4 w-4" />
                 View your certificate
               </Link>
+            ) : (
+              <>
+                <RequirementChip label="Required" bucket={certificateStatus.required} />
+                <RequirementChip label="Important" bucket={certificateStatus.half} />
+                <RequirementChip label="Specialized" bucket={certificateStatus.optional} />
+              </>
             )}
           </div>
+          {!certificate && (
+            <p
+              className="animate-fade-up mt-3 max-w-2xl text-xs text-white/50"
+              style={{ animationDelay: '280ms' }}
+            >
+              Certificate rule: every Required part, at least half of Important, and{' '}
+              {certificateStatus.optional.needed} of Specialized — pick whichever ones interest you.
+            </p>
+          )}
         </div>
       </section>
 

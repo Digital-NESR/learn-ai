@@ -64,6 +64,10 @@ create table if not exists module_overrides (
   is_deleted boolean not null default false,
   updated_at timestamptz not null default now()
 );
+-- 'required' | 'half' | 'optional' — how the module counts toward the
+-- certificate (see src/lib/certificate.ts). Added after the table already
+-- shipped, so it's a separate ALTER rather than part of the CREATE above.
+alter table module_overrides add column if not exists requirement text not null default 'required';
 
 -- A row here means the whole track (and everything in it) is hidden from the
 -- site. Presence of a row = deleted; there's nothing else to store.

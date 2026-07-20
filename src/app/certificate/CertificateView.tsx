@@ -54,8 +54,9 @@ export default function CertificateView({
         </p>
 
         <p className="mt-8 max-w-lg mx-auto text-[var(--muted)] leading-relaxed">
-          has successfully completed all four NESR AI Verse tracks — Business AI, Create AI for
-          Business, Advanced AI, and Use AI for Business — including every quiz along the way.
+          has met the NESR AI Verse certificate requirements — every required part, at least
+          half of the important parts, and a selection of specialized parts — including every
+          quiz along the way.
         </p>
 
         <div className="mt-10 flex items-center justify-center gap-3 text-sm text-[var(--muted)]">
