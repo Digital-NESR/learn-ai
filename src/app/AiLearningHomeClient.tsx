@@ -440,7 +440,7 @@ export default function AiLearningHomeClient({
           Dashboard
         </button>
       )}
-      <AchievementsMenu achievements={achievements} />
+      {view.kind !== 'dashboard' && <AchievementsMenu achievements={achievements} />}
     </div>
   );
 
