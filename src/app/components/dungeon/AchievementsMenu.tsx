@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Trophy, CheckCircle2, Circle } from 'lucide-react';
+import { Trophy, CheckCircle2, Circle, X } from 'lucide-react';
 
 export interface Achievement {
   id: string;
@@ -12,24 +12,25 @@ export interface Achievement {
   href?: string;
 }
 
+/** A right-docked achievements sidebar (not a small dropdown) — trigger stays
+ * a header button, but the panel itself is a full-height slide-in drawer. */
 export default function AchievementsMenu({ achievements }: { achievements: Achievement[] }) {
   const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
   const earnedCount = achievements.filter(a => a.earned).length;
 
   useEffect(() => {
     if (!open) return;
-    function onPointerDown(e: MouseEvent) {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
     }
-    document.addEventListener('mousedown', onPointerDown);
-    return () => document.removeEventListener('mousedown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [open]);
 
   return (
-    <div className="relative" ref={rootRef}>
+    <>
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={() => setOpen(true)}
         aria-label="Achievements"
         aria-expanded={open}
         className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-sm font-medium text-[var(--text)] transition-colors hover:bg-[var(--card-2)]"
@@ -38,41 +39,69 @@ export default function AchievementsMenu({ achievements }: { achievements: Achie
         {earnedCount}/{achievements.length}
       </button>
 
-      {open && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[90vw] rounded-2xl border border-[var(--border)] bg-[var(--card)] p-2 shadow-xl">
-          <p className="px-2.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-[var(--muted)]">
-            Achievements — {earnedCount} of {achievements.length}
-          </p>
-          <ul className="flex max-h-[60vh] flex-col gap-0.5 overflow-y-auto">
-            {achievements.map(a => {
-              const rowClasses = `flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm ${
-                a.earned ? 'text-[var(--text)]' : 'text-[var(--muted)]'
-              }`;
-              const content = (
-                <>
-                  {a.earned ? (
-                    <CheckCircle2 className="h-4 w-4 shrink-0" style={{ color: 'var(--success)' }} />
-                  ) : (
-                    <Circle className="h-4 w-4 shrink-0 text-[var(--muted)]" />
-                  )}
-                  <span className={a.earned ? 'font-medium' : ''}>{a.label}</span>
-                </>
-              );
-              return (
-                <li key={a.id}>
-                  {a.href && a.earned ? (
-                    <Link href={a.href} className={`${rowClasses} hover:bg-[var(--card-2)]`}>
-                      {content}
-                    </Link>
-                  ) : (
-                    <div className={rowClasses}>{content}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+      {/* Backdrop */}
+      <div
+        aria-hidden={!open}
+        onClick={() => setOpen(false)}
+        className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 ${
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+      />
+
+      {/* Sidebar */}
+      <aside
+        role="dialog"
+        aria-label="Achievements"
+        className={`fixed inset-y-0 right-0 z-50 flex w-80 max-w-[88vw] flex-col border-l border-[var(--border)] bg-[var(--card)] shadow-2xl transition-transform duration-300 ease-out ${
+          open ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
+          <div className="flex items-center gap-2">
+            <Trophy className="h-5 w-5 text-amber-500" />
+            <div>
+              <h2 className="text-sm font-bold text-[var(--text)]">Achievements</h2>
+              <p className="text-xs text-[var(--muted)]">{earnedCount} of {achievements.length} earned</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="Close"
+            className="rounded-lg p-1.5 text-[var(--muted)] transition-colors hover:bg-[var(--card-2)] hover:text-[var(--text)]"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
-      )}
-    </div>
+
+        <ul className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
+          {achievements.map(a => {
+            const rowClasses = `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm ${
+              a.earned ? 'text-[var(--text)]' : 'text-[var(--muted)]'
+            }`;
+            const content = (
+              <>
+                {a.earned ? (
+                  <CheckCircle2 className="h-5 w-5 shrink-0" style={{ color: 'var(--success)' }} />
+                ) : (
+                  <Circle className="h-5 w-5 shrink-0 text-[var(--muted)]" />
+                )}
+                <span className={a.earned ? 'font-medium' : ''}>{a.label}</span>
+              </>
+            );
+            return (
+              <li key={a.id}>
+                {a.href && a.earned ? (
+                  <Link href={a.href} onClick={() => setOpen(false)} className={`${rowClasses} hover:bg-[var(--card-2)]`}>
+                    {content}
+                  </Link>
+                ) : (
+                  <div className={rowClasses}>{content}</div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </aside>
+    </>
   );
 }
