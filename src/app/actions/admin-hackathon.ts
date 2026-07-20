@@ -3,6 +3,7 @@
 import { requireAdmin } from '@/lib/admin';
 import aiversePool from '@/lib/db-aiverse';
 import employeeDirectoryPool from '@/lib/db-employee-directory';
+import { agentPostJson } from '@/lib/n8n-agent';
 import type { TeamMember } from './hackathon';
 
 export interface HackathonSettings {
@@ -305,8 +306,7 @@ export async function createTeamAdmin(
     await client.query('begin');
 
     // hackathon_teams.created_by_email has a FK into users, but a directory match alone doesn't
-    // guarantee that person has ever signed in (only requireSessionEmail creates a users row) —
-    // upsert everyone's users row before the team insert, which needs the creator's row to exist.
+    // guarantee that person has ever signed in (only requireSessionEmail creates a users row) -     // upsert everyone's users row before the team insert, which needs the creator's row to exist.
     for (const email of allEmails) {
       const dir = dirByEmail.get(email)!;
       await client.query(`insert into users (email, name) values ($1, $2) on conflict (email) do nothing`, [
@@ -412,7 +412,7 @@ async function reassignOwnerIfNeeded(
 }
 
 /** hackathon_teams.created_by_email has a FK into users, but admin-added members never get a
- * users row (only requireSessionEmail — an actual sign-in — creates one). Upsert a row first so
+ * users row (only requireSessionEmail - an actual sign-in - creates one). Upsert a row first so
  * promoting someone who's never logged in doesn't violate that constraint. */
 async function promoteToOwner(
   client: { query: (text: string, params?: unknown[]) => Promise<{ rows: Record<string, unknown>[] }> },
@@ -571,4 +571,65 @@ export async function reopenSubmissionAdmin(teamId: string): Promise<void> {
     `update hackathon_submissions set is_final = false, final_submitted_at = null where team_id = $1`,
     [teamId],
   );
+}
+
+export interface AnnouncementResult {
+  sent: number;
+}
+
+/** Sends a broadcast email to every registered participant (or just the calling admin,
+ * for a test) via the n8n announcement webhook - this app never sends email directly. */
+export async function sendHackathonAnnouncement(
+  subject: string,
+  message: string,
+  testOnly: boolean,
+): Promise<AnnouncementResult> {
+  const adminEmail = await requireAdmin();
+
+  const trimmedSubject = subject.trim();
+  const trimmedMessage = message.trim();
+  if (!trimmedSubject) throw new Error('Subject is required');
+  if (!trimmedMessage) throw new Error('Message is required');
+
+  const webhookUrl = process.env.N8N_ANNOUNCEMENT_WEBHOOK_URL;
+  if (!webhookUrl) throw new Error('The announcement webhook is not configured (N8N_ANNOUNCEMENT_WEBHOOK_URL)');
+
+  let recipients: { email: string; displayName: string }[];
+  if (testOnly) {
+    recipients = [{ email: adminEmail, displayName: 'Admin (test send)' }];
+  } else {
+    const { rows } = await aiversePool.query(
+      `select email, display_name from hackathon_team_members order by display_name`,
+    );
+    recipients = rows.map(r => ({ email: r.email, displayName: r.display_name }));
+  }
+  if (recipients.length === 0) throw new Error('No participants to send to yet');
+
+  let res;
+  try {
+    res = await agentPostJson(
+      webhookUrl,
+      JSON.stringify({ subject: trimmedSubject, message: trimmedMessage, recipients }),
+      {
+        'Content-Type': 'application/json',
+        ...(process.env.N8N_ANNOUNCEMENT_WEBHOOK_SECRET
+          ? { 'X-Webhook-Secret': process.env.N8N_ANNOUNCEMENT_WEBHOOK_SECRET }
+          : {}),
+      },
+      30_000,
+    );
+  } catch (err) {
+    console.error('[hackathon-announcement] fetch to n8n webhook failed:', webhookUrl, err);
+    throw new Error('Could not reach the announcement service - please try again.');
+  }
+
+  if (!res.ok) {
+    const bodyText = await res.text().catch(() => '');
+    console.error('[hackathon-announcement] n8n webhook returned non-OK status', res.status, bodyText.slice(0, 500));
+    throw new Error('The announcement service reported an error - nothing may have been sent.');
+  }
+
+  const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
+  const sent = typeof data.sent === 'number' ? data.sent : recipients.length;
+  return { sent };
 }

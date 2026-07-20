@@ -1,5 +1,5 @@
 /**
- * Hackathon prep guide — content model.
+ * Hackathon prep guide - content model.
  *
  * Same block system as the courses (see content.ts), so this can pick up
  * `video` blocks the same way once walkthrough videos exist. Rendered by
@@ -18,7 +18,7 @@ export interface GuideChapter {
   sections: ContentBlock[];
 }
 
-// General accent for the hackathon pages — matches the site's brand green
+// General accent for the hackathon pages - matches the site's brand green
 // family (see globals.css --brand) rather than a one-off color.
 export const HACKATHON_ACCENT = '#45c07a';
 // Brighter neon variant reserved for the countdown timer specifically.
@@ -47,7 +47,7 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
           },
           {
             title: 'Build practical AI',
-            body: 'Incorporate AI into your solution — build an assistant, automate a workflow, or build a dashboard.',
+            body: 'Incorporate AI into your solution - build an assistant, automate a workflow, or build a dashboard.',
           },
           {
             title: 'Prove business value',
@@ -103,7 +103,7 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
           },
           {
             title: 'Value proposition',
-            body: 'Why does this matter to the business — in terms leadership can act on, not just a technical description?',
+            body: 'Why does this matter to the business - in terms leadership can act on, not just a technical description?',
           },
         ],
       },
@@ -141,7 +141,7 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         items: [
           'Problem statement',
           'Target user',
-          'Chosen challenge/topic — today’s process and its gaps',
+          'Chosen challenge/topic - today’s process and its gaps',
           'Dataset or documents used',
           'AI methods or workflows chosen',
           'Demo or prototype',
@@ -157,7 +157,7 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
     id: 'impact-and-cost',
     label: 'Impact & Cost',
     title: 'Quantify Impact & Prove the Math',
-    tagline: 'Quantify the impact — don’t just claim it.',
+    tagline: 'Quantify the impact - don’t just claim it.',
     sections: [
       {
         kind: 'list',
@@ -175,9 +175,9 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         left: {
           title: 'Cost elements to estimate',
           items: [
-            'AI/compute cost — model usage, API calls, infrastructure to run the solution',
-            'Human review cost — time required for people to check, approve, correct AI output',
-            'Maintenance cost — ongoing upkeep (monitoring, support)',
+            'AI/compute cost - model usage, API calls, infrastructure to run the solution',
+            'Human review cost - time required for people to check, approve, correct AI output',
+            'Maintenance cost - ongoing upkeep (monitoring, support)',
           ],
         },
         right: {
@@ -224,7 +224,7 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
     sections: [
       {
         kind: 'list',
-        heading: 'Judging rubric — heaviest weighted first',
+        heading: 'Judging rubric - heaviest weighted first',
         items: [
           { title: 'Business value', body: 'Does the idea solve a real, meaningful problem for the business?' },
           {

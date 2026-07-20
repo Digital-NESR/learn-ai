@@ -16,7 +16,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 
 /** Reusable authentication/animation state machine for the login page. Drives
  * the cinematic launch sequence after a successful SSO sign-in, then hands
- * off to the real destination — while respecting prefers-reduced-motion. */
+ * off to the real destination - while respecting prefers-reduced-motion. */
 export function useLoginLaunch() {
   const router = useRouter();
   const params = useSearchParams();
@@ -38,7 +38,7 @@ export function useLoginLaunch() {
     signIn('azure-ad', { callbackUrl });
   }, [from]);
 
-  // Local dev only — resolves in-page (no redirect away), so the existing
+  // Local dev only - resolves in-page (no redirect away), so the existing
   // "status became authenticated" effect below picks it up and runs the same
   // launch sequence as a real SSO sign-in.
   const handleDevBypass = useCallback(() => {

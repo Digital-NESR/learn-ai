@@ -54,8 +54,8 @@ export default function CertificateView({
         </p>
 
         <p className="mt-8 max-w-lg mx-auto text-[var(--muted)] leading-relaxed">
-          has met the NESR AI Verse certificate requirements — every required part, at least
-          half of the important parts, and a selection of specialized parts — including every
+          has met the NESR AI Verse certificate requirements - every required part, at least
+          half of the important parts, and a selection of specialized parts - including every
           quiz along the way.
         </p>
 

@@ -14,7 +14,7 @@ export interface Achievement {
 }
 
 // Detects "are we past hydration, on the client" without a setState-in-effect
-// (which react-hooks/set-state-in-effect flags) — the store never changes
+// (which react-hooks/set-state-in-effect flags) - the store never changes
 // after mount, so subscribe is a no-op; snapshots just differ server vs client.
 function subscribeNever() {
   return () => {};
@@ -54,9 +54,9 @@ function AchievementRows({ achievements, onNavigate }: { achievements: Achieveme
 }
 
 /**
- * "pinned" — a normal, always-visible in-flow sidebar (used on the dungeon's
+ * "pinned" - a normal, always-visible in-flow sidebar (used on the dungeon's
  * region-select page, so progress is visible without an extra click).
- * "drawer" (default) — a header trigger that slides in a full-height panel,
+ * "drawer" (default) - a header trigger that slides in a full-height panel,
  * used on the gate/path pages where screen space is tighter.
  */
 export default function AchievementsMenu({
@@ -67,7 +67,7 @@ export default function AchievementsMenu({
   variant?: 'drawer' | 'pinned';
 }) {
   const [open, setOpen] = useState(false);
-  // The drawer/backdrop are portaled to <body> (see below) — an ancestor with
+  // The drawer/backdrop are portaled to <body> (see below) - an ancestor with
   // backdrop-filter/transform (the sticky header's backdrop-blur, in this
   // case) makes `position: fixed` descendants position relative to *it*
   // instead of the viewport, which otherwise squashes the drawer into the

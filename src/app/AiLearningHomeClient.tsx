@@ -319,7 +319,7 @@ function AssistantPanel() {
       </p>
       <h2 className="mt-1 text-2xl font-bold leading-tight text-[var(--text)]">AI Verse Assistant</h2>
       <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-        Stuck on a concept? Ask anything about AI or the courses and get a clear, plain-English answer — available 24/7.
+        Stuck on a concept? Ask anything about AI or the courses and get a clear, plain-English answer - available 24/7.
       </p>
 
       <div className="mt-5 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
@@ -350,7 +350,7 @@ function AssistantPanel() {
 
 /* ─── Dungeon view state ─────────────────────────────────────────────────
    The dungeon is an optional, additive mode reached from the dashboard's
-   "Enter the Dungeon" button — it never replaces the dashboard, and every
+   "Enter the Dungeon" button - it never replaces the dashboard, and every
    dungeon screen can get back to it via the header's Home button. ──────── */
 
 type View =
@@ -486,7 +486,7 @@ export default function AiLearningHomeClient({
                 className="animate-fade-up text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl"
                 style={{ animationDelay: '80ms' }}
               >
-                <span className="text-gradient">Learn AI</span> — for business
+                <span className="text-gradient">Learn AI</span> - for business
                 <br className="hidden sm:block" /> and for building.
               </h1>
 
@@ -494,7 +494,7 @@ export default function AiLearningHomeClient({
                 className="animate-fade-up mt-4 max-w-2xl text-lg leading-relaxed text-white/70"
                 style={{ animationDelay: '160ms' }}
               >
-                General, Technical, and Productivity tracks — short videos with a quick, timed quiz
+                General, Technical, and Productivity tracks - short videos with a quick, timed quiz
                 after every one to check what stuck.
               </p>
 
@@ -532,7 +532,7 @@ export default function AiLearningHomeClient({
                   style={{ animationDelay: '280ms' }}
                 >
                   Certificate rule: every Required part, at least half of Important, and{' '}
-                  {certificateStatus.optional.needed} of Specialized — pick whichever ones interest you.
+                  {certificateStatus.optional.needed} of Specialized - pick whichever ones interest you.
                 </p>
               )}
             </div>
@@ -728,7 +728,7 @@ export default function AiLearningHomeClient({
                 </div>
               </div>
 
-              {/* Always visible here — this is the dungeon's main/landing page,
+              {/* Always visible here - this is the dungeon's main/landing page,
                   so progress toward every achievement should be in view without
                   an extra click. */}
               <AchievementsMenu achievements={achievements} variant="pinned" />

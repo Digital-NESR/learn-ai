@@ -1,15 +1,15 @@
 /**
- * NESR AI Verse — course content.
+ * NESR AI Verse - course content.
  *
  * Three parts:
  *  - General Track: Beginner / Intermediate / Advanced tiers, ~10 short
  *    videos each, with a quiz after every video.
- *  - Technical Track: a deeper, more technical curriculum — neural
+ *  - Technical Track: a deeper, more technical curriculum - neural
  *    networks, LLMs, transformers, RAG, feature engineering, and agents.
- *  - Productivity Track: hands-on tool usage — Claude Pro and Microsoft
+ *  - Productivity Track: hands-on tool usage - Claude Pro and Microsoft
  *    Copilot.
  *
- * This is static, data-driven content — no database for the content itself
+ * This is static, data-driven content - no database for the content itself
  * (admin-authored edits/creations/deletions layer on top at render time, see
  * src/lib/content-resolver.ts). The landing page and module pages render
  * straight from the TRACKS array below; per-user progress lives in aiverse_db.
@@ -47,9 +47,9 @@ export interface QuizQuestion {
 
 /**
  * How a module counts toward the certificate (see src/lib/certificate.ts):
- *  - "required" — must be completed, no exceptions.
- *  - "half"     — completing roughly half of this bucket (across all tracks) is enough.
- *  - "optional" — completing a small fixed number of these (across all tracks) is enough.
+ *  - "required" - must be completed, no exceptions.
+ *  - "half"     - completing roughly half of this bucket (across all tracks) is enough.
+ *  - "optional" - completing a small fixed number of these (across all tracks) is enough.
  */
 export type ModuleRequirement = 'required' | 'half' | 'optional';
 
@@ -90,7 +90,7 @@ export interface Track {
 }
 
 /* ══════════════════════════════════════════════════════════════════════
-   GENERAL TRACK — BEGINNER
+   GENERAL TRACK - BEGINNER
    ══════════════════════════════════════════════════════════════════════ */
 
 const generalBeginnerModules: Module[] = [
@@ -118,7 +118,7 @@ const generalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'AI, defined', body: 'Machines that simulate human intelligence — learning, reasoning, and problem-solving.' },
+          { title: 'AI, defined', body: 'Machines that simulate human intelligence - learning, reasoning, and problem-solving.' },
           { title: 'You already use it', body: 'Virtual assistants, recommendations, spam filters, and self-driving cars.' },
           { title: 'Three types', body: 'Narrow AI (one task), General AI (human-level), and Super AI (beyond human). Today’s AI is Narrow.' },
           { title: 'Powered by data', body: 'AI systems learn patterns from large amounts of data.' },
@@ -135,7 +135,7 @@ const generalBeginnerModules: Module[] = [
           'A type of spreadsheet',
         ],
         answer: 0,
-        explanation: 'AI is about machines simulating human intelligence — learning, reasoning, and solving problems.',
+        explanation: 'AI is about machines simulating human intelligence - learning, reasoning, and solving problems.',
       },
       {
         prompt: 'Which is an everyday example of AI in action?',
@@ -151,10 +151,10 @@ const generalBeginnerModules: Module[] = [
       {
         prompt: 'Today’s AI systems are mostly which type?',
         options: [
-          'Narrow AI — built for a specific task',
-          'General AI — human-level at everything',
-          'Super AI — beyond human ability',
-          'None — AI has no types',
+          'Narrow AI - built for a specific task',
+          'General AI - human-level at everything',
+          'Super AI - beyond human ability',
+          'None - AI has no types',
         ],
         answer: 0,
         explanation: 'Current AI is Narrow (or “weak”) AI, designed for specific tasks. General and Super AI are still hypothetical.',
@@ -183,7 +183,7 @@ const generalBeginnerModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Generative AI creates new content — text, images, and code.',
+        text: 'Generative AI creates new content - text, images, and code.',
         body: 'Henrik Kniberg’s popular explainer walks through what generative AI is, why it differs from traditional software, and practical ways to use it as a drafting and thinking partner.',
       },
       {
@@ -198,7 +198,7 @@ const generalBeginnerModules: Module[] = [
         items: [
           { title: 'It generates new content', body: 'Unlike a search engine, it produces new text, images, or code on request.' },
           { title: 'It learns patterns from data', body: 'Trained on huge amounts of data, it predicts likely, useful output.' },
-          { title: 'Capable but fallible', body: 'It can be confidently wrong — treat its output as a draft to review, not a final answer.' },
+          { title: 'Capable but fallible', body: 'It can be confidently wrong - treat its output as a draft to review, not a final answer.' },
           { title: 'You steer it with prompts', body: 'Clear instructions and good context lead to much better results.' },
         ],
       },
@@ -262,7 +262,7 @@ const generalBeginnerModules: Module[] = [
       {
         kind: 'lead',
         text: 'Powerful tools need guardrails.',
-        body: 'This IBM explainer introduces AI ethics — the principles that help organizations capture AI’s benefits while reducing harms like bias and loss of trust.',
+        body: 'This IBM explainer introduces AI ethics - the principles that help organizations capture AI’s benefits while reducing harms like bias and loss of trust.',
       },
       {
         kind: 'video',
@@ -274,10 +274,10 @@ const generalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'What AI ethics is', body: 'A set of principles for developing and using AI responsibly — maximizing benefit while reducing harm.' },
+          { title: 'What AI ethics is', body: 'A set of principles for developing and using AI responsibly - maximizing benefit while reducing harm.' },
           { title: 'Bias is a core risk', body: 'AI trained on skewed data can produce unfair outcomes.' },
           { title: 'Transparency & explainability', body: 'People should be able to understand and question how AI reaches a decision.' },
-          { title: 'Accountability', body: 'Organizations and people — not the AI — are responsible for outcomes.' },
+          { title: 'Accountability', body: 'Organizations and people - not the AI - are responsible for outcomes.' },
         ],
       },
     ],
@@ -285,13 +285,13 @@ const generalBeginnerModules: Module[] = [
       {
         prompt: 'What is AI ethics mainly about?',
         options: [
-          'Principles for using AI responsibly — maximizing benefit and reducing harm',
+          'Principles for using AI responsibly - maximizing benefit and reducing harm',
           'Making AI models run faster',
           'Choosing which hardware to buy',
           'A new programming language',
         ],
         answer: 0,
-        explanation: 'AI ethics is about responsible development and use — getting the benefits while limiting harm.',
+        explanation: 'AI ethics is about responsible development and use - getting the benefits while limiting harm.',
       },
       {
         prompt: 'Why can an AI system produce unfair results?',
@@ -302,7 +302,7 @@ const generalBeginnerModules: Module[] = [
           'It has too many users',
         ],
         answer: 0,
-        explanation: 'Bias in the training data can lead to unfair or skewed outcomes — a central AI-ethics concern.',
+        explanation: 'Bias in the training data can lead to unfair or skewed outcomes - a central AI-ethics concern.',
       },
       {
         prompt: 'What does “transparency” or “explainability” mean for AI?',
@@ -324,7 +324,7 @@ const generalBeginnerModules: Module[] = [
           'Only the end customer',
         ],
         answer: 0,
-        explanation: 'Accountability stays with the people and organizations deploying AI — not the tool.',
+        explanation: 'Accountability stays with the people and organizations deploying AI - not the tool.',
       },
     ],
   },
@@ -333,13 +333,13 @@ const generalBeginnerModules: Module[] = [
     partLabel: 'Part 4 of 10',
     part: 4,
     title: 'AI vs. Machine Learning vs. Deep Learning',
-    tagline: 'The three terms people mix up constantly — and how they actually nest inside each other.',
+    tagline: 'The three terms people mix up constantly - and how they actually nest inside each other.',
     requirement: 'required',
     minutes: 9,
     sections: [
       {
         kind: 'lead',
-        text: 'AI, machine learning, and deep learning are not three separate things — they are three circles inside each other.',
+        text: 'AI, machine learning, and deep learning are not three separate things - they are three circles inside each other.',
         body: 'People use "AI," "machine learning," and "deep learning" interchangeably, but they mean different things. This video breaks down how each concept relates to the others using plain-language definitions and simple examples, no math required.',
       },
       {
@@ -352,11 +352,11 @@ const generalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'AI is the big umbrella', body: 'Artificial Intelligence is the broad idea of machines performing tasks that normally require human intelligence — it includes far more than just learning from data.' },
+          { title: 'AI is the big umbrella', body: 'Artificial Intelligence is the broad idea of machines performing tasks that normally require human intelligence - it includes far more than just learning from data.' },
           { title: 'Machine learning is a subset of AI', body: 'Machine learning is a specific approach to AI where a system improves its performance by learning patterns from data, rather than following hand-written rules.' },
           { title: 'Deep learning is a subset of machine learning', body: 'Deep learning uses layered, brain-inspired structures called neural networks to find much more complex patterns, especially in images, audio, and language.' },
           { title: 'Nested circles, not separate boxes', body: 'The clearest way to remember the relationship: AI is the outer circle, machine learning is inside it, and deep learning is inside machine learning.' },
-          { title: 'Why the distinction matters at work', body: 'Knowing which term applies helps you understand what a tool can realistically do — a "deep learning" claim implies data-hungry pattern recognition, not general reasoning.' },
+          { title: 'Why the distinction matters at work', body: 'Knowing which term applies helps you understand what a tool can realistically do - a "deep learning" claim implies data-hungry pattern recognition, not general reasoning.' },
         ],
       },
     ],
@@ -366,7 +366,7 @@ const generalBeginnerModules: Module[] = [
       { prompt: 'What makes deep learning different from other machine learning approaches?', options: ['It never needs any data', 'It uses layered, brain-inspired neural networks to find complex patterns', 'It only works on numbers, never images or text', 'It is a completely different field from machine learning'], answer: 1, explanation: 'Deep learning relies on multi-layered neural networks, which allow it to handle especially complex patterns like those found in images or language.' },
       { prompt: 'True or false: All artificial intelligence is powered by deep learning.', options: ['True', 'False', 'Only in recent years', 'Only for image tasks'], answer: 1, explanation: 'AI is a broad field; many AI systems use simple rules or basic machine learning, not deep learning at all.' },
       { prompt: 'Why does the video use the "nested circles" image to explain these terms?', options: ['To show they are all equally sized', 'To show each term is a smaller, more specific piece inside a bigger one', 'To show they compete with each other', 'To show they were invented in the same year'], answer: 1, explanation: 'The nested-circle image communicates that each term is a specific subset of the one before it, not a separate or competing category.' },
-      { prompt: 'Why does it matter, at work, whether a tool is described as "AI" versus specifically "deep learning"?', options: ['It doesn’t matter at all', 'It tells you roughly what kind of data and pattern-recognition the tool depends on', 'Deep learning tools never need data', 'AI tools are always more advanced than deep learning tools'], answer: 1, explanation: 'The specific term hints at how the tool works — a deep learning claim implies it depends on learning patterns from large amounts of data.' },
+      { prompt: 'Why does it matter, at work, whether a tool is described as "AI" versus specifically "deep learning"?', options: ['It doesn’t matter at all', 'It tells you roughly what kind of data and pattern-recognition the tool depends on', 'Deep learning tools never need data', 'AI tools are always more advanced than deep learning tools'], answer: 1, explanation: 'The specific term hints at how the tool works - a deep learning claim implies it depends on learning patterns from large amounts of data.' },
     ],
   },
   {
@@ -380,7 +380,7 @@ const generalBeginnerModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'That chat window on a website or app is not magic — it is a program designed to understand and respond to what you type.',
+        text: 'That chat window on a website or app is not magic - it is a program designed to understand and respond to what you type.',
         body: 'This video gives a beginner-friendly explanation of what chatbots are, how they process what you type, and why businesses use them for support, sales, and answering common questions.',
       },
       {
@@ -397,7 +397,7 @@ const generalBeginnerModules: Module[] = [
           { title: 'Businesses use chatbots to save time', body: 'Companies deploy chatbots to answer common questions, handle support requests, and free up human staff for harder problems.' },
           { title: 'Older chatbots followed scripts', body: 'Early chatbots matched your words to a fixed list of pre-written responses, which is why they sometimes felt robotic or missed the point.' },
           { title: 'Newer chatbots understand context better', body: 'Modern AI-powered chatbots can follow the thread of a conversation and respond more naturally, not just react to single keywords.' },
-          { title: 'A chatbot is still a tool, not a person', body: 'It has no independent understanding of you — it only responds based on patterns it was trained or programmed to recognize.' },
+          { title: 'A chatbot is still a tool, not a person', body: 'It has no independent understanding of you - it only responds based on patterns it was trained or programmed to recognize.' },
         ],
       },
     ],
@@ -415,14 +415,14 @@ const generalBeginnerModules: Module[] = [
     partLabel: 'Part 6 of 10',
     part: 6,
     title: 'AI in Your Everyday Apps',
-    tagline: 'The AI you are already using without noticing — from streaming recommendations to maps.',
+    tagline: 'The AI you are already using without noticing - from streaming recommendations to maps.',
     requirement: 'optional',
     minutes: 5,
     sections: [
       {
         kind: 'lead',
         text: 'You probably use AI a dozen times a day without ever calling it "AI."',
-        body: 'This short video from Google walks through familiar, everyday examples of AI at work — from what shows up on your streaming home screen to how your phone recognizes your face and how a map app finds the fastest route.',
+        body: 'This short video from Google walks through familiar, everyday examples of AI at work - from what shows up on your streaming home screen to how your phone recognizes your face and how a map app finds the fastest route.',
       },
       {
         kind: 'video',
@@ -447,7 +447,7 @@ const generalBeginnerModules: Module[] = [
       { prompt: 'How do streaming services typically use AI, per the video?', options: ['To physically produce shows', 'To learn your habits and recommend what to watch or listen to next', 'To slow down playback', 'To delete your history'], answer: 1, explanation: 'Streaming platforms use AI to analyze viewing/listening habits and generate personalized recommendations.' },
       { prompt: 'How does AI help with face-unlock features, as described?', options: ['It stores a photo and compares pixels only', 'It builds and compares a 3D model of your face', 'It uses your fingerprint instead', 'It asks you security questions'], answer: 1, explanation: 'The video explains that face-recognition features use AI to construct a 3D model of your face for comparison, not just a flat image.' },
       { prompt: 'How do smart home devices like thermostats use AI?', options: ['They require you to manually set every option every day', 'They learn usage patterns and adjust automatically', 'They only work with a written schedule', 'They cannot be controlled remotely'], answer: 1, explanation: 'Smart home devices use AI to recognize patterns in how they are used and adjust settings automatically over time.' },
-      { prompt: 'What common thread runs through all the AI examples in this video?', options: ['They all require a technical degree to use', 'They all use data about you or your surroundings to predict something useful', 'They only work once a year', 'They all replace human jobs entirely'], answer: 1, explanation: 'Every example — recommendations, smart homes, face-unlock, maps — relies on AI learning from data to make a helpful prediction.' },
+      { prompt: 'What common thread runs through all the AI examples in this video?', options: ['They all require a technical degree to use', 'They all use data about you or your surroundings to predict something useful', 'They only work once a year', 'They all replace human jobs entirely'], answer: 1, explanation: 'Every example - recommendations, smart homes, face-unlock, maps - relies on AI learning from data to make a helpful prediction.' },
       { prompt: 'Which of the following is given as an example of AI in everyday life in the video?', options: ['A real-time traffic-aware navigation route', 'A calculator app', 'A basic alarm clock with no learning features', 'A printed paper map'], answer: 0, explanation: 'The video specifically calls out navigation apps using AI to process real-time traffic and suggest routes.' },
     ],
   },
@@ -462,7 +462,7 @@ const generalBeginnerModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'AI is not a brand-new idea — it has been decades in the making, with big leaps and long quiet stretches in between.',
+        text: 'AI is not a brand-new idea - it has been decades in the making, with big leaps and long quiet stretches in between.',
         body: 'This fast-paced overview traces the milestones of artificial intelligence, from its early theoretical roots through periods of slow progress to the recent explosion of tools like AI chatbots, giving you a sense of how we got here.',
       },
       {
@@ -496,7 +496,7 @@ const generalBeginnerModules: Module[] = [
     id: 'general-beginner-8',
     partLabel: 'Part 8 of 10',
     part: 8,
-    title: 'Common AI Myths — Debunked',
+    title: 'Common AI Myths - Debunked',
     tagline: 'Separating what AI actually does from what movies and headlines make you think it does.',
     requirement: 'half',
     minutes: 6,
@@ -504,7 +504,7 @@ const generalBeginnerModules: Module[] = [
       {
         kind: 'lead',
         text: 'A lot of what people believe about AI comes from science fiction, not from how the technology actually works.',
-        body: 'This video unpacks some of the most common misconceptions about artificial intelligence — clearing up confusion about what AI actually is, and is not, capable of.',
+        body: 'This video unpacks some of the most common misconceptions about artificial intelligence - clearing up confusion about what AI actually is, and is not, capable of.',
       },
       {
         kind: 'video',
@@ -516,8 +516,8 @@ const generalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'AI is not the same as humanoid robots', body: 'Most AI runs quietly in the background of software and services — it rarely looks like the human-like robots portrayed in movies.' },
-          { title: 'AI does not have feelings or consciousness', body: 'Even conversational AI that sounds personable does not genuinely feel emotions — it generates responses based on patterns, not inner experience.' },
+          { title: 'AI is not the same as humanoid robots', body: 'Most AI runs quietly in the background of software and services - it rarely looks like the human-like robots portrayed in movies.' },
+          { title: 'AI does not have feelings or consciousness', body: 'Even conversational AI that sounds personable does not genuinely feel emotions - it generates responses based on patterns, not inner experience.' },
           { title: 'AI is not one single, uniform technology', body: 'The term "AI" covers a wide range of different techniques and tools, not one single system that does everything.' },
           { title: 'AI is not a total mystery or "black box"', body: 'While complex, AI systems are built on understandable methods and can be explained, tested, and evaluated by the people who build them.' },
           { title: 'Everyday familiarity does not equal deep understanding', body: 'Many people use AI daily without fully understanding what it is doing behind the scenes, which is exactly why misconceptions spread easily.' },
@@ -544,7 +544,7 @@ const generalBeginnerModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'What you type into an AI chatbot has a big effect on what you get back — and getting better answers is a learnable skill.',
+        text: 'What you type into an AI chatbot has a big effect on what you get back - and getting better answers is a learnable skill.',
         body: 'This step-by-step walkthrough shows what it actually looks like to have a conversation with an AI chatbot: how to phrase your first message, how to follow up, and how to refine a question that did not get you what you needed the first time.',
       },
       {
@@ -557,9 +557,9 @@ const generalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Starting is as simple as typing a question', body: 'There is no special syntax required to begin — you can start by typing a plain question or request, just like texting a person.' },
+          { title: 'Starting is as simple as typing a question', body: 'There is no special syntax required to begin - you can start by typing a plain question or request, just like texting a person.' },
           { title: 'It is a back-and-forth conversation, not a single search', body: 'Unlike a search engine, an AI chatbot remembers what you already discussed, so you can ask follow-up questions naturally.' },
-          { title: 'Being specific gets you a more useful answer', body: 'Vague requests get vague answers — adding detail about your goal, audience, or format helps the chatbot respond usefully.' },
+          { title: 'Being specific gets you a more useful answer', body: 'Vague requests get vague answers - adding detail about your goal, audience, or format helps the chatbot respond usefully.' },
           { title: 'You can refine an answer instead of starting over', body: 'If a response is not quite right, you can ask the chatbot to adjust it (shorter, simpler, different tone) rather than rewriting your whole question.' },
           { title: 'Treat the first answer as a draft', body: 'The step-by-step approach shown treats the first response as a starting point to be improved through follow-up, not a final answer.' },
         ],
@@ -585,7 +585,7 @@ const generalBeginnerModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Every time you chat with a tool like ChatGPT or Claude, you are talking to something called a "large language model" — but what is that, really?',
+        text: 'Every time you chat with a tool like ChatGPT or Claude, you are talking to something called a "large language model" - but what is that, really?',
         body: 'This video breaks down large language models in plain terms: what they are trained on, how they generate text, and why they can feel so conversational despite not actually "understanding" the way a person does.',
       },
       {
@@ -601,7 +601,7 @@ const generalBeginnerModules: Module[] = [
           { title: 'An LLM is trained on huge amounts of text', body: 'Large language models learn patterns of language by processing enormous collections of text data during training.' },
           { title: 'At its core, an LLM predicts the next piece of text', body: 'The fundamental mechanism is predicting the most likely next word (or word-piece) given everything written so far.' },
           { title: '"Large" refers to scale', body: 'The "large" in large language model refers to the huge number of parameters and the massive amount of training data involved, not the size of any single file you download.' },
-          { title: 'Fluency is not the same as true understanding', body: 'An LLM can produce fluent, confident-sounding text without genuinely "knowing" facts the way a person does — this is part of why it can sometimes state incorrect things confidently.' },
+          { title: 'Fluency is not the same as true understanding', body: 'An LLM can produce fluent, confident-sounding text without genuinely "knowing" facts the way a person does - this is part of why it can sometimes state incorrect things confidently.' },
           { title: 'LLMs power many tools people use today', body: 'Chat assistants like ChatGPT and Claude are built on top of large language models, using this next-word-prediction ability to hold conversations.' },
         ],
       },
@@ -619,7 +619,7 @@ const generalBeginnerModules: Module[] = [
 ];
 
 /* ══════════════════════════════════════════════════════════════════════
-   GENERAL TRACK — INTERMEDIATE
+   GENERAL TRACK - INTERMEDIATE
    ══════════════════════════════════════════════════════════════════════ */
 
 const generalIntermediateModules: Module[] = [
@@ -628,13 +628,13 @@ const generalIntermediateModules: Module[] = [
     partLabel: 'Part 1 of 10',
     part: 1,
     title: 'Prompt Engineering: Four Ways to Talk to an AI',
-    tagline: 'Beyond "write a good prompt" — the actual named techniques that make LLMs more accurate.',
+    tagline: 'Beyond "write a good prompt" - the actual named techniques that make LLMs more accurate.',
     requirement: 'required',
     minutes: 9,
     sections: [
       {
         kind: 'lead',
-        text: 'Good prompting is not one trick — it is a toolbox.',
+        text: 'Good prompting is not one trick - it is a toolbox.',
         body: 'You already know that clear prompts get better answers. This module goes one level deeper: four named prompt-engineering methods that professionals use to get more accurate, less "made up" answers out of large language models, and when to reach for each one.',
       },
       {
@@ -651,7 +651,7 @@ const generalIntermediateModules: Module[] = [
           { title: 'Chain-of-Thought (CoT)', body: 'Ask the model to reason step by step before giving a final answer, which improves accuracy on multi-step problems.' },
           { title: 'ReAct (Reason + Act)', body: 'The model alternates between reasoning and taking an action (like a tool call), then observes the result and iterates.' },
           { title: 'Directional Stimulus Prompting (DSP)', body: 'Give the model small hints or cues that steer it toward the kind of output you want, without writing the whole answer for it.' },
-          { title: 'Methods can be combined', body: 'These are not mutually exclusive — real systems often stack several of these techniques together for better, more reliable results.' },
+          { title: 'Methods can be combined', body: 'These are not mutually exclusive - real systems often stack several of these techniques together for better, more reliable results.' },
         ],
       },
     ],
@@ -717,7 +717,7 @@ const generalIntermediateModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Text, pictures, sound — the same underlying "language."',
+        text: 'Text, pictures, sound - the same underlying "language."',
         body: 'Early AI tools were built for one type of input at a time. Multimodal AI can take in and reason across text, images, and audio together. This module explains, at a conceptual level, how that is possible.',
       },
       {
@@ -730,7 +730,7 @@ const generalIntermediateModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'A shared representation', body: 'Text, images, and audio are all converted into the same kind of mathematical representation — embedding vectors — so a model can reason about them together.' },
+          { title: 'A shared representation', body: 'Text, images, and audio are all converted into the same kind of mathematical representation - embedding vectors - so a model can reason about them together.' },
           { title: 'Modular feature-fusion approach', body: 'One approach uses a separate encoder to extract features from, say, an image, then passes those features to the language model. It’s cheaper but can lose some information.' },
           { title: 'Native multimodality', body: 'A more advanced approach processes all data types together within one system from the start, rather than bolting modalities together.' },
           { title: 'Any-to-any generation', body: 'Native multimodal systems can potentially take in one type of input (e.g., text) and generate a different type of output (e.g., an image or audio).' },
@@ -740,7 +740,7 @@ const generalIntermediateModules: Module[] = [
     ],
     quiz: [
       { prompt: 'According to the video, how do multimodal models handle different input types like text, images, and audio?', options: ['They use entirely separate, unconnected models for each', 'They convert all input types into a shared mathematical representation called embedding vectors', 'They only accept text and ignore the rest', 'They require the user to translate everything to text first'], answer: 1, explanation: 'The video explains that inputs of different types are converted into the same kind of embedding vector representation.' },
-      { prompt: 'What is a tradeoff of the "modular feature-fusion" approach described in the video?', options: ['It is always more expensive than native multimodality', 'It is cheaper but can lose some information compared to native multimodality', 'It cannot process images at all', 'It only works for audio'], answer: 1, explanation: 'A separate encoder extracts features and hands them to the language model — cheaper, but potentially lossy compared to native multimodality.' },
+      { prompt: 'What is a tradeoff of the "modular feature-fusion" approach described in the video?', options: ['It is always more expensive than native multimodality', 'It is cheaper but can lose some information compared to native multimodality', 'It cannot process images at all', 'It only works for audio'], answer: 1, explanation: 'A separate encoder extracts features and hands them to the language model - cheaper, but potentially lossy compared to native multimodality.' },
       { prompt: 'What distinguishes "native multimodality" from the modular approach?', options: ['It processes all data types together within one unified system from the start', 'It refuses to process images', 'It is identical to the modular approach', 'It only works offline'], answer: 0, explanation: 'Native multimodal systems integrate all modalities together from the start, rather than combining separately processed features.' },
       { prompt: 'What does "any-to-any generation" refer to in the video?', options: ['Generating the exact same input back unchanged', 'Taking in one type of input and producing a different type of output, like text-to-image', 'Only generating text from text', 'A synonym for hallucination'], answer: 1, explanation: 'Any-to-any generation means a system can take input in one modality and produce output in another, such as generating an image from a text prompt.' },
       { prompt: 'Who presents this IBM Technology explainer, per the video?', options: ['Martin Keen', 'Sam Altman', 'Grant Sanderson', 'Jeff Bezos'], answer: 0, explanation: 'Martin Keen presents this IBM Technology video on multimodal AI.' },
@@ -841,12 +841,12 @@ const generalIntermediateModules: Module[] = [
       {
         kind: 'lead',
         text: 'Using AI at work carries real risk if you don’t know the rules.',
-        body: 'AI tools can make you more productive — or get you into serious trouble at work if used carelessly. This module covers five concrete, named risks that come up when employees use AI without governance in mind.',
+        body: 'AI tools can make you more productive - or get you into serious trouble at work if used carelessly. This module covers five concrete, named risks that come up when employees use AI without governance in mind.',
       },
       {
         kind: 'video',
         youtubeId: '1m55T8xST9s',
-        heading: 'Watch: Five AI Risks That Can Get You Fired—And How to Avoid Them (~9 min)',
+        heading: 'Watch: Five AI Risks That Can Get You Fired-And How to Avoid Them (~9 min)',
         caption: 'IBM Technology (~9 min)',
       },
       {
@@ -888,7 +888,7 @@ const generalIntermediateModules: Module[] = [
       {
         kind: 'video',
         youtubeId: '5MWT_doo68k',
-        heading: 'Watch: OpenAI’s Sam Altman Talks ChatGPT, AI Agents and Superintelligence — Live at TED2025 (~47 min)',
+        heading: 'Watch: OpenAI’s Sam Altman Talks ChatGPT, AI Agents and Superintelligence - Live at TED2025 (~47 min)',
         caption: 'TED (~47 min)',
       },
       {
@@ -958,14 +958,14 @@ const generalIntermediateModules: Module[] = [
     partLabel: 'Part 9 of 10',
     part: 9,
     title: 'Can You Trust Synthetic Data?',
-    tagline: 'AI-generated "fake" data is quietly becoming a real training tool — here is where it helps and where it can bite you.',
+    tagline: 'AI-generated "fake" data is quietly becoming a real training tool - here is where it helps and where it can bite you.',
     requirement: 'optional',
     minutes: 9,
     sections: [
       {
         kind: 'lead',
         text: 'Not all AI training data comes from the real world.',
-        body: 'Synthetic data — information generated by a computer rather than collected from real events — is increasingly used to train and test AI models. It promises speed and privacy protection, but it raises a fair question: can you actually trust it?',
+        body: 'Synthetic data - information generated by a computer rather than collected from real events - is increasingly used to train and test AI models. It promises speed and privacy protection, but it raises a fair question: can you actually trust it?',
       },
       {
         kind: 'video',
@@ -990,7 +990,7 @@ const generalIntermediateModules: Module[] = [
       { prompt: 'Why might synthetic data still pose a privacy risk, even though it is "fake"?', options: ['It is always stored on public servers', 'It can closely mirror real data patterns and inadvertently reveal personally identifiable information', 'It cannot be encrypted', 'Regulators ban all synthetic data outright'], answer: 1, explanation: 'If synthetic data is generated to be highly accurate, it can end up reflecting identifiable traits from the real data it was modeled on.' },
       { prompt: 'Besides training models, what other use for synthetic data does the video highlight?', options: ['Replacing all human employees', 'Testing models with adversarial examples to expose bias or errors', 'Encrypting company emails', 'Speeding up internet connections'], answer: 1, explanation: 'Synthetic data can be crafted as adversarial test cases to reveal where a model behaves unfairly or inaccurately.' },
       { prompt: 'What is one practical advantage of synthetic data over real-world data collection?', options: ['It requires more manual labeling effort', 'It eliminates the need for computers entirely', 'It is faster and cheaper to produce, and often comes pre-labeled', 'It guarantees a model will never be biased'], answer: 2, explanation: 'A major appeal of synthetic data is that it avoids the time and cost of gathering and labeling real-world data.' },
-      { prompt: 'What does the video suggest is necessary before an organization should fully trust its synthetic data?', options: ['Nothing — synthetic data is trustworthy by definition', 'Validating it against quality, accuracy, and relevance metrics', 'Getting sign-off from a government agency', 'Converting it back into real data'], answer: 1, explanation: 'Trust in synthetic data comes from rigorous validation and documentation, not from assuming it is inherently reliable.' },
+      { prompt: 'What does the video suggest is necessary before an organization should fully trust its synthetic data?', options: ['Nothing - synthetic data is trustworthy by definition', 'Validating it against quality, accuracy, and relevance metrics', 'Getting sign-off from a government agency', 'Converting it back into real data'], answer: 1, explanation: 'Trust in synthetic data comes from rigorous validation and documentation, not from assuming it is inherently reliable.' },
       { prompt: 'In an internal AI-literacy sense, why does synthetic data matter to a non-technical employee?', options: ['It has no relevance to business decisions', 'It only matters to data scientists writing code', 'It shapes the AI tools an organization trains and tests, so understanding its limits helps you sanity-check AI outputs', 'It replaces the need for any human review of AI systems'], answer: 2, explanation: 'Even non-technical staff benefit from knowing that AI tools may be trained or tested on synthetic data, which has its own risks and limits.' },
     ],
   },
@@ -999,14 +999,14 @@ const generalIntermediateModules: Module[] = [
     partLabel: 'Part 10 of 10',
     part: 10,
     title: 'Can Technology Catch a Deepfake Before You Do?',
-    tagline: 'AI-generated video and images are now good enough to fool most people — a look at the detection arms race trying to keep up.',
+    tagline: 'AI-generated video and images are now good enough to fool most people - a look at the detection arms race trying to keep up.',
     requirement: 'optional',
     minutes: 9,
     sections: [
       {
         kind: 'lead',
-        text: 'The old tells for spotting a deepfake — extra fingers, weird blinking — are disappearing fast.',
-        body: 'As generative AI improves, telling real footage from AI-fabricated footage gets harder for the human eye alone. This video looks at the emerging toolkit — detection, labeling, and prevention — being built to catch deepfakes before they mislead people.',
+        text: 'The old tells for spotting a deepfake - extra fingers, weird blinking - are disappearing fast.',
+        body: 'As generative AI improves, telling real footage from AI-fabricated footage gets harder for the human eye alone. This video looks at the emerging toolkit - detection, labeling, and prevention - being built to catch deepfakes before they mislead people.',
       },
       {
         kind: 'video',
@@ -1039,7 +1039,7 @@ const generalIntermediateModules: Module[] = [
 ];
 
 /* ══════════════════════════════════════════════════════════════════════
-   GENERAL TRACK — ADVANCED
+   GENERAL TRACK - ADVANCED
    ══════════════════════════════════════════════════════════════════════ */
 
 const generalAdvancedModules: Module[] = [
@@ -1054,7 +1054,7 @@ const generalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Most companies do not fail at AI because the technology is bad — they fail because they never build a real strategy around it.',
+        text: 'Most companies do not fail at AI because the technology is bad - they fail because they never build a real strategy around it.',
         body: 'AI pioneer Andrew Ng (Google Brain, Baidu, Coursera, Landing AI) has spent years advising executives on how to move AI from isolated experiments to company-wide capability. In this CXOTalk conversation, he lays out a practical playbook for enterprise AI strategy.',
       },
       { kind: 'video', youtubeId: 'Y7fH2iT1m7Q', heading: 'Watch: Andrew Ng: Enterprise AI Strategy (with Landing AI) (~20 min)', caption: 'CXOTalk (~20 min)' },
@@ -1064,7 +1064,7 @@ const generalAdvancedModules: Module[] = [
         items: [
           { title: 'Start with pilot projects', body: 'Early AI wins should be chosen for feasibility and internal momentum, not just for the biggest possible business impact.' },
           { title: 'Build an in-house AI team', body: 'Long-term capability requires a centralized team that can support multiple business units rather than one-off vendor engagements.' },
-          { title: 'Provide broad AI training', body: 'Executives, business leaders, and frontline staff all need different, role-appropriate AI literacy — not just the engineering team.' },
+          { title: 'Provide broad AI training', body: 'Executives, business leaders, and frontline staff all need different, role-appropriate AI literacy - not just the engineering team.' },
           { title: 'Formalize an AI strategy', body: 'Once early projects prove value, companies need an explicit strategy for where AI creates a defensible advantage.' },
           { title: 'Communicate internally and externally', body: 'Clear communication about AI initiatives builds trust with employees, customers, and investors alike.' },
         ],
@@ -1091,10 +1091,10 @@ const generalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'The EU AI Act is the world’s first comprehensive AI law — and it affects any company doing business in Europe, not just European firms.',
+        text: 'The EU AI Act is the world’s first comprehensive AI law - and it affects any company doing business in Europe, not just European firms.',
         body: 'This WSJ Tech News Briefing episode breaks down what the EU AI Act actually covers: its risk-based categories, what counts as a "high-risk" AI system, and what it means for businesses building or using AI tools.',
       },
-      { kind: 'video', youtubeId: 'i5iZNH2lCGU', heading: 'Watch: The EU’s AI Act, Explained (~15 min)', caption: 'WSJ Podcasts — Tech News Briefing (~15 min)' },
+      { kind: 'video', youtubeId: 'i5iZNH2lCGU', heading: 'Watch: The EU’s AI Act, Explained (~15 min)', caption: 'WSJ Podcasts - Tech News Briefing (~15 min)' },
       {
         kind: 'list',
         heading: 'Key ideas from the video',
@@ -1103,14 +1103,14 @@ const generalAdvancedModules: Module[] = [
           { title: 'Risk-based categories', body: 'The law sorts AI systems into risk tiers, with stricter obligations for systems judged "high-risk" (e.g., in hiring, credit, or law enforcement).' },
           { title: 'Applies beyond EU borders', body: 'Companies outside Europe that sell AI products or services into the EU market are still subject to the Act’s requirements.' },
           { title: 'Phased rollout', body: 'The Act entered into force in August 2024 with provisions phasing in over roughly two years, giving companies a runway to comply.' },
-          { title: 'Business implications', body: 'Compliance requirements touch documentation, transparency, and risk assessment — not just a one-time certification.' },
+          { title: 'Business implications', body: 'Compliance requirements touch documentation, transparency, and risk assessment - not just a one-time certification.' },
         ],
       },
     ],
     quiz: [
       { prompt: 'What does the episode describe the EU AI Act as?', options: ['A voluntary industry guideline', 'The first comprehensive legal framework on AI worldwide', 'A trade agreement', 'An update to GDPR only'], answer: 1, explanation: 'The EU AI Act is presented as the first broad, binding AI regulation of its kind globally.' },
       { prompt: 'How does the EU AI Act primarily classify AI systems?', options: ['By programming language used', 'By company size', 'By risk level', 'By country of origin only'], answer: 2, explanation: 'The Act uses a risk-based approach, applying stricter rules to higher-risk AI uses.' },
-      { prompt: 'Does the EU AI Act only apply to companies headquartered in the EU?', options: ['Yes, only EU-based companies', 'No — companies outside the EU selling into the EU market are also covered', 'It applies only to government agencies', 'It applies only to open-source AI models'], answer: 1, explanation: 'Non-EU companies offering AI products or services in the EU market must still comply.' },
+      { prompt: 'Does the EU AI Act only apply to companies headquartered in the EU?', options: ['Yes, only EU-based companies', 'No - companies outside the EU selling into the EU market are also covered', 'It applies only to government agencies', 'It applies only to open-source AI models'], answer: 1, explanation: 'Non-EU companies offering AI products or services in the EU market must still comply.' },
       { prompt: 'What kind of AI uses face the strictest obligations under the Act?', options: ['Low-risk uses like spam filters', 'High-risk uses such as hiring or credit decisions', 'Entertainment chatbots', 'Video game AI'], answer: 1, explanation: 'High-risk categories, such as employment and credit-scoring systems, carry the most stringent requirements.' },
       { prompt: 'When did the EU AI Act enter into force?', options: ['2020', 'August 2024', '2030', 'It has not yet passed'], answer: 1, explanation: 'The regulation entered into force on August 1, 2024, with obligations phasing in afterward.' },
       { prompt: 'What is this episode’s general approach to the topic?', options: ['A deep legal analysis for lawyers only', 'A plain-language business news briefing', 'A coding tutorial', 'A product demo'], answer: 1, explanation: 'It is a short news-briefing format aimed at a general business audience, not a legal treatise.' },
@@ -1128,17 +1128,17 @@ const generalAdvancedModules: Module[] = [
       {
         kind: 'lead',
         text: 'Will AI take your job, change it, or create a new one entirely? The honest answer is: all three, depending on the role.',
-        body: 'The World Economic Forum — the organization behind the widely-cited "Future of Jobs" research — produced this short explainer on how AI and automation are reshaping the workplace, and what skills will matter most in the years ahead.',
+        body: 'The World Economic Forum - the organization behind the widely-cited "Future of Jobs" research - produced this short explainer on how AI and automation are reshaping the workplace, and what skills will matter most in the years ahead.',
       },
       { kind: 'video', youtubeId: 'EuDnSqAo784', heading: 'Watch: What is the Future of Work? (~4 min)', caption: 'World Economic Forum (~4 min)' },
       {
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Displacement and creation both happen', body: 'AI and automation eliminate some tasks and roles while creating new ones — the net effect varies widely by industry.' },
+          { title: 'Displacement and creation both happen', body: 'AI and automation eliminate some tasks and roles while creating new ones - the net effect varies widely by industry.' },
           { title: 'Skills matter more than job titles', body: 'The shift in demand is toward adaptable skills (critical thinking, digital literacy) rather than any single fixed job description.' },
           { title: 'Reskilling is a shared responsibility', body: 'Governments, employers, and individuals all have a role to play in preparing the workforce for AI-driven change.' },
-          { title: 'Timeframes matter', body: 'Workforce shifts play out over years, not overnight — giving organizations a window to adapt if they start early.' },
+          { title: 'Timeframes matter', body: 'Workforce shifts play out over years, not overnight - giving organizations a window to adapt if they start early.' },
         ],
       },
     ],
@@ -1156,30 +1156,30 @@ const generalAdvancedModules: Module[] = [
     partLabel: 'Part 4 of 10',
     part: 4,
     title: 'Advanced Prompt Engineering for Business Users',
-    tagline: 'Zero-shot, few-shot, and chain-of-thought prompting — explained without the math.',
+    tagline: 'Zero-shot, few-shot, and chain-of-thought prompting - explained without the math.',
     requirement: 'required',
     minutes: 14,
     sections: [
       {
         kind: 'lead',
         text: 'The difference between a mediocre AI answer and a genuinely useful one often comes down to how you ask the question.',
-        body: 'This video walks through three advanced prompting techniques — zero-shot, few-shot, and chain-of-thought — and shows how each one changes the quality and reliability of an AI model’s output, using clear, non-technical examples.',
+        body: 'This video walks through three advanced prompting techniques - zero-shot, few-shot, and chain-of-thought - and shows how each one changes the quality and reliability of an AI model’s output, using clear, non-technical examples.',
       },
       { kind: 'video', youtubeId: 'sZIV7em3JA8', heading: 'Watch: Master AI Prompting: Zero-Shot, Few-Shot & Chain of Thought Explained (~12 min)', caption: 'Prof. Ryan Ahmed (~12 min)' },
       {
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Zero-shot prompting', body: 'Asking the model to complete a task with no examples at all — fast, but sometimes less reliable for complex tasks.' },
+          { title: 'Zero-shot prompting', body: 'Asking the model to complete a task with no examples at all - fast, but sometimes less reliable for complex tasks.' },
           { title: 'Few-shot prompting', body: 'Providing a handful of example input/output pairs in the prompt so the model can pattern-match the desired style and format.' },
           { title: 'Chain-of-thought prompting', body: 'Asking the model to reason step-by-step before giving a final answer, which improves accuracy on multi-step problems.' },
           { title: 'Combining techniques', body: 'Few-shot examples that themselves demonstrate step-by-step reasoning ("few-shot CoT") often outperform either technique alone.' },
-          { title: 'Business payoff', body: 'Better prompting is a near-zero-cost lever — it improves output quality without touching the underlying model.' },
+          { title: 'Business payoff', body: 'Better prompting is a near-zero-cost lever - it improves output quality without touching the underlying model.' },
         ],
       },
     ],
     quiz: [
-      { prompt: 'What is zero-shot prompting?', options: ['Giving the model dozens of examples', 'Asking the model to perform a task with no examples provided', 'Fine-tuning the model weights', 'Disabling the model entirely'], answer: 1, explanation: 'Zero-shot means the prompt contains no worked examples — just the instruction.' },
+      { prompt: 'What is zero-shot prompting?', options: ['Giving the model dozens of examples', 'Asking the model to perform a task with no examples provided', 'Fine-tuning the model weights', 'Disabling the model entirely'], answer: 1, explanation: 'Zero-shot means the prompt contains no worked examples - just the instruction.' },
       { prompt: 'What is few-shot prompting?', options: ['Providing a few example input/output pairs in the prompt', 'Training a brand-new model from scratch', 'Only asking yes/no questions', 'Removing all context from the prompt'], answer: 0, explanation: 'Few-shot prompting includes a small number of demonstrations to guide the model’s response.' },
       { prompt: 'What does chain-of-thought prompting ask the model to do?', options: ['Skip straight to the final answer', 'Reason through intermediate steps before answering', 'Ignore the question', 'Only output single words'], answer: 1, explanation: 'Chain-of-thought prompting elicits step-by-step reasoning, which tends to improve accuracy on complex tasks.' },
       { prompt: 'According to the video, what happens when you combine few-shot examples with chain-of-thought reasoning?', options: ['Performance gets worse', 'It often performs better than either technique alone on complex tasks', 'It has no effect', 'It only works for images'], answer: 1, explanation: 'Few-shot chain-of-thought combines demonstration and reasoning steps for stronger results on harder tasks.' },
@@ -1199,7 +1199,7 @@ const generalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Every vendor claims their tool is "powered by AI" — so how do you actually tell a serious solution from a marketing wrapper?',
+        text: 'Every vendor claims their tool is "powered by AI" - so how do you actually tell a serious solution from a marketing wrapper?',
         body: 'G2, the software review platform, lays out four concrete questions business buyers should ask before purchasing an AI tool, covering data handling, accuracy claims, integration, and vendor transparency.',
       },
       { kind: 'video', youtubeId: 'PRhC0lRSf14', heading: 'Watch: How to Evaluate AI Tools Before You Buy: 4 Questions Every Smart Buyer Asks (~6 min)', caption: 'G2 (~6 min)' },
@@ -1234,7 +1234,7 @@ const generalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'An AI system can fully comply with the law and still cause real harm — that gap is exactly what AI governance is meant to close.',
+        text: 'An AI system can fully comply with the law and still cause real harm - that gap is exactly what AI governance is meant to close.',
         body: 'IBM Technology breaks down what responsible AI governance actually means in practice: the guardrails, oversight structures, and accountability mechanisms organizations put in place to keep AI systems safe, fair, and aligned with company values.',
       },
       { kind: 'video', youtubeId: 'yh-3WU1FKrk', heading: 'Watch: What is Responsible AI? A Guide to AI Governance (~9 min)', caption: 'IBM Technology (~9 min)' },
@@ -1242,9 +1242,9 @@ const generalAdvancedModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: '"Lawful but awful"', body: 'A system can technically comply with regulations while still producing unethical or harmful outcomes — governance has to go beyond legal minimums.' },
+          { title: '"Lawful but awful"', body: 'A system can technically comply with regulations while still producing unethical or harmful outcomes - governance has to go beyond legal minimums.' },
           { title: 'Governance is operational, not just principles', body: 'Effective AI governance translates high-level principles into concrete practices: defined ownership, monitoring, and standards.' },
-          { title: 'Accountability structures matter', body: 'Clear ownership of AI decisions and outcomes is a core pillar — someone has to be answerable when things go wrong.' },
+          { title: 'Accountability structures matter', body: 'Clear ownership of AI decisions and outcomes is a core pillar - someone has to be answerable when things go wrong.' },
           { title: 'Governance spans the whole AI lifecycle', body: 'From data quality to deployment monitoring, responsible AI requires oversight at every stage, not just at launch.' },
         ],
       },
@@ -1252,9 +1252,9 @@ const generalAdvancedModules: Module[] = [
     quiz: [
       { prompt: 'Which company produced this video?', options: ['Microsoft', 'IBM Technology', 'Amazon', 'Salesforce'], answer: 1, explanation: 'The video is part of the IBM Technology YouTube channel.' },
       { prompt: 'What does the phrase "lawful but awful" refer to in the video?', options: ['An AI system that breaks the law but works well', 'An AI system that complies with regulations yet still causes ethical harm', 'A system that is both illegal and ineffective', 'A marketing slogan for a competitor'], answer: 1, explanation: 'The phrase captures the gap between legal compliance and genuine ethical soundness.' },
-      { prompt: 'According to the video, what should AI governance do beyond following the law?', options: ['Nothing — legal compliance is sufficient', 'Address ethical considerations and unintended consequences', 'Focus only on cost reduction', 'Avoid any oversight structures'], answer: 1, explanation: 'The video argues governance must extend past bare legal compliance to real ethical accountability.' },
+      { prompt: 'According to the video, what should AI governance do beyond following the law?', options: ['Nothing - legal compliance is sufficient', 'Address ethical considerations and unintended consequences', 'Focus only on cost reduction', 'Avoid any oversight structures'], answer: 1, explanation: 'The video argues governance must extend past bare legal compliance to real ethical accountability.' },
       { prompt: 'How does the video describe effective AI governance?', options: ['As a single one-time certificate', 'As an operational backbone that turns principles into concrete practice', 'As purely a marketing exercise', 'As something only regulators handle'], answer: 1, explanation: 'Governance is presented as the practical machinery that operationalizes stated AI principles.' },
-      { prompt: 'Why does accountability matter in the governance framework described?', options: ['It doesn’t — no one needs to own AI outcomes', 'Clear ownership ensures someone is answerable when AI systems cause harm', 'Accountability slows down innovation with no benefit', 'It is only relevant for government agencies'], answer: 1, explanation: 'Assigning clear ownership is presented as essential to responsible AI practice.' },
+      { prompt: 'Why does accountability matter in the governance framework described?', options: ['It doesn’t - no one needs to own AI outcomes', 'Clear ownership ensures someone is answerable when AI systems cause harm', 'Accountability slows down innovation with no benefit', 'It is only relevant for government agencies'], answer: 1, explanation: 'Assigning clear ownership is presented as essential to responsible AI practice.' },
       { prompt: 'At what point in an AI system’s life does the video say governance should apply?', options: ['Only at the initial design phase', 'Across the full lifecycle, including deployment and monitoring', 'Only after a public failure occurs', 'Only during marketing launch'], answer: 1, explanation: 'The video frames governance as continuous oversight spanning data quality through deployment monitoring.' },
     ],
   },
@@ -1262,22 +1262,22 @@ const generalAdvancedModules: Module[] = [
     id: 'general-advanced-7',
     partLabel: 'Part 7 of 10',
     part: 7,
-    title: 'The Limits of Current AI — A Critical View',
+    title: 'The Limits of Current AI - A Critical View',
     tagline: 'Meta’s chief AI scientist explains what today’s AI still cannot do.',
     requirement: 'half',
     minutes: 61,
     sections: [
       {
         kind: 'lead',
-        text: 'Not everyone in AI believes today’s systems are close to human-level intelligence — and some of the field’s most credentialed skeptics have a very specific list of what is missing.',
-        body: 'Yann LeCun — Turing Award winner and Meta’s Chief AI Scientist — gives a keynote arguing that today’s AI systems lack persistent memory, real-world understanding, and genuine reasoning and planning, and explains why he believes scaling current approaches alone won’t close that gap.',
+        text: 'Not everyone in AI believes today’s systems are close to human-level intelligence - and some of the field’s most credentialed skeptics have a very specific list of what is missing.',
+        body: 'Yann LeCun - Turing Award winner and Meta’s Chief AI Scientist - gives a keynote arguing that today’s AI systems lack persistent memory, real-world understanding, and genuine reasoning and planning, and explains why he believes scaling current approaches alone won’t close that gap.',
       },
       { kind: 'video', youtubeId: '4DsCtgtQlZU', heading: 'Watch: Keynote: Yann LeCun, "Human-Level AI" (~59 min)', caption: 'Hudson Forum (~59 min)' },
       {
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Four missing capabilities', body: 'LeCun argues human-level AI requires understanding the physical world, persistent memory, reasoning, and hierarchical planning — capabilities current systems largely lack.' },
+          { title: 'Four missing capabilities', body: 'LeCun argues human-level AI requires understanding the physical world, persistent memory, reasoning, and hierarchical planning - capabilities current systems largely lack.' },
           { title: 'Scaling has limits', body: 'He contends that simply making today’s dominant AI approaches bigger is unlikely, by itself, to produce the next leap in capability.' },
           { title: 'Language is a thin slice of intelligence', body: 'Much of human understanding of the world comes from non-linguistic experience, which text-only training does not capture.' },
           { title: 'A credible, informed critique', body: 'The talk is a useful counterweight to hype: even leading AI researchers disagree sharply about how close we are to general intelligence.' },
@@ -1288,11 +1288,11 @@ const generalAdvancedModules: Module[] = [
     quiz: [
       { prompt: 'Who delivers this keynote?', options: ['Geoffrey Hinton', 'Yann LeCun', 'Andrew Ng', 'Demis Hassabis'], answer: 1, explanation: 'The keynote is delivered by Yann LeCun, Meta’s Chief AI Scientist.' },
       { prompt: 'Which event does this keynote come from?', options: ['Hudson Forum', 'Davos', 'TED', 'Google I/O'], answer: 0, explanation: 'This is LeCun’s keynote at the Hudson Forum.' },
-      { prompt: 'Which capability does LeCun NOT list as missing from current AI systems?', options: ['Persistent memory', 'Understanding the physical world', 'Reasoning and planning', 'Generating grammatically correct text'], answer: 3, explanation: 'Current models are already fluent at generating grammatical text — that is not among the missing capabilities LeCun highlights.' },
+      { prompt: 'Which capability does LeCun NOT list as missing from current AI systems?', options: ['Persistent memory', 'Understanding the physical world', 'Reasoning and planning', 'Generating grammatically correct text'], answer: 3, explanation: 'Current models are already fluent at generating grammatical text - that is not among the missing capabilities LeCun highlights.' },
       { prompt: 'What is LeCun’s view on scaling current AI approaches?', options: ['Scaling alone will definitely reach human-level AI', 'Scaling alone is unlikely to be sufficient for the next leap in capability', 'Scaling is irrelevant to AI progress', 'Scaling has already achieved human-level AI'], answer: 1, explanation: 'LeCun argues that simply scaling up today’s dominant approach is unlikely to be enough.' },
       { prompt: 'What does LeCun say about language as a basis for intelligence?', options: ['Language captures the full richness of human understanding', 'Language is just one thin slice of how humans understand the world', 'Language is irrelevant to any form of intelligence', 'Text is a perfect substitute for physical experience'], answer: 1, explanation: 'LeCun compares learning from text alone to trying to learn to swim by reading about water.' },
       { prompt: 'Why is this talk useful for a business audience specifically?', options: ['It teaches how to code a neural network', 'It offers a credible, expert-level check against AI hype and overpromising', 'It is a sales pitch for Meta products', 'It focuses solely on stock market predictions'], answer: 1, explanation: 'The value for a business audience is calibrating expectations using a leading researcher’s informed skepticism.' },
-      { prompt: 'Does LeCun claim these missing capabilities will be solved instantly?', options: ['Yes, within a year', 'No — he notes it will take time even once such systems exist', 'Yes, they are already solved', 'He does not address timeline at all'], answer: 1, explanation: 'LeCun explicitly notes that even once systems have these capabilities, reaching truly human-level performance will still take time.' },
+      { prompt: 'Does LeCun claim these missing capabilities will be solved instantly?', options: ['Yes, within a year', 'No - he notes it will take time even once such systems exist', 'Yes, they are already solved', 'He does not address timeline at all'], answer: 1, explanation: 'LeCun explicitly notes that even once systems have these capabilities, reaching truly human-level performance will still take time.' },
     ],
   },
   {
@@ -1306,7 +1306,7 @@ const generalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Erica started as a simple virtual assistant for navigating a mobile banking app — it has since handled billions of client interactions and reshaped how the bank operates.',
+        text: 'Erica started as a simple virtual assistant for navigating a mobile banking app - it has since handled billions of client interactions and reshaped how the bank operates.',
         body: 'This Banking Transformed Podcast episode digs into Bank of America’s real, documented AI journey: from Erica’s 2018 launch to becoming a cornerstone of a multi-billion-dollar enterprise AI strategy, and what other large organizations can learn from that path.',
       },
       { kind: 'video', youtubeId: 'KibFqG47KzQ', heading: 'Watch: Inside Erica: How Bank of America Is Building the Agentic Bank (~40 min)', caption: 'Banking Transformed Podcast (~40 min)' },
@@ -1327,7 +1327,7 @@ const generalAdvancedModules: Module[] = [
       { prompt: 'What was Erica originally launched to do?', options: ['Replace all bank tellers immediately', 'Help customers navigate mobile banking features', 'Trade stocks automatically', 'Approve business loans'], answer: 1, explanation: 'Erica launched as a virtual assistant focused on mobile app navigation, a deliberately narrow starting point.' },
       { prompt: 'What does the case study suggest about how large-scale AI transformations typically start?', options: ['With a single massive company-wide rollout', 'With a narrowly scoped project that expands over time', 'By skipping pilots entirely', 'By outsourcing everything from day one'], answer: 1, explanation: 'Erica’s growth from a narrow assistant into an enterprise-wide capability illustrates gradual scaling.' },
       { prompt: 'What happened to Erica’s role over time, according to the episode?', options: ['It was discontinued after launch', 'It evolved from a single feature into a foundation for broader enterprise AI', 'It stayed exactly the same for years', 'It was replaced by a competitor’s tool'], answer: 1, explanation: 'Erica grew from a chatbot into a platform underpinning wider AI investment at the bank.' },
-      { prompt: 'What kind of investment does the episode describe behind this transformation?', options: ['A single one-time expense', 'Sustained, multi-year investment and iteration', 'No investment — it happened automatically', 'A one-week sprint'], answer: 1, explanation: 'The case study frames the transformation as the result of continuous, long-term investment.' },
+      { prompt: 'What kind of investment does the episode describe behind this transformation?', options: ['A single one-time expense', 'Sustained, multi-year investment and iteration', 'No investment - it happened automatically', 'A one-week sprint'], answer: 1, explanation: 'The case study frames the transformation as the result of continuous, long-term investment.' },
       { prompt: 'Why is this considered a strong example for a case-study module?', options: ['It is a hypothetical scenario', 'It is a real, publicly documented transformation at a large company', 'It only exists as a rumor', 'It has no measurable outcomes'], answer: 1, explanation: 'Bank of America has publicly disclosed Erica’s usage figures, making this a verifiable, real-world case study.' },
     ],
   },
@@ -1342,7 +1342,7 @@ const generalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'The hardest part of adopting AI is rarely the technology — it is getting people to actually change how they work.',
+        text: 'The hardest part of adopting AI is rarely the technology - it is getting people to actually change how they work.',
         body: 'In this Microsoft-produced conversation, a Harvard Business School professor explains how AI is changing the fundamental rules of business competition, and what leaders need to do differently to help their organizations and people genuinely adapt.',
       },
       { kind: 'video', youtubeId: 'Gol8PECt-To', heading: 'Watch: AI is changing the rules of business, see how to adapt from a Harvard Business School professor (~10 min)', caption: 'Microsoft (~10 min)' },
@@ -1377,7 +1377,7 @@ const generalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'The next wave of generative AI isn’t a single chatbot answer — it’s a chain of AI-driven steps that plan, act, and adjust with minimal human intervention.',
+        text: 'The next wave of generative AI isn’t a single chatbot answer - it’s a chain of AI-driven steps that plan, act, and adjust with minimal human intervention.',
         body: 'In this CXOTalk conversation, McKinsey experts discuss agentic AI from a business-value perspective: what makes it different from earlier generative AI, where it is already creating measurable impact, and how leaders should think about deploying it responsibly.',
       },
       { kind: 'video', youtubeId: 'rwK3kOjyCXM', heading: 'Watch: McKinsey on Agentic AI: How to Create Business Value (~20 min)', caption: 'CXOTalk (~20 min)' },
@@ -1415,14 +1415,14 @@ const technicalBeginnerModules: Module[] = [
     partLabel: 'Part 1 of 10',
     part: 1,
     title: 'What Is a Neural Network?',
-    tagline: 'The building block behind modern AI — built up from scratch, and visualized.',
+    tagline: 'The building block behind modern AI - built up from scratch, and visualized.',
     requirement: 'required',
     minutes: 20,
     sections: [
       {
         kind: 'lead',
         text: 'A neural network learns patterns from examples.',
-        body: 'This 3Blue1Brown video uses the classic task of recognizing handwritten digits to show how a network of simple “neurons,” arranged in layers, turns raw pixels into an answer — without anyone writing the rules by hand.',
+        body: 'This 3Blue1Brown video uses the classic task of recognizing handwritten digits to show how a network of simple “neurons,” arranged in layers, turns raw pixels into an answer - without anyone writing the rules by hand.',
       },
       {
         kind: 'video',
@@ -1434,10 +1434,10 @@ const technicalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Neurons hold a number', body: 'Each neuron carries an “activation” — a value between 0 and 1.' },
+          { title: 'Neurons hold a number', body: 'Each neuron carries an “activation” - a value between 0 and 1.' },
           { title: 'Organized in layers', body: 'An input layer, one or more hidden layers, and an output layer.' },
           { title: 'The digit example', body: 'A 28×28 image feeds 784 input neurons; 10 output neurons score the digits 0–9.' },
-          { title: 'Weights and biases', body: 'Connections have weights and each neuron a bias — the values the network tunes to “learn.”' },
+          { title: 'Weights and biases', body: 'Connections have weights and each neuron a bias - the values the network tunes to “learn.”' },
         ],
       },
     ],
@@ -1462,7 +1462,7 @@ const technicalBeginnerModules: Module[] = [
           'Only a yes/no flag',
         ],
         answer: 0,
-        explanation: 'A neuron holds an activation — a number between 0 and 1 representing how “lit up” it is.',
+        explanation: 'A neuron holds an activation - a number between 0 and 1 representing how “lit up” it is.',
       },
       {
         prompt: 'What are the layers between the input and output layers called?',
@@ -1488,7 +1488,7 @@ const technicalBeginnerModules: Module[] = [
     partLabel: 'Part 2 of 10',
     part: 2,
     title: 'Large Language Models, Briefly',
-    tagline: 'What an LLM actually does, and how it gets trained — in plain terms.',
+    tagline: 'What an LLM actually does, and how it gets trained - in plain terms.',
     requirement: 'required',
     minutes: 8,
     sections: [
@@ -1524,7 +1524,7 @@ const technicalBeginnerModules: Module[] = [
           'Sort words alphabetically',
         ],
         answer: 0,
-        explanation: 'An LLM is, at heart, a next-word predictor — it outputs how likely each possible next word is.',
+        explanation: 'An LLM is, at heart, a next-word predictor - it outputs how likely each possible next word is.',
       },
       {
         prompt: 'How does an LLM produce a whole passage of text?',
@@ -1546,7 +1546,7 @@ const technicalBeginnerModules: Module[] = [
           'The number of languages it speaks',
         ],
         answer: 0,
-        explanation: '“Large” refers to the enormous number of tunable parameters — often hundreds of billions.',
+        explanation: '“Large” refers to the enormous number of tunable parameters - often hundreds of billions.',
       },
       {
         prompt: 'After learning from huge amounts of text, what extra step helps make the model a helpful assistant?',
@@ -1602,13 +1602,13 @@ const technicalBeginnerModules: Module[] = [
           'Global Pattern Tracker',
         ],
         answer: 0,
-        explanation: 'GPT = Generative Pretrained Transformer — the transformer is the core architecture.',
+        explanation: 'GPT = Generative Pretrained Transformer - the transformer is the core architecture.',
       },
       {
         prompt: 'Before a transformer processes text, the text is first broken into…',
         options: ['Tokens', 'Pixels', 'Folders', 'Whole sentences only'],
         answer: 0,
-        explanation: 'Text is split into tokens — small chunks such as words or word-pieces.',
+        explanation: 'Text is split into tokens - small chunks such as words or word-pieces.',
       },
       {
         prompt: 'How does a transformer represent each token?',
@@ -1619,7 +1619,7 @@ const technicalBeginnerModules: Module[] = [
           'As a row in a spreadsheet',
         ],
         answer: 0,
-        explanation: 'Each token becomes an embedding — a vector — and vectors with similar meanings sit near each other.',
+        explanation: 'Each token becomes an embedding - a vector - and vectors with similar meanings sit near each other.',
       },
       {
         prompt: 'What does the “attention” mechanism let the model do?',
@@ -1646,7 +1646,7 @@ const technicalBeginnerModules: Module[] = [
       {
         kind: 'lead',
         text: 'RAG lets an AI look things up before it answers.',
-        body: 'Retrieval-Augmented Generation (RAG) connects a language model to an external knowledge base — your documents, policies, or databases — so it can pull in relevant, current information before generating a response, instead of relying only on what it learned during training.',
+        body: 'Retrieval-Augmented Generation (RAG) connects a language model to an external knowledge base - your documents, policies, or databases - so it can pull in relevant, current information before generating a response, instead of relying only on what it learned during training.',
       },
       {
         kind: 'video',
@@ -1661,7 +1661,7 @@ const technicalBeginnerModules: Module[] = [
           { title: 'Two steps: retrieve, then generate', body: 'First search a knowledge base for relevant content, then hand that content to the model along with the question.' },
           { title: 'Grounds answers in real data', body: 'The model answers using retrieved facts instead of guessing from memory alone.' },
           { title: 'Reduces hallucinations', body: 'Because the answer is backed by retrieved documents, it’s far less likely to be confidently wrong.' },
-          { title: 'No retraining needed', body: 'Update the knowledge base and the model’s answers update too — no expensive retraining required.' },
+          { title: 'No retraining needed', body: 'Update the knowledge base and the model’s answers update too - no expensive retraining required.' },
         ],
       },
       {
@@ -1711,13 +1711,13 @@ const technicalBeginnerModules: Module[] = [
       {
         prompt: 'How do you update what a RAG system "knows" about new information?',
         options: [
-          'Update the knowledge base it retrieves from — no retraining needed',
+          'Update the knowledge base it retrieves from - no retraining needed',
           'Retrain the entire model from scratch every time',
           'Buy a bigger computer',
           'It can never be updated',
         ],
         answer: 0,
-        explanation: 'Since RAG retrieves from an external knowledge base, updating that source updates the answers — no costly retraining required.',
+        explanation: 'Since RAG retrieves from an external knowledge base, updating that source updates the answers - no costly retraining required.',
       },
     ],
   },
@@ -1733,7 +1733,7 @@ const technicalBeginnerModules: Module[] = [
       {
         kind: 'lead',
         text: 'Good features make a good model.',
-        body: 'Feature engineering is the process of selecting, transforming, and creating the input variables (“features”) that a machine learning model learns from. Raw data is rarely ready to use as-is — this is the step that shapes it into something a model can work with well.',
+        body: 'Feature engineering is the process of selecting, transforming, and creating the input variables (“features”) that a machine learning model learns from. Raw data is rarely ready to use as-is - this is the step that shapes it into something a model can work with well.',
       },
       {
         kind: 'video',
@@ -1790,7 +1790,7 @@ const technicalBeginnerModules: Module[] = [
           'Early on, after collecting and cleaning the data, before training',
           'After the model is already deployed to users',
           'Only after the project is cancelled',
-          'It never really happens — models use raw data directly',
+          'It never really happens - models use raw data directly',
         ],
         answer: 0,
         explanation: 'Feature engineering happens early in the pipeline, shaping the data before it’s used to train a model.',
@@ -1804,7 +1804,7 @@ const technicalBeginnerModules: Module[] = [
           'Because it’s required by law',
         ],
         answer: 0,
-        explanation: 'A model can only learn as well as the data it’s given — strong features often matter more than the choice of algorithm.',
+        explanation: 'A model can only learn as well as the data it’s given - strong features often matter more than the choice of algorithm.',
       },
     ],
   },
@@ -1819,8 +1819,8 @@ const technicalBeginnerModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'An agent doesn’t just answer — it acts.',
-        body: 'An AI agent extends a language model with the ability to make decisions, call tools or APIs, and carry out multi-step tasks toward a goal — rather than simply generating a single reply to a question.',
+        text: 'An agent doesn’t just answer - it acts.',
+        body: 'An AI agent extends a language model with the ability to make decisions, call tools or APIs, and carry out multi-step tasks toward a goal - rather than simply generating a single reply to a question.',
       },
       {
         kind: 'video',
@@ -1842,8 +1842,8 @@ const technicalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Business examples',
         items: [
-          { title: 'Order processing agent', body: 'Checks inventory, confirms pricing, and places an order — across multiple systems.' },
-          { title: 'IT helpdesk agent', body: 'Diagnoses an issue, checks a knowledge base, and resets an account if appropriate — without a human doing each step.' },
+          { title: 'Order processing agent', body: 'Checks inventory, confirms pricing, and places an order - across multiple systems.' },
+          { title: 'IT helpdesk agent', body: 'Diagnoses an issue, checks a knowledge base, and resets an account if appropriate - without a human doing each step.' },
           { title: 'Research agent', body: 'Searches multiple sources, compares findings, and compiles a summary report.' },
         ],
       },
@@ -1858,7 +1858,7 @@ const technicalBeginnerModules: Module[] = [
           'It cannot be a language model',
         ],
         answer: 0,
-        explanation: 'Agents go beyond a single reply — they can plan steps, call tools, and act toward completing a goal.',
+        explanation: 'Agents go beyond a single reply - they can plan steps, call tools, and act toward completing a goal.',
       },
       {
         prompt: 'What can an AI agent do that a plain chatbot typically can’t?',
@@ -1900,14 +1900,14 @@ const technicalBeginnerModules: Module[] = [
     partLabel: 'Part 7 of 10',
     part: 7,
     title: 'Tokenization: How Text Becomes Tokens',
-    tagline: 'Before a model can "read" anything, your text gets chopped into tokens — this is that process, explained.',
+    tagline: 'Before a model can "read" anything, your text gets chopped into tokens - this is that process, explained.',
     requirement: 'half',
     minutes: 14,
     sections: [
       {
         kind: 'lead',
         text: 'Models never see words. They see tokens.',
-        body: 'Every prompt you type gets broken into small chunks called tokens before a model ever processes it — and the way that chopping happens explains a surprising number of AI quirks, from mangled arithmetic to weird behavior on rare words. This video walks through what tokens actually are and how text-to-token conversion works in practice.',
+        body: 'Every prompt you type gets broken into small chunks called tokens before a model ever processes it - and the way that chopping happens explains a surprising number of AI quirks, from mangled arithmetic to weird behavior on rare words. This video walks through what tokens actually are and how text-to-token conversion works in practice.',
       },
       {
         kind: 'video',
@@ -1919,21 +1919,21 @@ const technicalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Tokens are not words', body: 'A token can be a whole word, part of a word (a subword), or even a single character — common words often become one token, longer or rarer words get split into pieces.' },
+          { title: 'Tokens are not words', body: 'A token can be a whole word, part of a word (a subword), or even a single character - common words often become one token, longer or rarer words get split into pieces.' },
           { title: 'Tokenization is the first step', body: 'Before any model can process text, it must convert raw text into a sequence of tokens using a fixed vocabulary the model was trained with.' },
-          { title: 'Vocabulary size is a design tradeoff', body: 'A bigger token vocabulary can represent more text in fewer tokens, but makes the model larger and training slower — tokenizer design balances these costs.' },
+          { title: 'Vocabulary size is a design tradeoff', body: 'A bigger token vocabulary can represent more text in fewer tokens, but makes the model larger and training slower - tokenizer design balances these costs.' },
           { title: 'Tokens, not characters, are the unit of cost and context', body: 'Model context windows and API pricing are measured in tokens, not words or characters, which is why token counts matter practically.' },
           { title: 'Same text, different tokenizers', body: 'Different models use different tokenizers, so the same sentence can be split into a different number and shape of tokens depending on the model.' },
         ],
       },
     ],
     quiz: [
-      { prompt: 'What is a "token" in the context of an LLM?', options: ['Always exactly one word', 'A unit of text — a word, part of a word, or a character — that the model actually processes', 'A password used to access the model API', 'A unit of GPU memory'], answer: 1, explanation: 'Tokens are the basic text units models operate on, and they can be whole words, subwords, or characters depending on the tokenizer.' },
+      { prompt: 'What is a "token" in the context of an LLM?', options: ['Always exactly one word', 'A unit of text - a word, part of a word, or a character - that the model actually processes', 'A password used to access the model API', 'A unit of GPU memory'], answer: 1, explanation: 'Tokens are the basic text units models operate on, and they can be whole words, subwords, or characters depending on the tokenizer.' },
       { prompt: 'Why are longer or rarer words often split into multiple tokens?', options: ['To make the text harder to read', 'Because the tokenizer\'s fixed vocabulary only has entries for common pieces of text, so uncommon words get broken into smaller known chunks', 'Because models can only read 5 letters at a time', 'It happens randomly'], answer: 1, explanation: 'Tokenizers build a fixed vocabulary of common chunks; anything not in that vocabulary as a whole word gets decomposed into smaller pieces that are.' },
-      { prompt: 'What happens before a language model can process any input text?', options: ['The text is translated to English', 'The text is converted into a sequence of tokens using the model\'s tokenizer', 'The text is compressed into an image', 'Nothing — models read raw text directly'], answer: 1, explanation: 'Tokenization is the mandatory first preprocessing step that converts raw text into tokens the model can consume.' },
+      { prompt: 'What happens before a language model can process any input text?', options: ['The text is translated to English', 'The text is converted into a sequence of tokens using the model\'s tokenizer', 'The text is compressed into an image', 'Nothing - models read raw text directly'], answer: 1, explanation: 'Tokenization is the mandatory first preprocessing step that converts raw text into tokens the model can consume.' },
       { prompt: 'Why does token vocabulary size matter as a design choice?', options: ['It has no real effect', 'Bigger vocabularies can represent text more compactly but increase model size and training cost', 'Bigger vocabularies always make training faster', 'Vocabulary size only affects image models'], answer: 1, explanation: 'There\'s a tradeoff: more vocabulary entries mean fewer tokens per piece of text, but a larger, more expensive model.' },
       { prompt: 'What are LLM context windows and API costs typically measured in?', options: ['Words', 'Characters', 'Tokens', 'Sentences'], answer: 2, explanation: 'Both context window limits and usage-based pricing are counted in tokens, not words or characters.' },
-      { prompt: 'If you feed the same sentence to two different LLMs, will it always produce the exact same tokens?', options: ['Yes, tokenization is universal across all models', 'No — different models use different tokenizers, so the split can differ', 'Only if the sentence is in English', 'Only if the sentence has no punctuation'], answer: 1, explanation: 'Tokenizers are model-specific, so the same text can be tokenized differently depending on which model\'s tokenizer is used.' },
+      { prompt: 'If you feed the same sentence to two different LLMs, will it always produce the exact same tokens?', options: ['Yes, tokenization is universal across all models', 'No - different models use different tokenizers, so the split can differ', 'Only if the sentence is in English', 'Only if the sentence has no punctuation'], answer: 1, explanation: 'Tokenizers are model-specific, so the same text can be tokenized differently depending on which model\'s tokenizer is used.' },
       { prompt: 'What is a practical reason tokenization matters to someone using an AI tool day-to-day?', options: ['It determines the color of the chat interface', 'It affects how much text fits in a prompt and how usage cost is calculated', 'It has no practical effect on users', 'It only matters for image generation'], answer: 1, explanation: 'Since context limits and billing are token-based, understanding tokenization helps explain why long inputs get cut off or cost more.' },
     ],
   },
@@ -1942,14 +1942,14 @@ const technicalBeginnerModules: Module[] = [
     partLabel: 'Part 8 of 10',
     part: 8,
     title: 'What Are Embeddings? Turning Meaning Into Vectors',
-    tagline: 'How AI represents the meaning of words as points in space — and why nearby points mean similar things.',
+    tagline: 'How AI represents the meaning of words as points in space - and why nearby points mean similar things.',
     requirement: 'required',
     minutes: 17,
     sections: [
       {
         kind: 'lead',
         text: 'A word, turned into a list of numbers, that somehow captures its meaning.',
-        body: 'Embeddings are how models turn words (and other content) into vectors — lists of numbers — positioned so that similar meanings end up close together in that space. This video shows how word vectors are built and demonstrates some surprisingly intuitive, and sometimes surprising, things they can do.',
+        body: 'Embeddings are how models turn words (and other content) into vectors - lists of numbers - positioned so that similar meanings end up close together in that space. This video shows how word vectors are built and demonstrates some surprisingly intuitive, and sometimes surprising, things they can do.',
       },
       {
         kind: 'video',
@@ -1963,20 +1963,20 @@ const technicalBeginnerModules: Module[] = [
         items: [
           { title: 'Words become vectors', body: 'Each word is mapped to a point (a vector of numbers) in a multi-dimensional space, learned from how words are used in huge amounts of text.' },
           { title: 'Distance encodes similarity', body: 'Words with related meanings end up positioned close together in the vector space, while unrelated words are far apart.' },
-          { title: 'Direction can encode relationships', body: 'The direction and distance between two word vectors can capture a relationship — arithmetic on vectors (like the classic "king minus man plus woman") can approximate analogies.' },
-          { title: 'Embeddings are learned, not designed', body: 'These vector positions are not hand-crafted by humans — a model learns them automatically by training on patterns of word co-occurrence in text.' },
+          { title: 'Direction can encode relationships', body: 'The direction and distance between two word vectors can capture a relationship - arithmetic on vectors (like the classic "king minus man plus woman") can approximate analogies.' },
+          { title: 'Embeddings are learned, not designed', body: 'These vector positions are not hand-crafted by humans - a model learns them automatically by training on patterns of word co-occurrence in text.' },
           { title: 'The representation can inherit odd or biased patterns', body: 'Because embeddings are learned from real-world text, they can pick up unexpected or undesirable associations present in the training data.' },
         ],
       },
     ],
     quiz: [
       { prompt: 'What is a word embedding?', options: ['A dictionary definition of a word', 'A vector (list of numbers) representing a word\'s meaning in a multi-dimensional space', 'A compressed audio file of the word being spoken', 'A hyperlink between two documents'], answer: 1, explanation: 'Embeddings map words to numeric vectors positioned in a space that captures aspects of their meaning.' },
-      { prompt: 'What does it typically mean if two word vectors are close together in embedding space?', options: ['The words are spelled similarly', 'The words tend to be used in similar contexts / have related meaning', 'The words are the same length', 'Nothing — position is random'], answer: 1, explanation: 'Proximity in embedding space generally reflects semantic or contextual similarity, not spelling.' },
+      { prompt: 'What does it typically mean if two word vectors are close together in embedding space?', options: ['The words are spelled similarly', 'The words tend to be used in similar contexts / have related meaning', 'The words are the same length', 'Nothing - position is random'], answer: 1, explanation: 'Proximity in embedding space generally reflects semantic or contextual similarity, not spelling.' },
       { prompt: 'How are word embeddings typically produced?', options: ['Manually assigned by linguists', 'Learned automatically by a model trained on large amounts of text', 'Randomly generated once and never changed', 'Copied directly from a dictionary'], answer: 1, explanation: 'Embeddings are learned representations, discovered by training on patterns of word usage rather than hand-designed.' },
       { prompt: 'What does "vector arithmetic" on embeddings (e.g., combining and comparing word vectors) demonstrate?', options: ['That embeddings are purely random', 'That directions/distances between vectors can sometimes capture meaningful relationships between words', 'That all words have the same vector', 'That embeddings only work for nouns'], answer: 1, explanation: 'A famous property of word embeddings is that relationships between words can sometimes be approximated with vector addition and subtraction.' },
       { prompt: 'Why can embeddings sometimes reflect biased or unexpected associations?', options: ['Because the underlying math is broken', 'Because embeddings are learned from real text, which can contain those patterns and biases', 'Because embeddings are assigned by a committee', 'This never happens'], answer: 1, explanation: 'Since embeddings learn from real-world text data, they can absorb and reproduce biases or quirks present in that data.' },
       { prompt: 'What kind of space do embeddings live in?', options: ['A single number line (1 dimension)', 'A multi-dimensional numeric space', 'A 2D image grid', 'A tree structure'], answer: 1, explanation: 'Embeddings are vectors with many numeric dimensions, not a simple single-value scale.' },
-      { prompt: 'Why are embeddings useful beyond just words (e.g., for sentences, images, or documents)?', options: ['They are not — embeddings only work for single words', 'The same idea of mapping content to a vector space where similarity = proximity generalizes to other kinds of content', 'Embeddings can only be visualized in 3D', 'Embeddings require internet access to compute'], answer: 1, explanation: 'The core idea — representing content as vectors positioned by similarity — extends beyond words to sentences, documents, images, and more.' },
+      { prompt: 'Why are embeddings useful beyond just words (e.g., for sentences, images, or documents)?', options: ['They are not - embeddings only work for single words', 'The same idea of mapping content to a vector space where similarity = proximity generalizes to other kinds of content', 'Embeddings can only be visualized in 3D', 'Embeddings require internet access to compute'], answer: 1, explanation: 'The core idea - representing content as vectors positioned by similarity - extends beyond words to sentences, documents, images, and more.' },
     ],
   },
   {
@@ -1984,7 +1984,7 @@ const technicalBeginnerModules: Module[] = [
     partLabel: 'Part 9 of 10',
     part: 9,
     title: 'Gradient Descent: How Models Actually Learn',
-    tagline: 'The step-by-step process models use to gradually get better at their task — nudging parameters downhill toward fewer errors.',
+    tagline: 'The step-by-step process models use to gradually get better at their task - nudging parameters downhill toward fewer errors.',
     requirement: 'half',
     minutes: 26,
     sections: [
@@ -2003,7 +2003,7 @@ const technicalBeginnerModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Start with a loss function', body: 'Learning begins by defining a way to measure error — how far off the model\'s current predictions are from the correct answers.' },
+          { title: 'Start with a loss function', body: 'Learning begins by defining a way to measure error - how far off the model\'s current predictions are from the correct answers.' },
           { title: 'Take small steps downhill', body: 'Gradient descent repeatedly adjusts a parameter in the direction that reduces the error, like walking downhill toward the bottom of a valley.' },
           { title: 'Step size depends on slope and learning rate', body: 'How big each adjustment is depends on how steep the error curve is at that point, scaled by a "learning rate" that controls how aggressively the model updates.' },
           { title: 'Stopping conditions', body: 'The process stops once the steps become tiny (little further improvement) or after a maximum number of iterations, landing at or near the lowest-error point.' },
@@ -2018,13 +2018,13 @@ const technicalBeginnerModules: Module[] = [
       { prompt: 'When does gradient descent typically stop iterating?', options: ['After exactly one step, always', 'When the step sizes become very small (little further improvement) or a maximum number of iterations is reached', 'Only when the loss becomes exactly zero', 'It never stops'], answer: 1, explanation: 'Gradient descent stops when improvements become negligible or after a set number of iterations, not necessarily at a perfect zero-error point.' },
       { prompt: 'What is stochastic gradient descent?', options: ['A version that uses random small batches of data at each step instead of the whole dataset', 'A version that skips the loss function entirely', 'A method with no learning rate', 'A way to visualize embeddings'], answer: 0, explanation: 'Stochastic gradient descent speeds up training on large datasets by updating parameters using small random subsets of data rather than the full dataset each time.' },
       { prompt: 'What analogy is commonly used to describe gradient descent\'s process?', options: ['Climbing a mountain to the peak', 'Walking downhill step by step toward the lowest point in a valley (minimum error)', 'Spinning a roulette wheel', 'Sorting a deck of cards'], answer: 1, explanation: 'Gradient descent is often visualized as descending toward the bottom of an error "valley," taking steps proportional to the slope.' },
-      { prompt: 'Why does a model need a loss function before gradient descent can begin?', options: ['It doesn\'t — loss functions are optional', 'Gradient descent needs a way to measure how wrong the current parameters are in order to know which direction reduces error', 'Loss functions are only used after training is complete', 'Loss functions replace the need for training data'], answer: 1, explanation: 'The loss function quantifies error, giving gradient descent the signal it needs to know which direction to adjust parameters.' },
+      { prompt: 'Why does a model need a loss function before gradient descent can begin?', options: ['It doesn\'t - loss functions are optional', 'Gradient descent needs a way to measure how wrong the current parameters are in order to know which direction reduces error', 'Loss functions are only used after training is complete', 'Loss functions replace the need for training data'], answer: 1, explanation: 'The loss function quantifies error, giving gradient descent the signal it needs to know which direction to adjust parameters.' },
     ],
   },
 ];
 
 /* ══════════════════════════════════════════════════════════════════════
-   TECHNICAL TRACK — INTERMEDIATE
+   TECHNICAL TRACK - INTERMEDIATE
    ══════════════════════════════════════════════════════════════════════ */
 
 const technicalIntermediateModules: Module[] = [
@@ -2060,10 +2060,10 @@ const technicalIntermediateModules: Module[] = [
       },
     ],
     quiz: [
-      { prompt: 'What does a vector database primarily store and index?', options: ['Raw SQL tables', 'High-dimensional numeric embeddings representing meaning', 'Compressed video files', 'User login credentials'], answer: 1, explanation: 'Vector databases store data as embeddings — numeric vectors that capture semantic meaning.' },
+      { prompt: 'What does a vector database primarily store and index?', options: ['Raw SQL tables', 'High-dimensional numeric embeddings representing meaning', 'Compressed video files', 'User login credentials'], answer: 1, explanation: 'Vector databases store data as embeddings - numeric vectors that capture semantic meaning.' },
       { prompt: 'How does vector search differ from traditional keyword search?', options: ['It is slower but more accurate for exact matches', 'It matches items by semantic similarity rather than literal word overlap', 'It only works on images', 'It requires no indexing'], answer: 1, explanation: 'Vector search finds items that are semantically close, even without shared keywords.' },
       { prompt: 'What AI application is a vector database most commonly paired with?', options: ['Retrieval-augmented generation (RAG)', 'Video encoding', 'Password hashing', 'Spreadsheet formulas'], answer: 0, explanation: 'Vector databases supply the retrieval step that feeds relevant context into an LLM in RAG pipelines.' },
-      { prompt: 'What is the "semantic gap" the video refers to?', options: ['The delay between a query and a response', 'The mismatch between literal keyword matching and true meaning-based matching', 'A gap in GPU memory', 'A missing column in a database schema'], answer: 1, explanation: 'Keyword search can miss relevant results because it does not understand meaning — embeddings close that gap.' },
+      { prompt: 'What is the "semantic gap" the video refers to?', options: ['The delay between a query and a response', 'The mismatch between literal keyword matching and true meaning-based matching', 'A gap in GPU memory', 'A missing column in a database schema'], answer: 1, explanation: 'Keyword search can miss relevant results because it does not understand meaning - embeddings close that gap.' },
       { prompt: 'In vector space, what does it mean for two data points to be "close"?', options: ['They were uploaded at the same time', 'They are semantically or contextually similar', 'They have the same file size', 'They belong to the same user account'], answer: 1, explanation: 'Distance in vector space corresponds to similarity in meaning.' },
       { prompt: 'Which of these is NOT something a vector database is typically used for?', options: ['Semantic document search', 'Recommendation systems', 'Storing raw transaction logs for accounting compliance', 'Powering RAG context retrieval'], answer: 2, explanation: 'Vector databases are optimized for similarity search on embeddings, not general-purpose transactional record-keeping.' },
     ],
@@ -2073,13 +2073,13 @@ const technicalIntermediateModules: Module[] = [
     partLabel: 'Part 2 of 10',
     part: 2,
     title: 'Fine-Tuning vs RAG vs Prompt Engineering',
-    tagline: 'Three different levers for customizing an AI model — and when to pull each one.',
+    tagline: 'Three different levers for customizing an AI model - and when to pull each one.',
     requirement: 'required',
     minutes: 15,
     sections: [
       {
         kind: 'lead',
-        text: 'Not every AI problem needs a bigger hammer — sometimes it needs a different one.',
+        text: 'Not every AI problem needs a bigger hammer - sometimes it needs a different one.',
         body: 'When teams want an LLM to behave better for their use case, they usually reach for one of three tools: prompt engineering, retrieval-augmented generation, or fine-tuning. This video breaks down what each approach actually does, and the tradeoffs between speed, cost, and customization.',
       },
       {
@@ -2092,10 +2092,10 @@ const technicalIntermediateModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Prompt engineering', body: 'Crafting effective instructions to steer model output — fastest and cheapest, but limited by what the base model already knows.' },
+          { title: 'Prompt engineering', body: 'Crafting effective instructions to steer model output - fastest and cheapest, but limited by what the base model already knows.' },
           { title: 'RAG for fresh knowledge', body: 'Retrieval-augmented generation pulls in external, up-to-date data at query time so the model can answer with information it wasn\'t trained on.' },
           { title: 'Fine-tuning for deep customization', body: 'Fine-tuning adjusts the model\'s weights on domain-specific data, changing how it responds at a deeper level than prompting or retrieval.' },
-          { title: 'Not mutually exclusive', body: 'Mature production systems often combine all three — a fine-tuned model, using RAG for current facts, guided by well-engineered prompts.' },
+          { title: 'Not mutually exclusive', body: 'Mature production systems often combine all three - a fine-tuned model, using RAG for current facts, guided by well-engineered prompts.' },
         ],
       },
     ],
@@ -2120,7 +2120,7 @@ const technicalIntermediateModules: Module[] = [
       {
         kind: 'lead',
         text: 'A model that tops a leaderboard might still fail on your specific task.',
-        body: 'LLM evaluation is how teams quantify whether a model is actually good — not just at general benchmarks like MMLU, but at the tasks that matter for a specific product. This video walks through how standardized benchmarks work and how to design your own evaluation for a real use case.',
+        body: 'LLM evaluation is how teams quantify whether a model is actually good - not just at general benchmarks like MMLU, but at the tasks that matter for a specific product. This video walks through how standardized benchmarks work and how to design your own evaluation for a real use case.',
       },
       {
         kind: 'video',
@@ -2159,7 +2159,7 @@ const technicalIntermediateModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'An LLM can\'t browse the web or check a database on its own — tool calling is how it asks for help.',
+        text: 'An LLM can\'t browse the web or check a database on its own - tool calling is how it asks for help.',
         body: 'Tool calling (also called function calling) lets a model recognize when it needs external information or action, describe that need in a structured format, and hand off execution to your application code. This is the mechanism underneath most modern AI agents.',
       },
       {
@@ -2174,7 +2174,7 @@ const technicalIntermediateModules: Module[] = [
         items: [
           { title: 'Structured function descriptions', body: 'Developers describe available tools/functions to the model (name, parameters, purpose) so it knows what it can call.' },
           { title: 'The model doesn\'t execute code itself', body: 'The LLM outputs a structured request to call a tool; your application actually executes it and returns the result.' },
-          { title: 'A foundational concept for agents', body: 'Tool calling is described as fundamental to how AI agents operate — it\'s the bridge between reasoning and action.' },
+          { title: 'A foundational concept for agents', body: 'Tool calling is described as fundamental to how AI agents operate - it\'s the bridge between reasoning and action.' },
           { title: 'Works across major models', body: 'The video demonstrates tool calling behavior with models like GPT-4o and Claude.' },
         ],
       },
@@ -2198,7 +2198,7 @@ const technicalIntermediateModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Complex AI tasks rarely fit in a single prompt — they fit in a pipeline.',
+        text: 'Complex AI tasks rarely fit in a single prompt - they fit in a pipeline.',
         body: 'Prompt chaining feeds the output of one LLM call into the next step, so each prompt specializes in one task while together they form a larger workflow. This video looks at prompt templating and chaining patterns using LangChain, a widely used orchestration framework.',
       },
       {
@@ -2213,7 +2213,7 @@ const technicalIntermediateModules: Module[] = [
         items: [
           { title: 'Prompt templates', body: 'Reusable prompt structures with dynamic placeholders let you generate consistent prompts without hand-writing each one.' },
           { title: 'Chaining outputs', body: 'The output of one prompt/LLM call becomes the input to the next, building a multi-step pipeline instead of one giant prompt.' },
-          { title: 'Before fine-tuning became flexible', body: 'The video notes that historically, adapting a model to a use case meant fine-tuning weights — templating and chaining offer a lighter-weight alternative.' },
+          { title: 'Before fine-tuning became flexible', body: 'The video notes that historically, adapting a model to a use case meant fine-tuning weights - templating and chaining offer a lighter-weight alternative.' },
           { title: 'Composable building blocks', body: 'LangChain\'s abstractions let developers combine templates, retrieval, and parsing steps declaratively.' },
         ],
       },
@@ -2239,7 +2239,7 @@ const technicalIntermediateModules: Module[] = [
       {
         kind: 'lead',
         text: 'Running a full-precision LLM can require far more memory than most hardware has to spare.',
-        body: 'Quantization is a form of lossy compression for model weights — similar in spirit to JPEG for images — that shrinks a model so it fits in less memory, usually at a small, often unnoticeable, quality cost. This video surveys the major quantization techniques used in practice today.',
+        body: 'Quantization is a form of lossy compression for model weights - similar in spirit to JPEG for images - that shrinks a model so it fits in less memory, usually at a small, often unnoticeable, quality cost. This video surveys the major quantization techniques used in practice today.',
       },
       {
         kind: 'video',
@@ -2264,7 +2264,7 @@ const technicalIntermediateModules: Module[] = [
       { prompt: 'What is the general tradeoff quantization makes?', options: ['More memory for less speed', 'Reduced numeric precision in exchange for smaller size and faster inference', 'Higher cost for better accuracy only', 'No tradeoff at all'], answer: 1, explanation: 'Quantization reduces precision to save memory and increase speed, usually at a small accuracy cost.' },
       { prompt: 'Which of these is named in the video as a quantization technique?', options: ['AWQ', 'HTTP', 'JSON', 'SQL'], answer: 0, explanation: 'AWQ (Activation-aware Weight Quantization) is one of the techniques covered alongside GPTQ, GGUF, HQQ, and BitNet.' },
       { prompt: 'Why would a team choose to quantize a model before deployment?', options: ['To make the model larger', 'To fit the model into less memory/VRAM and run it faster on more affordable hardware', 'To increase training data size', 'To remove the need for prompts'], answer: 1, explanation: 'Quantization is primarily used to reduce memory footprint and improve inference speed for deployment.' },
-      { prompt: 'Does quantization always produce zero loss in output quality?', options: ['Yes, it is always lossless', 'No, it typically introduces a small, often minor quality cost', 'It always destroys the model', 'It only affects training speed, never inference'], answer: 1, explanation: 'The video frames quantization as lossy compression — there is usually a small, often unnoticeable quality tradeoff.' },
+      { prompt: 'Does quantization always produce zero loss in output quality?', options: ['Yes, it is always lossless', 'No, it typically introduces a small, often minor quality cost', 'It always destroys the model', 'It only affects training speed, never inference'], answer: 1, explanation: 'The video frames quantization as lossy compression - there is usually a small, often unnoticeable quality tradeoff.' },
     ],
   },
   {
@@ -2272,14 +2272,14 @@ const technicalIntermediateModules: Module[] = [
     partLabel: 'Part 7 of 10',
     part: 7,
     title: 'MLOps Fundamentals: Getting Models into Production',
-    tagline: 'Training a good model is only half the job — MLOps is how it stays good in production.',
+    tagline: 'Training a good model is only half the job - MLOps is how it stays good in production.',
     requirement: 'optional',
     minutes: 12,
     sections: [
       {
         kind: 'lead',
         text: 'A model that works perfectly in a notebook can still fail the moment it meets real traffic.',
-        body: 'MLOps applies DevOps-style discipline — automation, monitoring, versioning, and repeatable pipelines — to machine learning systems. This beginner-friendly video breaks down how ML models actually get deployed, monitored, and maintained in real-world applications.',
+        body: 'MLOps applies DevOps-style discipline - automation, monitoring, versioning, and repeatable pipelines - to machine learning systems. This beginner-friendly video breaks down how ML models actually get deployed, monitored, and maintained in real-world applications.',
       },
       {
         kind: 'video',
@@ -2369,7 +2369,7 @@ const technicalIntermediateModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Starting from a pretrained model', body: 'RLHF builds on a large language model that has already been trained on massive text datasets — it doesn\'t start from scratch.' },
+          { title: 'Starting from a pretrained model', body: 'RLHF builds on a large language model that has already been trained on massive text datasets - it doesn\'t start from scratch.' },
           { title: 'Human preference data', body: 'Humans rank or compare model outputs, and those judgments are used to train a separate reward model.' },
           { title: 'Reward model guides optimization', body: 'The learned reward model scores new outputs, and reinforcement learning is used to nudge the LLM toward higher-reward (more preferred) responses.' },
           { title: 'Aligning behavior, not just knowledge', body: 'RLHF changes how a model behaves and what it prioritizes in its answers, rather than adding new factual knowledge.' },
@@ -2390,7 +2390,7 @@ const technicalIntermediateModules: Module[] = [
     partLabel: 'Part 10 of 10',
     part: 10,
     title: 'Context Windows and Their Limitations',
-    tagline: 'Why an LLM seems to "forget" things — and why bigger isn\'t always simply better.',
+    tagline: 'Why an LLM seems to "forget" things - and why bigger isn\'t always simply better.',
     requirement: 'required',
     minutes: 17,
     sections: [
@@ -2409,8 +2409,8 @@ const technicalIntermediateModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Context window as short-term memory', body: 'The context window holds everything the model can "see" during a conversation — once it\'s exceeded, earlier content gets pushed out and forgotten.' },
-          { title: 'Tokens are not words', body: 'A token might be a whole word, part of a word, punctuation, or a space — so a token limit does not map 1:1 to a word count.' },
+          { title: 'Context window as short-term memory', body: 'The context window holds everything the model can "see" during a conversation - once it\'s exceeded, earlier content gets pushed out and forgotten.' },
+          { title: 'Tokens are not words', body: 'A token might be a whole word, part of a word, punctuation, or a space - so a token limit does not map 1:1 to a word count.' },
           { title: 'Degradation near the limit', body: 'As a conversation approaches the context limit, older messages are dropped, which can lead to confused or hallucinated responses.' },
           { title: 'Practical mitigation', body: 'Starting a fresh chat when switching topics keeps context clean and helps maintain response quality, rather than letting one conversation grow indefinitely.' },
         ],
@@ -2422,13 +2422,13 @@ const technicalIntermediateModules: Module[] = [
       { prompt: 'What happens when a conversation exceeds the context window limit?', options: ['The model shuts down permanently', 'Older messages get pushed out and are effectively forgotten', 'The model gains more memory automatically', 'Nothing changes at all'], answer: 1, explanation: 'Once the limit is exceeded, earlier content is dropped from what the model can reference.' },
       { prompt: 'What symptom does the video associate with running past the context limit?', options: ['Faster responses with no downsides', 'Confused outputs and increased hallucination as earlier context is lost', 'Improved accuracy', 'Larger file sizes'], answer: 1, explanation: 'Losing earlier context can lead to inconsistent or hallucinated responses.' },
       { prompt: 'What practical tip does the video suggest for keeping performance high in long conversations?', options: ['Never switch topics', 'Start a new chat when switching topics to keep context clean', 'Always maximize the context window before responding', 'Disable tokenization'], answer: 1, explanation: 'Starting fresh when switching topics avoids carrying irrelevant or excess context that could degrade responses.' },
-      { prompt: 'Why does doubling the context window increase computational cost more than proportionally in transformer models?', options: ['It doesn\'t — cost stays constant', 'Self-attention causes cost to scale roughly quadratically with context length', 'Cost only depends on vocabulary size', 'Context length has no effect on compute'], answer: 1, explanation: 'Because every token attends to every other token, computational cost scales roughly quadratically with context length.' },
+      { prompt: 'Why does doubling the context window increase computational cost more than proportionally in transformer models?', options: ['It doesn\'t - cost stays constant', 'Self-attention causes cost to scale roughly quadratically with context length', 'Cost only depends on vocabulary size', 'Context length has no effect on compute'], answer: 1, explanation: 'Because every token attends to every other token, computational cost scales roughly quadratically with context length.' },
     ],
   },
 ];
 
 /* ══════════════════════════════════════════════════════════════════════
-   TECHNICAL TRACK — ADVANCED
+   TECHNICAL TRACK - ADVANCED
    ══════════════════════════════════════════════════════════════════════ */
 
 const technicalAdvancedModules: Module[] = [
@@ -2449,7 +2449,7 @@ const technicalAdvancedModules: Module[] = [
       {
         kind: 'video',
         youtubeId: 'U8J32Z3qV8s',
-        heading: 'Watch: Stanford CS25 — Mixture of Experts (MoE) Paradigm and the Switch Transformer (~60 min)',
+        heading: 'Watch: Stanford CS25 - Mixture of Experts (MoE) Paradigm and the Switch Transformer (~60 min)',
         caption: 'Stanford Online (~60 min)',
       },
       {
@@ -2459,7 +2459,7 @@ const technicalAdvancedModules: Module[] = [
           { title: 'Sparse activation', body: 'Only a small subset of experts (often just 1-2 out of dozens) are activated per token, so compute cost stays roughly constant even as total parameter count grows enormously.' },
           { title: 'The router / gating network', body: "A learned gating function scores experts per token and picks the top-k; this routing decision is itself trained end-to-end with the rest of the model." },
           { title: 'Switch Transformer simplification', body: "The Switch Transformer showed that routing to a single expert (top-1) is enough to get MoE's efficiency benefits, simplifying earlier top-k MoE designs." },
-          { title: 'Load balancing', body: 'Without an auxiliary loss encouraging even token distribution across experts, a few experts get overloaded while others go unused — a core practical challenge in MoE training.' },
+          { title: 'Load balancing', body: 'Without an auxiliary loss encouraging even token distribution across experts, a few experts get overloaded while others go unused - a core practical challenge in MoE training.' },
           { title: 'Why it matters for frontier models', body: 'MoE is the architectural trick behind why models like Mixtral and DeepSeek can have hundreds of billions of total parameters while only activating a fraction per forward pass.' },
         ],
       },
@@ -2485,7 +2485,7 @@ const technicalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: "Image generators don't \"paint\" — they denoise.",
+        text: "Image generators don't \"paint\" - they denoise.",
         body: 'This 3Blue1Brown video (a guest production by Welch Labs) goes well beyond the usual "the model learns to remove noise" summary, covering the actual mechanics: forward and reverse diffusion, learned vector fields, DDPM vs. DDIM sampling, CLIP-based text conditioning, and how models like DALL-E 2 combine these pieces.',
       },
       {
@@ -2498,7 +2498,7 @@ const technicalAdvancedModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Forward diffusion process', body: 'Training data is progressively corrupted with Gaussian noise over many steps until it becomes pure noise — this defines the target the model learns to reverse.' },
+          { title: 'Forward diffusion process', body: 'Training data is progressively corrupted with Gaussian noise over many steps until it becomes pure noise - this defines the target the model learns to reverse.' },
           { title: 'Learning a vector field', body: 'Rather than directly predicting the clean image, the model learns a vector field pointing from noisy samples back toward the data distribution at each noise level.' },
           { title: 'DDPM vs. DDIM sampling', body: 'DDPM samples step-by-step stochastically; DDIM offers a faster, more deterministic sampling path through the same learned model, trading some diversity for speed.' },
           { title: 'CLIP and text conditioning', body: 'Text prompts are embedded via CLIP-style joint image-text embeddings, which then steer the denoising process toward images matching the prompt.' },
@@ -2521,14 +2521,14 @@ const technicalAdvancedModules: Module[] = [
     partLabel: 'Part 3 of 10',
     part: 3,
     title: 'The Technical AI Alignment Problem',
-    tagline: 'Why "just tell the AI what you want" is much harder than it sounds — the research problem, not the policy debate.',
+    tagline: 'Why "just tell the AI what you want" is much harder than it sounds - the research problem, not the policy debate.',
     requirement: 'half',
     minutes: 20,
     sections: [
       {
         kind: 'lead',
-        text: "Alignment isn't about AI having \"bad intentions\" — it's a specification problem.",
-        body: "Robert Miles, whose channel is widely regarded as the most accessible technical introduction to AI alignment research, lays out the core technical difficulty: how do you specify a goal precisely enough that a sufficiently capable optimizer pursuing it doesn't produce catastrophic, unintended side effects? This is distinct from AI governance or ethics policy — it's about the mechanics of optimization itself.",
+        text: "Alignment isn't about AI having \"bad intentions\" - it's a specification problem.",
+        body: "Robert Miles, whose channel is widely regarded as the most accessible technical introduction to AI alignment research, lays out the core technical difficulty: how do you specify a goal precisely enough that a sufficiently capable optimizer pursuing it doesn't produce catastrophic, unintended side effects? This is distinct from AI governance or ethics policy - it's about the mechanics of optimization itself.",
       },
       {
         kind: 'video',
@@ -2541,17 +2541,17 @@ const technicalAdvancedModules: Module[] = [
         heading: 'Key ideas from the video',
         items: [
           { title: 'Specification gaming', body: 'Optimizers routinely find unexpected ways to maximize a specified reward that technically satisfy the objective while completely missing the intent behind it.' },
-          { title: 'Instrumental convergence', body: 'Many different terminal goals lead a sufficiently capable agent to pursue similar instrumental sub-goals — like acquiring resources or resisting shutdown — regardless of what it ultimately wants.' },
+          { title: 'Instrumental convergence', body: 'Many different terminal goals lead a sufficiently capable agent to pursue similar instrumental sub-goals - like acquiring resources or resisting shutdown - regardless of what it ultimately wants.' },
           { title: 'The orthogonality thesis', body: 'Intelligence and goals are independent axes: a highly capable system is not automatically aligned with human values just by virtue of being capable.' },
           { title: 'Why capability makes this harder, not easier', body: 'As systems become more capable optimizers, small specification errors get amplified rather than smoothed out, since the system is better at finding edge cases in the objective.' },
-          { title: "It's an open technical problem", body: 'The video frames alignment as unsolved research — not a solved engineering checklist — motivating why it is an active field distinct from AI policy or ethics.' },
+          { title: "It's an open technical problem", body: 'The video frames alignment as unsolved research - not a solved engineering checklist - motivating why it is an active field distinct from AI policy or ethics.' },
         ],
       },
     ],
     quiz: [
       { prompt: 'What is "specification gaming" in the context of AI alignment?', options: ['An AI cheating on benchmark tests by memorizing answers', "An optimizer finding an unexpected way to maximize its stated objective that violates the designer's actual intent", 'A method for writing more precise reward functions', 'A type of adversarial attack on image classifiers'], answer: 1, explanation: 'Specification gaming happens when a system satisfies the literal objective in a way that misses what was actually intended.' },
       { prompt: 'What does "instrumental convergence" describe?', options: ['All AI systems converging on the same final answer', 'Different terminal goals leading capable agents to pursue similar sub-goals like resource acquisition or self-preservation', 'Neural networks converging during gradient descent', 'Two different models producing identical outputs'], answer: 1, explanation: "Instrumental convergence is the idea that regardless of an agent's ultimate goal, certain sub-goals (resources, self-preservation, etc.) tend to be useful and thus get pursued." },
-      { prompt: 'What does the orthogonality thesis claim?', options: ['Intelligence and goals are fundamentally linked — smarter systems are automatically more ethical', "Intelligence level and goal content are independent — a highly capable system isn't automatically aligned with human values", 'All AI goals are orthogonal to human goals', 'Orthogonality only applies to image models'], answer: 1, explanation: "The orthogonality thesis says capability and values are separate axes; being smart doesn't imply having good/aligned goals." },
+      { prompt: 'What does the orthogonality thesis claim?', options: ['Intelligence and goals are fundamentally linked - smarter systems are automatically more ethical', "Intelligence level and goal content are independent - a highly capable system isn't automatically aligned with human values", 'All AI goals are orthogonal to human goals', 'Orthogonality only applies to image models'], answer: 1, explanation: "The orthogonality thesis says capability and values are separate axes; being smart doesn't imply having good/aligned goals." },
       { prompt: 'According to the video, why does increased capability make alignment harder rather than easier?', options: ['More capable systems require more electricity', 'More capable optimizers are better at finding edge cases and loopholes in an imperfectly specified objective', 'Capable systems refuse to run at all', 'Capability has no effect on alignment difficulty'], answer: 1, explanation: 'A more powerful optimizer is more effective at exploiting gaps between the literal objective and the intended one.' },
       { prompt: 'How does this video frame the alignment problem relative to AI ethics/policy debates?', options: ['As identical to policy debates', 'As a distinct technical/research problem about specifying objectives and optimization behavior', 'As irrelevant to AI safety', 'As a solved problem needing only regulation'], answer: 1, explanation: 'The video specifically treats alignment as a technical research challenge about optimization and specification, not primarily a policy or ethics question.' },
       { prompt: "What is the video's overall framing of alignment's current status?", options: ['A fully solved engineering problem', 'An open research problem actively being worked on', 'A problem that only matters for superintelligent AI, not current systems', 'A purely philosophical exercise with no practical relevance'], answer: 1, explanation: 'The video presents alignment as unsolved and actively researched, motivating why it deserves serious technical attention now.' },
@@ -2562,7 +2562,7 @@ const technicalAdvancedModules: Module[] = [
     partLabel: 'Part 4 of 10',
     part: 4,
     title: 'Reinforcement Learning Fundamentals',
-    tagline: 'The foundational framework — MDPs, value functions, and policies — behind everything from AlphaGo to RLHF.',
+    tagline: 'The foundational framework - MDPs, value functions, and policies - behind everything from AlphaGo to RLHF.',
     requirement: 'optional',
     minutes: 92,
     sections: [
@@ -2574,7 +2574,7 @@ const technicalAdvancedModules: Module[] = [
       {
         kind: 'video',
         youtubeId: '2pWv7GOvuf0',
-        heading: 'Watch: RL Course by David Silver — Lecture 1: Introduction to Reinforcement Learning (~90 min)',
+        heading: 'Watch: RL Course by David Silver - Lecture 1: Introduction to Reinforcement Learning (~90 min)',
         caption: 'Google DeepMind (~90 min)',
       },
       {
@@ -2582,10 +2582,10 @@ const technicalAdvancedModules: Module[] = [
         heading: 'Key ideas from the video',
         items: [
           { title: 'Markov Decision Processes (MDPs)', body: 'RL problems are formalized as MDPs: states, actions, transition probabilities, and rewards, with the Markov property meaning the future depends only on the current state.' },
-          { title: 'Reward hypothesis', body: 'All goals can be described as maximizing expected cumulative reward — a foundational (and debatable) assumption underlying the entire RL framework.' },
+          { title: 'Reward hypothesis', body: 'All goals can be described as maximizing expected cumulative reward - a foundational (and debatable) assumption underlying the entire RL framework.' },
           { title: 'Value functions', body: 'A value function estimates expected future reward from a state (or state-action pair), giving agents a way to evaluate long-term consequences of decisions, not just immediate reward.' },
           { title: 'Policies', body: "A policy is the agent's behavior function, mapping states to actions; RL algorithms differ largely in how they derive or optimize this policy." },
-          { title: 'Exploration vs. exploitation', body: 'An agent must balance exploiting known good actions against exploring uncertain ones that might yield better long-term reward — a tension central to nearly all RL algorithms.' },
+          { title: 'Exploration vs. exploitation', body: 'An agent must balance exploiting known good actions against exploring uncertain ones that might yield better long-term reward - a tension central to nearly all RL algorithms.' },
         ],
       },
     ],
@@ -2593,9 +2593,9 @@ const technicalAdvancedModules: Module[] = [
       { prompt: 'What formal framework is used to describe RL problems?', options: ['Convolutional Neural Networks', 'Markov Decision Processes (MDPs)', 'Finite State Automata only', 'Support Vector Machines'], answer: 1, explanation: 'MDPs formalize RL problems via states, actions, transitions, and rewards under the Markov property.' },
       { prompt: 'What is the "reward hypothesis"?', options: ['Rewards must always be positive numbers', 'All goals can be described as maximizing expected cumulative reward', 'Rewards are irrelevant to agent behavior', 'Only human-provided rewards count as valid'], answer: 1, explanation: 'The reward hypothesis is the foundational RL assumption that any goal can be captured as maximizing expected cumulative reward.' },
       { prompt: 'What does a value function estimate?', options: ['The immediate reward only', 'Expected future (cumulative) reward from a state or state-action pair', 'The number of training epochs needed', 'The size of the action space'], answer: 1, explanation: 'Value functions estimate long-term expected return, letting agents reason beyond just immediate reward.' },
-      { prompt: 'What is a "policy" in reinforcement learning?', options: ['A fixed reward schedule', "The agent's behavior function mapping states to actions", 'A dataset of labeled examples', 'A regularization technique'], answer: 1, explanation: "A policy defines what action the agent takes in each state — it is the agent's behavior." },
+      { prompt: 'What is a "policy" in reinforcement learning?', options: ['A fixed reward schedule', "The agent's behavior function mapping states to actions", 'A dataset of labeled examples', 'A regularization technique'], answer: 1, explanation: "A policy defines what action the agent takes in each state - it is the agent's behavior." },
       { prompt: 'What core tradeoff must an RL agent manage during learning?', options: ['Precision vs. recall', 'Exploration vs. exploitation', 'Bias vs. variance only in supervised learning', 'Compression vs. accuracy'], answer: 1, explanation: 'Agents must balance exploiting known rewarding actions against exploring uncertain ones for potentially better long-term outcomes.' },
-      { prompt: 'What does the Markov property assume about state transitions?', options: ['The entire history of past states must be considered', 'The future depends only on the current state, not the full history', 'Transitions are always deterministic', 'States must be discrete, never continuous'], answer: 1, explanation: 'The Markov property states that the current state captures all relevant information for predicting the future — history beyond it adds nothing.' },
+      { prompt: 'What does the Markov property assume about state transitions?', options: ['The entire history of past states must be considered', 'The future depends only on the current state, not the full history', 'Transitions are always deterministic', 'States must be discrete, never continuous'], answer: 1, explanation: 'The Markov property states that the current state captures all relevant information for predicting the future - history beyond it adds nothing.' },
       { prompt: 'Why is this foundational RL material relevant to modern LLM training?', options: ['It is not relevant at all', 'Techniques like RLHF and RL-based reasoning training build on these same core RL concepts (rewards, policies, value estimation)', 'LLMs never use reinforcement learning', 'MDPs are only used in robotics'], answer: 1, explanation: 'Modern techniques like RLHF and RL-driven reasoning training (e.g., GRPO) are built on the same MDP/policy/reward foundations covered here.' },
     ],
   },
@@ -2610,7 +2610,7 @@ const technicalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'LLM inference is sequential and memory-bound — speculative decoding exploits idle GPU compute to speed it up.',
+        text: 'LLM inference is sequential and memory-bound - speculative decoding exploits idle GPU compute to speed it up.',
         body: "Trelis Research breaks down speculative decoding: pairing a small, fast draft model with the large target model so multiple tokens can be proposed and verified per forward pass, cutting latency while provably preserving the target model's output distribution.",
       },
       {
@@ -2634,7 +2634,7 @@ const technicalAdvancedModules: Module[] = [
     quiz: [
       { prompt: 'What is the main bottleneck that speculative decoding addresses?', options: ['Insufficient training data', 'GPU compute sitting idle due to memory-bandwidth-bound sequential decoding', 'Lack of labeled examples', 'Overfitting during fine-tuning'], answer: 1, explanation: 'Standard autoregressive decoding underutilizes GPU compute because it is bound by memory bandwidth at low concurrency; speculative decoding better utilizes that idle compute.' },
       { prompt: 'What role does the small "draft" model play?', options: ['It replaces the target model entirely', 'It quickly proposes several candidate tokens for the target model to verify', 'It only handles tokenization', 'It trains the target model from scratch'], answer: 1, explanation: 'The draft model cheaply generates candidate tokens that the larger target model then verifies in parallel.' },
-      { prompt: 'How does speculative decoding guarantee output quality is unchanged?', options: ["It doesn't guarantee this — quality is always slightly worse", 'An accept/reject (rejection sampling) scheme ensures the final output distribution matches the target model exactly', 'It uses a majority vote between draft and target', 'It rounds token probabilities to the nearest integer'], answer: 1, explanation: 'A rejection-sampling procedure accepts draft tokens consistent with the target model and resamples divergent ones, preserving the exact target distribution.' },
+      { prompt: 'How does speculative decoding guarantee output quality is unchanged?', options: ["It doesn't guarantee this - quality is always slightly worse", 'An accept/reject (rejection sampling) scheme ensures the final output distribution matches the target model exactly', 'It uses a majority vote between draft and target', 'It rounds token probabilities to the nearest integer'], answer: 1, explanation: 'A rejection-sampling procedure accepts draft tokens consistent with the target model and resamples divergent ones, preserving the exact target distribution.' },
       { prompt: "What happens to the target model's workload when verifying draft tokens?", options: ['It processes each token in a separate sequential pass, one at a time as before', 'It verifies multiple candidate tokens in a single parallel forward pass', 'It skips verification to save time', 'It retrains itself on each request'], answer: 1, explanation: 'The target model verifies the entire proposed token sequence in one parallel pass, which is what makes the technique faster.' },
       { prompt: 'What factor most affects the speedup achieved by speculative decoding?', options: ['The programming language used', "How well the draft model's predictions match the target model's", 'The number of parameters in the tokenizer', 'The dataset license'], answer: 1, explanation: 'A draft model that closely approximates the target model gets more tokens accepted per round, yielding bigger speedups.' },
       { prompt: 'Which use cases benefit most from speculative decoding, according to the video?', options: ["Offline batch processing where latency doesn't matter", 'Latency-sensitive applications like chat and code completion', 'Only image classification tasks', 'Training large models from scratch'], answer: 1, explanation: 'Because it reduces per-token latency, speculative decoding is particularly valuable for interactive, latency-sensitive use cases.' },
@@ -2651,13 +2651,13 @@ const technicalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: "A trillion-parameter model doesn't fit on one GPU — training it is a distributed-systems problem as much as a machine-learning one.",
+        text: "A trillion-parameter model doesn't fit on one GPU - training it is a distributed-systems problem as much as a machine-learning one.",
         body: "Umar Jamil's tutorial covers the practical mechanics of distributed training with PyTorch: data parallelism, gradient synchronization, and the collective-communication primitives (like all-reduce) that keep replicas of a model consistent across a cluster of GPUs and machines.",
       },
       {
         kind: 'video',
         youtubeId: 'toUSzwR0EV8',
-        heading: 'Watch: Distributed Training with PyTorch — Complete Tutorial (~50 min)',
+        heading: 'Watch: Distributed Training with PyTorch - Complete Tutorial (~50 min)',
         caption: 'Umar Jamil (~50 min)',
       },
       {
@@ -2673,7 +2673,7 @@ const technicalAdvancedModules: Module[] = [
       },
     ],
     quiz: [
-      { prompt: 'In data parallelism, what differs across GPU replicas of the model?', options: ['Each replica has different model architecture', 'Each replica processes a different shard of the training batch', 'Each replica uses a different loss function', 'Nothing differs — all replicas are identical and redundant'], answer: 1, explanation: 'Data parallelism replicates the same model on each GPU but feeds each replica a different slice of the batch.' },
+      { prompt: 'In data parallelism, what differs across GPU replicas of the model?', options: ['Each replica has different model architecture', 'Each replica processes a different shard of the training batch', 'Each replica uses a different loss function', 'Nothing differs - all replicas are identical and redundant'], answer: 1, explanation: 'Data parallelism replicates the same model on each GPU but feeds each replica a different slice of the batch.' },
       { prompt: 'What is the purpose of gradient accumulation/synchronization across replicas?', options: ['To intentionally introduce randomness into training', 'To combine and average gradients from all replicas so the update is equivalent to training on the full batch', 'To reduce the number of GPUs needed', 'To skip backpropagation entirely'], answer: 1, explanation: 'Averaging gradients across replicas before the weight update keeps distributed training mathematically consistent with single-device training on the combined batch.' },
       { prompt: 'What is "all-reduce," as discussed in the video?', options: ['A type of activation function', 'A collective communication primitive that combines values (e.g., gradients) across all GPUs and distributes the result back to each', 'A method for reducing model size before deployment', 'A dataset augmentation technique'], answer: 1, explanation: 'All-reduce is a collective operation, used by libraries like NCCL, that aggregates values across devices and returns the combined result to all of them.' },
       { prompt: 'Why does the video emphasize overlapping computation and communication?', options: ['It has no effect on training speed', 'Overlapping lets gradient communication happen concurrently with backward-pass computation, avoiding idle waiting and speeding up training', 'It reduces GPU memory usage only', 'It removes the need for networking'], answer: 1, explanation: 'Overlapping communication with computation prevents GPUs from idling while waiting for gradient synchronization, improving throughput.' },
@@ -2686,7 +2686,7 @@ const technicalAdvancedModules: Module[] = [
     partLabel: 'Part 7 of 10',
     part: 7,
     title: 'Multi-Agent AI Systems: Technical Architecture',
-    tagline: 'How multiple specialized AI agents actually coordinate — the architecture, not just the business pitch.',
+    tagline: 'How multiple specialized AI agents actually coordinate - the architecture, not just the business pitch.',
     requirement: 'half',
     minutes: 19,
     sections: [
@@ -2705,7 +2705,7 @@ const technicalAdvancedModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Orchestrator pattern', body: 'A central orchestrator receives a high-level goal, breaks it into discrete subtasks, assigns them to the right specialized agent, and assembles the final output — without doing execution itself.' },
+          { title: 'Orchestrator pattern', body: 'A central orchestrator receives a high-level goal, breaks it into discrete subtasks, assigns them to the right specialized agent, and assembles the final output - without doing execution itself.' },
           { title: 'Specialized, constrained agents', body: 'Each agent has a specific role, a specific toolset, and explicitly limited permissions, which improves reliability and makes failures easier to isolate.' },
           { title: 'State tracking and failure handling', body: "The orchestrator tracks execution state across agents and handles failures (retries, fallbacks) rather than assuming every subtask succeeds on the first try." },
           { title: 'Modularity as a design goal', body: 'Splitting a system into separate agents makes it easier to develop, test, and maintain each piece independently compared to one monolithic agent trying to do everything.' },
@@ -2739,7 +2739,7 @@ const technicalAdvancedModules: Module[] = [
       {
         kind: 'video',
         youtubeId: 'veT2VI4vHyU',
-        heading: 'Watch: Mechanistic Interpretability — A Whirlwind Tour (~35 min)',
+        heading: 'Watch: Mechanistic Interpretability - A Whirlwind Tour (~35 min)',
         caption: 'FAR.AI, Neel Nanda talk at Vienna Alignment Workshop (~35 min)',
       },
       {
@@ -2759,7 +2759,7 @@ const technicalAdvancedModules: Module[] = [
       { prompt: 'What is "superposition" in this context?', options: ['Running two models simultaneously', 'A network encoding more distinct features than it has neurons by overlapping them across combinations of neurons', 'A type of data augmentation', 'Stacking multiple attention layers'], answer: 1, explanation: 'Superposition describes how networks pack more features than available neurons by representing them in overlapping combinations, complicating direct interpretation.' },
       { prompt: 'What is a "circuit" in mechanistic interpretability?', options: ['A physical hardware component', 'A group of connected model components (e.g., attention heads, weights) that implements an identifiable sub-algorithm', 'A type of loss function', 'A dataset preprocessing pipeline'], answer: 1, explanation: 'Circuits are identifiable sub-networks within a model that implement specific computations, such as induction heads.' },
       { prompt: 'What example of a "circuit" is commonly discussed in interpretability research?', options: ['Batch normalization layers', 'Induction heads that support in-context learning', 'The tokenizer vocabulary', "The optimizer's learning rate schedule"], answer: 1, explanation: "Induction heads are a well-studied circuit implicated in a model's ability to do in-context learning/pattern completion." },
-      { prompt: 'Why does the talk connect interpretability to AI safety?', options: ["It doesn't — interpretability is unrelated to safety", 'Understanding internal computations may help catch deceptive or misaligned behavior not visible from outputs alone', 'Interpretability only matters for making models smaller', 'Safety is only about model outputs, never internals'], answer: 1, explanation: 'The talk frames interpretability as a potential tool for detecting misalignment that might not be visible from external behavior alone.' },
+      { prompt: 'Why does the talk connect interpretability to AI safety?', options: ["It doesn't - interpretability is unrelated to safety", 'Understanding internal computations may help catch deceptive or misaligned behavior not visible from outputs alone', 'Interpretability only matters for making models smaller', 'Safety is only about model outputs, never internals'], answer: 1, explanation: 'The talk frames interpretability as a potential tool for detecting misalignment that might not be visible from external behavior alone.' },
       { prompt: 'How does the talk characterize the current state of mechanistic interpretability as a field?', options: ['Fully solved with no remaining open questions', 'An immature but rapidly growing field with many open problems, especially around scaling', 'Irrelevant to modern large language models', 'A field that has existed unchanged since the 1990s'], answer: 1, explanation: "The talk presents interpretability as young and fast-moving, with significant open challenges in scaling techniques to today's largest models." },
     ],
   },
@@ -2774,8 +2774,8 @@ const technicalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: "Model performance isn't random as you scale up — it follows remarkably consistent power laws.",
-        body: 'This seminar talk, connected to the influential "Explaining Neural Scaling Laws" research, explores why test loss for well-trained neural networks tracks power-law relationships with model size, dataset size, and compute — and what theoretical explanations have been proposed for why these relationships hold across many orders of magnitude.',
+        text: "Model performance isn't random as you scale up - it follows remarkably consistent power laws.",
+        body: 'This seminar talk, connected to the influential "Explaining Neural Scaling Laws" research, explores why test loss for well-trained neural networks tracks power-law relationships with model size, dataset size, and compute - and what theoretical explanations have been proposed for why these relationships hold across many orders of magnitude.',
       },
       {
         kind: 'video',
@@ -2787,7 +2787,7 @@ const technicalAdvancedModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Power-law loss scaling', body: 'Test loss often follows a power-law relationship with compute, parameter count, or dataset size — small changes in scale produce predictable, quantifiable changes in loss.' },
+          { title: 'Power-law loss scaling', body: 'Test loss often follows a power-law relationship with compute, parameter count, or dataset size - small changes in scale produce predictable, quantifiable changes in loss.' },
           { title: 'Four scaling regimes', body: "The talk distinguishes variance-limited and resolution-limited scaling behavior for both model size and dataset size, giving four qualitatively distinct regimes depending on what's the bottleneck." },
           { title: 'Predictive power across orders of magnitude', body: 'Scaling trends fit at small scale (e.g., millions of parameters) have proven remarkably predictive of behavior at scales orders of magnitude larger.' },
           { title: 'Why this matters practically', body: 'Scaling laws let labs forecast the performance of a not-yet-trained model and make informed compute/data allocation decisions before committing to an expensive training run.' },
@@ -2796,11 +2796,11 @@ const technicalAdvancedModules: Module[] = [
       },
     ],
     quiz: [
-      { prompt: 'What mathematical relationship do neural scaling laws typically describe?', options: ['A linear relationship between loss and compute', 'A power-law relationship between test loss and model size, dataset size, or compute', 'No relationship at all — performance is random', 'An inverse exponential decay unrelated to scale'], answer: 1, explanation: 'Scaling laws describe power-law relationships between test loss and factors like compute, parameters, or data.' },
+      { prompt: 'What mathematical relationship do neural scaling laws typically describe?', options: ['A linear relationship between loss and compute', 'A power-law relationship between test loss and model size, dataset size, or compute', 'No relationship at all - performance is random', 'An inverse exponential decay unrelated to scale'], answer: 1, explanation: 'Scaling laws describe power-law relationships between test loss and factors like compute, parameters, or data.' },
       { prompt: 'What are the two limiting behaviors discussed as scaling regimes?', options: ['Overfitting and underfitting only', 'Variance-limited and resolution-limited scaling', 'Supervised and unsupervised scaling', 'GPU-limited and CPU-limited scaling'], answer: 1, explanation: 'The talk distinguishes variance-limited and resolution-limited regimes for both model and dataset size scaling.' },
       { prompt: 'What is notable about how well scaling laws fit at small scales predict large-scale behavior?', options: ['They fail completely once scale increases significantly', 'They remain remarkably predictive across many orders of magnitude of scale', 'They only apply to models under 1 million parameters', 'They only work for image models, not language models'], answer: 1, explanation: 'Scaling trends observed at small scale have proven surprisingly predictive even at scales orders of magnitude larger.' },
       { prompt: 'Why are scaling laws practically useful to labs training frontier models?', options: ['They eliminate the need for any training data', 'They let labs forecast performance and make compute/data allocation decisions before committing to expensive runs', 'They guarantee a model will have zero loss', 'They are purely academic with no practical use'], answer: 1, explanation: 'Scaling laws inform decisions about how to allocate compute and data efficiently before running expensive full-scale training.' },
-      { prompt: 'What does the talk attempt to do beyond just describing the empirical power-law observation?', options: ['Nothing — it only reports the empirical curves', 'It surveys theoretical explanations for why these power laws emerge from underlying statistical/geometric properties', 'It disproves that scaling laws exist', 'It focuses solely on hardware specifications'], answer: 1, explanation: 'The talk goes beyond observation to explore candidate theoretical explanations for why scaling laws take the form they do.' },
+      { prompt: 'What does the talk attempt to do beyond just describing the empirical power-law observation?', options: ['Nothing - it only reports the empirical curves', 'It surveys theoretical explanations for why these power laws emerge from underlying statistical/geometric properties', 'It disproves that scaling laws exist', 'It focuses solely on hardware specifications'], answer: 1, explanation: 'The talk goes beyond observation to explore candidate theoretical explanations for why scaling laws take the form they do.' },
       { prompt: 'Which factors are jointly considered in these scaling law analyses?', options: ['Only the programming framework used', 'Model size, dataset size, and compute', 'Only GPU brand', 'Only the choice of activation function'], answer: 1, explanation: 'Scaling laws jointly relate loss to model size, dataset size, and total compute used for training.' },
     ],
   },
@@ -2815,7 +2815,7 @@ const technicalAdvancedModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: "DeepSeek didn't just scale up — it changed the architecture and training recipe.",
+        text: "DeepSeek didn't just scale up - it changed the architecture and training recipe.",
         body: 'This breakdown covers what made DeepSeek V3 and R1 notable beyond hype: Multi-Head Latent Attention (MLA) for cheaper inference, a large-scale Mixture-of-Experts design, and a reinforcement-learning-driven training pipeline (using Group Relative Policy Optimization) for building reasoning ability.',
       },
       {
@@ -2840,7 +2840,7 @@ const technicalAdvancedModules: Module[] = [
       { prompt: 'What problem does Multi-Head Latent Attention (MLA) primarily address?', options: ['Slow tokenization', 'High memory overhead from the key-value cache during inference', 'Overfitting during pretraining', 'Lack of training data'], answer: 1, explanation: 'MLA compresses KV-cache data into low-rank latent vectors, substantially reducing memory overhead versus standard attention.' },
       { prompt: "Roughly how does DeepSeek-R1's activated parameter count compare to its total parameter count?", options: ['All parameters are activated on every token', 'Only a small fraction (tens of billions out of hundreds of billions) are activated per token', 'Exactly half are always activated', 'Activation count is unrelated to total size'], answer: 1, explanation: 'DeepSeek-R1 uses MoE sparsity, activating only a fraction of its total parameters (about 37B of 671B) per token.' },
       { prompt: 'What technique does DeepSeek use to develop reasoning behavior at scale?', options: ['Supervised fine-tuning alone, with no reinforcement learning', 'Large-scale reinforcement learning using Group Relative Policy Optimization (GRPO)', 'Manual rule-based logic systems', 'Random weight initialization only'], answer: 1, explanation: 'DeepSeek relies heavily on large-scale RL, specifically GRPO, to cultivate chain-of-thought reasoning capability.' },
-      { prompt: 'What role does supervised fine-tuning play before the large-scale RL stage?', options: ['None — RL is used from a randomly initialized model', 'It acts as a "cold start" on curated chain-of-thought data to stabilize early reasoning behavior', 'It replaces RL entirely', 'It is only used after RL, never before'], answer: 1, explanation: 'A supervised fine-tuning cold start on curated reasoning examples precedes the large-scale RL phase, stabilizing training.' },
+      { prompt: 'What role does supervised fine-tuning play before the large-scale RL stage?', options: ['None - RL is used from a randomly initialized model', 'It acts as a "cold start" on curated chain-of-thought data to stabilize early reasoning behavior', 'It replaces RL entirely', 'It is only used after RL, never before'], answer: 1, explanation: 'A supervised fine-tuning cold start on curated reasoning examples precedes the large-scale RL phase, stabilizing training.' },
       { prompt: "What recurring design theme does the video highlight across DeepSeek's architectural choices?", options: ['Maximizing training cost regardless of efficiency', 'A deliberate focus on training/inference cost-efficiency alongside performance', 'Avoiding any use of Mixture-of-Experts', 'Ignoring memory constraints entirely'], answer: 1, explanation: 'The video frames MLA, MoE sparsity, and the RL training recipe as choices driven partly by a cost-efficiency goal, not just raw performance.' },
       { prompt: "Which two architectural/training innovations are central to the video's explanation of DeepSeek V3/R1?", options: ['Convolutional layers and batch normalization', 'Multi-Head Latent Attention and Mixture-of-Experts, combined with RL-based reasoning training', 'Word2Vec embeddings and LSTM cells', 'Manual rule-based expert systems'], answer: 1, explanation: 'MLA (efficient attention) and MoE (sparse scaling), paired with an RL-driven reasoning training pipeline, are the core innovations covered.' },
     ],
@@ -2863,8 +2863,8 @@ const productivityModules: Module[] = [
     sections: [
       {
         kind: 'lead',
-        text: 'Claude has three plans — Free, Pro, and Max — and the difference is mostly about how much you can use Claude, not a totally different product.',
-        body: 'A creator who tested all three Claude plans breaks down exactly what changes as you move up in price, and — more usefully — how Claude actually measures your usage behind the scenes. That second part matters even if your company already pays for Pro or Max: knowing how limits are calculated changes how you should prompt.',
+        text: 'Claude has three plans - Free, Pro, and Max - and the difference is mostly about how much you can use Claude, not a totally different product.',
+        body: 'A creator who tested all three Claude plans breaks down exactly what changes as you move up in price, and - more usefully - how Claude actually measures your usage behind the scenes. That second part matters even if your company already pays for Pro or Max: knowing how limits are calculated changes how you should prompt.',
       },
       {
         kind: 'video',
@@ -2882,19 +2882,19 @@ const productivityModules: Module[] = [
           },
           {
             title: 'The free tier caps out fast',
-            body: 'Testing found the free plan allows roughly 10 prompts within a rolling 5-hour window — fine for occasional, lightweight questions, but tight for any sustained daily work.',
+            body: 'Testing found the free plan allows roughly 10 prompts within a rolling 5-hour window - fine for occasional, lightweight questions, but tight for any sustained daily work.',
           },
           {
             title: 'Usage is measured in tokens, not messages',
-            body: 'The video\'s key insight: your limit isn\'t "X messages per day" — it\'s based on tokens consumed. A few long, complex exchanges can burn through your quota faster than many short ones.',
+            body: 'The video\'s key insight: your limit isn\'t "X messages per day" - it\'s based on tokens consumed. A few long, complex exchanges can burn through your quota faster than many short ones.',
           },
           {
             title: 'That changes how you should prompt',
-            body: 'Because longer conversations cost more of your quota, breaking work into focused new chats (rather than one sprawling thread) stretches your usage further — especially useful on Free or lower Pro allowances.',
+            body: 'Because longer conversations cost more of your quota, breaking work into focused new chats (rather than one sprawling thread) stretches your usage further - especially useful on Free or lower Pro allowances.',
           },
           {
             title: 'Higher tiers exist for people who hit the wall regularly',
-            body: 'The video frames Pro and Max as solving the constraints free users run into — Max in particular is pitched at power users running Claude continuously throughout the workday.',
+            body: 'The video frames Pro and Max as solving the constraints free users run into - Max in particular is pitched at power users running Claude continuously throughout the workday.',
           },
         ],
       },
@@ -2926,12 +2926,12 @@ const productivityModules: Module[] = [
           'Limits depend solely on which country you sign up from',
         ],
         answer: 1,
-        explanation: 'The video stresses that usage is calculated from tokens consumed, meaning conversation length and complexity — not just message count — determines how fast you burn through your quota.',
+        explanation: 'The video stresses that usage is calculated from tokens consumed, meaning conversation length and complexity - not just message count - determines how fast you burn through your quota.',
       },
       {
         prompt: 'Practically, what does the "tokens, not messages" point mean for how you should work?',
         options: [
-          "It doesn't matter how you prompt — usage is identical either way",
+          "It doesn't matter how you prompt - usage is identical either way",
           'Short, frequent messages always cost more than one long thread',
           'Long, complex conversations can eat your usage quota faster than several short, focused ones',
           'Only image uploads count against your limit',
@@ -2962,7 +2962,7 @@ const productivityModules: Module[] = [
           'Teams running Claude constantly all day',
           'Occasional, lightweight use rather than sustained daily work',
           'Enterprise-scale automated workflows',
-          'Nobody — the video says free is unusable',
+          'Nobody - the video says free is unusable',
         ],
         answer: 1,
         explanation: 'Given the tight ~10-prompt/5-hour cap, the video positions the free tier as workable for occasional questions but not for consistent daily reliance.',
@@ -2992,7 +2992,7 @@ const productivityModules: Module[] = [
       {
         kind: 'lead',
         text: 'Copilot is an AI assistant woven into your everyday work tools.',
-        body: 'Microsoft Copilot is built into apps like Word, Excel, PowerPoint, Outlook, and Teams. You describe what you need in plain language, and Copilot drafts, analyzes, or summarizes — grounded in your own work content, with your permission.',
+        body: 'Microsoft Copilot is built into apps like Word, Excel, PowerPoint, Outlook, and Teams. You describe what you need in plain language, and Copilot drafts, analyzes, or summarizes - grounded in your own work content, with your permission.',
       },
       {
         kind: 'video',
@@ -3004,10 +3004,10 @@ const productivityModules: Module[] = [
         kind: 'list',
         heading: 'Key ideas from the video',
         items: [
-          { title: 'Built into Microsoft 365', body: 'Copilot works inside Word, Excel, PowerPoint, Outlook, Teams, and more — no separate app needed.' },
-          { title: 'You talk to it in plain language', body: 'Describe what you want — "summarize this thread," "draft a proposal" — and Copilot responds.' },
+          { title: 'Built into Microsoft 365', body: 'Copilot works inside Word, Excel, PowerPoint, Outlook, Teams, and more - no separate app needed.' },
+          { title: 'You talk to it in plain language', body: 'Describe what you want - "summarize this thread," "draft a proposal" - and Copilot responds.' },
           { title: 'Grounded in your work', body: 'With permission, Copilot can reference your documents, emails, and meetings for relevant answers.' },
-          { title: 'A starting point, not a final answer', body: 'Copilot drafts fast — you still review and refine before sending or publishing.' },
+          { title: 'A starting point, not a final answer', body: 'Copilot drafts fast - you still review and refine before sending or publishing.' },
         ],
       },
     ],
@@ -3070,7 +3070,7 @@ const productivityModules: Module[] = [
       {
         kind: 'lead',
         text: 'Same assistant, different job in every app.',
-        body: 'Copilot adapts to what each app is for: drafting and rewriting in Word, analyzing data in Excel, and building slides in PowerPoint — all from a plain-language prompt.',
+        body: 'Copilot adapts to what each app is for: drafting and rewriting in Word, analyzing data in Excel, and building slides in PowerPoint - all from a plain-language prompt.',
       },
       {
         kind: 'video',
@@ -3085,7 +3085,7 @@ const productivityModules: Module[] = [
           { title: 'Word', body: 'Draft a first version of a document, rewrite a paragraph, or summarize a long file into key points.' },
           { title: 'Excel', body: 'Ask Copilot to analyze a dataset, spot trends, or explain what a formula does in plain English.' },
           { title: 'PowerPoint', body: 'Turn a Word document into a draft slide deck, or generate slides directly from a prompt.' },
-          { title: 'Prompt, then refine', body: 'The first result is a starting point — ask follow-up questions to adjust tone, detail, or structure.' },
+          { title: 'Prompt, then refine', body: 'The first result is a starting point - ask follow-up questions to adjust tone, detail, or structure.' },
         ],
       },
     ],
@@ -3132,7 +3132,7 @@ const productivityModules: Module[] = [
           'Assume it can never be changed',
         ],
         answer: 0,
-        explanation: 'Copilot supports follow-up prompts — treat the first result as a draft you can refine further.',
+        explanation: 'Copilot supports follow-up prompts - treat the first result as a draft you can refine further.',
       },
     ],
   },
@@ -3148,7 +3148,7 @@ const productivityModules: Module[] = [
       {
         kind: 'lead',
         text: 'A better prompt gets a better answer, faster.',
-        body: 'Copilot responds to how you ask, not just what you ask. A few simple habits — giving it a clear goal, useful context, and a specific format — make its answers far more useful on the first try.',
+        body: 'Copilot responds to how you ask, not just what you ask. A few simple habits - giving it a clear goal, useful context, and a specific format - make its answers far more useful on the first try.',
       },
       {
         kind: 'video',
@@ -3161,8 +3161,8 @@ const productivityModules: Module[] = [
         heading: 'Key ideas from the video',
         items: [
           { title: 'Goal, context, expectations, source', body: 'A strong prompt states what you want, gives background, describes the format you expect, and points to a source if relevant.' },
-          { title: 'Order matters', body: 'Copilot weighs the end of a prompt more heavily — put the most important instructions or source last.' },
-          { title: 'Use natural, clear language', body: 'Write like you’re talking to a colleague — plain language, clear punctuation.' },
+          { title: 'Order matters', body: 'Copilot weighs the end of a prompt more heavily - put the most important instructions or source last.' },
+          { title: 'Use natural, clear language', body: 'Write like you’re talking to a colleague - plain language, clear punctuation.' },
           { title: 'Iterate', body: 'If the first answer isn’t right, refine your prompt rather than starting over from nothing.' },
         ],
       },
@@ -3173,7 +3173,7 @@ const productivityModules: Module[] = [
           'Have you stated a clear goal?',
           'Have you given enough context for Copilot to understand the situation?',
           'Have you said what format or length you expect?',
-          'If relevant, have you pointed it at the right file or source — placed last in the prompt?',
+          'If relevant, have you pointed it at the right file or source - placed last in the prompt?',
           'Will you review the answer before using it?',
         ],
       },
@@ -3185,7 +3185,7 @@ const productivityModules: Module[] = [
           'Goal, context, expectations, and source',
           'Font, color, size, and margin',
           'Username, password, date, and time',
-          'Only the goal — nothing else matters',
+          'Only the goal - nothing else matters',
         ],
         answer: 0,
         explanation: 'A well-structured prompt can include a goal, context, your expectations for the response, and a source to draw from.',
@@ -3199,7 +3199,7 @@ const productivityModules: Module[] = [
           'Prompts must be exactly one sentence long',
         ],
         answer: 0,
-        explanation: 'Later parts of a prompt are emphasized more — so put key instructions or a source near the end.',
+        explanation: 'Later parts of a prompt are emphasized more - so put key instructions or a source near the end.',
       },
       {
         prompt: 'What should you do if Copilot’s first response isn’t what you wanted?',
@@ -3210,7 +3210,7 @@ const productivityModules: Module[] = [
           'Restart your computer',
         ],
         answer: 0,
-        explanation: 'Iterating on your prompt — clarifying or adjusting it — usually gets you a much better result.',
+        explanation: 'Iterating on your prompt - clarifying or adjusting it - usually gets you a much better result.',
       },
       {
         prompt: 'Why should you always review Copilot’s output before using it?',
@@ -3221,7 +3221,7 @@ const productivityModules: Module[] = [
           'It never needs review, only sometimes',
         ],
         answer: 0,
-        explanation: 'Like any AI tool, Copilot can occasionally get things wrong — reviewing before use is a basic safety habit.',
+        explanation: 'Like any AI tool, Copilot can occasionally get things wrong - reviewing before use is a basic safety habit.',
       },
     ],
   },
@@ -3235,7 +3235,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'General Track · Beginner',
     title: 'AI Fundamentals: Watch & Learn',
     subtitle:
-      'Ten short videos covering the basics of AI, machine learning, and using AI tools responsibly — with a quiz after each.',
+      'Ten short videos covering the basics of AI, machine learning, and using AI tools responsibly - with a quiz after each.',
     accent: '#307c4c',
     accentSoft: '#f0f9f4',
     modules: generalBeginnerModules,
@@ -3245,7 +3245,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'General Track · Intermediate',
     title: 'AI in Practice',
     subtitle:
-      'Going deeper into prompting, agents, multimodal AI, and real business risk — with a quiz after each video.',
+      'Going deeper into prompting, agents, multimodal AI, and real business risk - with a quiz after each video.',
     accent: '#0891b2',
     accentSoft: '#ecfeff',
     modules: generalIntermediateModules,
@@ -3255,7 +3255,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'General Track · Advanced',
     title: 'AI Strategy & Leadership',
     subtitle:
-      'Strategic, governance, and leadership-level AI topics for business audiences — with a quiz after each video.',
+      'Strategic, governance, and leadership-level AI topics for business audiences - with a quiz after each video.',
     accent: '#7c3aed',
     accentSoft: '#f5f3ff',
     modules: generalAdvancedModules,
@@ -3265,7 +3265,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'Technical Track · Beginner',
     title: 'Under the Hood: AI Foundations',
     subtitle:
-      'Neural networks, LLMs, transformers, tokenization, embeddings, gradient descent, RAG, feature engineering, fine-tuning, and building AI agents — with a quiz after each video.',
+      'Neural networks, LLMs, transformers, tokenization, embeddings, gradient descent, RAG, feature engineering, fine-tuning, and building AI agents - with a quiz after each video.',
     accent: '#4f46e5',
     accentSoft: '#eef2ff',
     modules: technicalBeginnerModules,
@@ -3275,7 +3275,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'Technical Track · Intermediate',
     title: 'Building Real AI Systems',
     subtitle:
-      'Vector databases, evaluation, tool calling, orchestration, quantization, MLOps, RLHF, and more — with a quiz after each video.',
+      'Vector databases, evaluation, tool calling, orchestration, quantization, MLOps, RLHF, and more - with a quiz after each video.',
     accent: '#e11d48',
     accentSoft: '#fff1f2',
     modules: technicalIntermediateModules,
@@ -3285,7 +3285,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'Technical Track · Advanced',
     title: 'Research-Level AI',
     subtitle:
-      'Cutting-edge, research-oriented AI topics — with a quiz after each video.',
+      'Cutting-edge, research-oriented AI topics - with a quiz after each video.',
     accent: '#ea580c',
     accentSoft: '#fff7ed',
     modules: technicalAdvancedModules,
@@ -3295,7 +3295,7 @@ export const TRACKS: Track[] = [
     eyebrow: 'Productivity Track',
     title: 'Use AI for Business',
     subtitle:
-      'Four videos on getting real work done with Claude Pro and Microsoft Copilot — with a quiz after each.',
+      'Four videos on getting real work done with Claude Pro and Microsoft Copilot - with a quiz after each.',
     accent: '#2563eb',
     accentSoft: '#eff6ff',
     modules: productivityModules,

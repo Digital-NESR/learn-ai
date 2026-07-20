@@ -27,7 +27,7 @@ export default async function JoinTeamPage() {
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">Find a team</h1>
           <p className="mt-2 text-[var(--muted)]">
-            Browse registered teams and request to join one — the team&apos;s leader will need to approve you.
+            Browse registered teams and request to join one - the team&apos;s leader will need to approve you.
           </p>
         </div>
         <JoinTeamClient initialTeams={teams} initialMyRequest={myRequest} accent={HACKATHON_ACCENT} />

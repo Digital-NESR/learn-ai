@@ -32,7 +32,7 @@ export default async function SubmitProjectPage() {
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">Submit your project</h1>
           <p className="mt-2 text-[var(--muted)]">
-            On behalf of <span className="font-semibold text-[var(--text)]">{team.name}</span> — upload a pdf or pptx
+            On behalf of <span className="font-semibold text-[var(--text)]">{team.name}</span> - upload a pdf or pptx
             deck. Submitting again replaces the previous file.
           </p>
         </div>

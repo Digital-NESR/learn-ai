@@ -25,7 +25,7 @@ export default async function RegisterTeamPage() {
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">Register your team</h1>
           <p className="mt-2 text-[var(--muted)]">
-            Give your team a name and add teammates from the employee directory — everyone needs an
+            Give your team a name and add teammates from the employee directory - everyone needs an
             NESR email on file.
           </p>
         </div>

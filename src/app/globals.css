@@ -20,7 +20,7 @@
   --brand: #307c4c;
   --brand-soft: #eef7f1;
 
-  /* Status colors — used for quiz correct/incorrect states, banners, errors. */
+  /* Status colors - used for quiz correct/incorrect states, banners, errors. */
   --success: #16a34a;
   --success-soft: #f0fdf4;
   --success-border: #bbf7d0;

@@ -3,7 +3,7 @@ import AzureADProvider from 'next-auth/providers/azure-ad';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 /**
- * Auth for learnai — Microsoft Entra ID (SSO) only in production.
+ * Auth for learnai - Microsoft Entra ID (SSO) only in production.
  *
  * The Azure provider only turns on when the AZURE_AD_* env vars are present.
  * There is intentionally no fallback/bypass login in production; if SSO
@@ -20,7 +20,7 @@ export const ssoEnabled = Boolean(
  * One-click "Continue as Dev User" for testing without a real Microsoft
  * login (e.g. to preview the launch animation). Gated on NOT running on
  * Vercel (which always sets VERCEL=1 during build/runtime) rather than
- * NODE_ENV — a local `next build && next start` still sets NODE_ENV=
+ * NODE_ENV - a local `next build && next start` still sets NODE_ENV=
  * production, and this should stay available then too. Also requires an
  * explicit opt-in env var, so it can't end up live by accident even if
  * someone runs a copy of this app outside Vercel.

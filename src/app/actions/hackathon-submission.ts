@@ -4,7 +4,7 @@ import aiversePool from '@/lib/db-aiverse';
 import { requireSessionEmail } from './hackathon';
 import { DELIVERABLE_QUESTION_IDS } from '../hackathon-deliverables';
 
-const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10MB per file — generous for a pdf/pptx deck, no video allowed.
+const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10MB per file - generous for a pdf/pptx deck, no video allowed.
 const MAX_FILES_PER_SUBMISSION = 10;
 const MAX_ANSWER_CHARS = 5000;
 
@@ -218,7 +218,7 @@ async function upsertSubmission(formData: FormData, final: boolean): Promise<Sub
   return (await loadSubmissionByTeamId(teamId)) as SubmissionMeta;
 }
 
-/** Saves a draft of the team's submission — editable any time before the deadline, and again after
+/** Saves a draft of the team's submission - editable any time before the deadline, and again after
  * it (just flagged late), until the team submits it as final. */
 export async function submitProject(formData: FormData): Promise<SubmissionMeta> {
   return upsertSubmission(formData, false);

@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 
 interface ChatVisibilityContextValue {
-  /** true while a timed quiz session is active — the AI widget hides itself. */
+  /** true while a timed quiz session is active - the AI widget hides itself. */
   hidden: boolean;
   setHidden: (hidden: boolean) => void;
 }
