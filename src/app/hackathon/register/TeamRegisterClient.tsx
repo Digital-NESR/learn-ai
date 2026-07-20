@@ -137,7 +137,7 @@ export default function TeamRegisterClient({
           </ul>
         )}
         <Link
-          href="/hackathon"
+          href="/hackathon/submit"
           className="mt-6 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors"
           style={{ background: accent }}
         >
