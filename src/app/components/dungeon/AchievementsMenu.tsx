@@ -20,6 +20,27 @@ function subscribeNever() {
   return () => {};
 }
 
+/** "X of Y done" plus a filled bar — the at-a-glance progress tracker. */
+function AchievementsProgress({ earned, total }: { earned: number; total: number }) {
+  const pct = total > 0 ? Math.round((earned / total) * 100) : 0;
+  return (
+    <div className="min-w-0 flex-1">
+      <div className="flex items-baseline justify-between gap-2">
+        <h2 className="text-sm font-bold text-[var(--text)]">Achievements</h2>
+        <span className="shrink-0 text-xs font-semibold text-[var(--muted)]">
+          {earned} of {total} done
+        </span>
+      </div>
+      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--border)]">
+        <div
+          className="h-full rounded-full bg-amber-500 transition-all duration-500"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
 function AchievementRows({ achievements, onNavigate }: { achievements: Achievement[]; onNavigate?: () => void }) {
   return (
     <ul className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
@@ -88,12 +109,9 @@ export default function AchievementsMenu({
   if (variant === 'pinned') {
     return (
       <aside className="flex h-fit flex-col rounded-2xl border border-[var(--border)] bg-[var(--card)]">
-        <div className="flex items-center gap-2 border-b border-[var(--border)] px-5 py-4">
-          <Trophy className="h-5 w-5 text-amber-500" />
-          <div>
-            <h2 className="text-sm font-bold text-[var(--text)]">Achievements</h2>
-            <p className="text-xs text-[var(--muted)]">{earnedCount} of {achievements.length} earned</p>
-          </div>
+        <div className="flex items-center gap-3 border-b border-[var(--border)] px-5 py-4">
+          <Trophy className="h-5 w-5 shrink-0 text-amber-500" />
+          <AchievementsProgress earned={earnedCount} total={achievements.length} />
         </div>
         <AchievementRows achievements={achievements} />
       </aside>
@@ -132,18 +150,13 @@ export default function AchievementsMenu({
                 open ? 'translate-x-0' : 'translate-x-full'
               }`}
             >
-              <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
-                <div className="flex items-center gap-2">
-                  <Trophy className="h-5 w-5 text-amber-500" />
-                  <div>
-                    <h2 className="text-sm font-bold text-[var(--text)]">Achievements</h2>
-                    <p className="text-xs text-[var(--muted)]">{earnedCount} of {achievements.length} earned</p>
-                  </div>
-                </div>
+              <div className="flex items-center gap-3 border-b border-[var(--border)] px-5 py-4">
+                <Trophy className="h-5 w-5 shrink-0 text-amber-500" />
+                <AchievementsProgress earned={earnedCount} total={achievements.length} />
                 <button
                   onClick={() => setOpen(false)}
                   aria-label="Close"
-                  className="rounded-lg p-1.5 text-[var(--muted)] transition-colors hover:bg-[var(--card-2)] hover:text-[var(--text)]"
+                  className="shrink-0 rounded-lg p-1.5 text-[var(--muted)] transition-colors hover:bg-[var(--card-2)] hover:text-[var(--text)]"
                 >
                   <X className="h-4 w-4" />
                 </button>
