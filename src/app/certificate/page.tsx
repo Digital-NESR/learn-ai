@@ -3,7 +3,7 @@ import AiLearningHeader from '../components/AiLearningHeader';
 import { getEffectiveTracks } from '@/lib/content-resolver';
 import { getMyProgress, getMyEarnedCertificates, getMyCertificateStatus } from '../actions/progress';
 import { ACHIEVEMENT_IDS, computeEarnedAchievements, type AchievementId } from '@/lib/achievements';
-import { ACHIEVEMENT_CERT_META } from '@/lib/achievement-certificates';
+import { ACHIEVEMENT_CERT_META, type CertTier } from '@/lib/achievement-certificates';
 import TrophyHallClient, { type TrophyTile } from './TrophyHallClient';
 
 export const metadata: Metadata = { title: 'The Trophy Hall | NESR AI Verse' };
@@ -97,7 +97,12 @@ export default async function TrophyHallPage() {
     };
   }
 
-  const tileIds = ACHIEVEMENT_IDS.filter(id => id !== 'dungeon-master');
+  // Grouped by difficulty (bronze -> silver -> gold -> realm -> certified)
+  // rather than by track, so the room reads as an escalating progression.
+  const TIER_ORDER: CertTier[] = ['bronze', 'silver', 'gold', 'realm', 'certified', 'master'];
+  const tileIds = ACHIEVEMENT_IDS.filter(id => id !== 'dungeon-master').sort(
+    (a, b) => TIER_ORDER.indexOf(ACHIEVEMENT_CERT_META[a].tier) - TIER_ORDER.indexOf(ACHIEVEMENT_CERT_META[b].tier),
+  );
   const tiles = tileIds.map(buildTile);
   const master = buildTile('dungeon-master');
   const recipientName = earned[0]?.recipientName ?? '';
