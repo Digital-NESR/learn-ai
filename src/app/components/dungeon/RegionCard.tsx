@@ -4,7 +4,7 @@ import type { LucideIcon } from 'lucide-react';
 import { ChevronRight } from 'lucide-react';
 import type { Track } from '../../content';
 
-/** One "region" marker on the dungeon map — one per track. */
+/** One "region" marker on the dungeon map - one per track. */
 export default function RegionCard({
   track,
   icon: Icon,

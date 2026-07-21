@@ -1,4 +1,4 @@
--- NESR AI Verse — aiverse_db schema
+-- NESR AI Verse - aiverse_db schema
 -- Per-person progress, grand certificate, and hackathon team entry.
 
 create table if not exists users (
@@ -49,7 +49,7 @@ create unique index if not exists hackathon_team_members_one_per_person
 -- Admin-authored edits/creations/deletions layered over the static modules in
 -- src/app/content.ts at render time (see src/lib/content-resolver.ts). Vercel's
 -- filesystem is read-only in production, so admin edits can't touch content.ts
--- directly — this table is the actual source of truth for anything an admin
+-- directly - this table is the actual source of truth for anything an admin
 -- has touched, static content.ts remains the fallback/default for everything else.
 create table if not exists module_overrides (
   id text primary key,
@@ -64,7 +64,7 @@ create table if not exists module_overrides (
   is_deleted boolean not null default false,
   updated_at timestamptz not null default now()
 );
--- 'required' | 'half' | 'optional' — how the module counts toward the
+-- 'required' | 'half' | 'optional' - how the module counts toward the
 -- certificate (see src/lib/certificate.ts). Added after the table already
 -- shipped, so it's a separate ALTER rather than part of the CREATE above.
 alter table module_overrides add column if not exists requirement text not null default 'required';
@@ -77,7 +77,7 @@ create table if not exists track_overrides (
 );
 
 -- Undo log for /admin. previous_row is the exact prior row for (table_name,
--- row_id) before the action ran — null means no row existed yet, so undoing
+-- row_id) before the action ran - null means no row existed yet, so undoing
 -- means deleting the row rather than restoring one. Trimmed to the last 20
 -- rows per actor in saveModule/deleteModule/deleteTrack.
 create table if not exists admin_actions (
@@ -93,7 +93,7 @@ create table if not exists admin_actions (
 -- 'active' | 'disqualified', app-validated (see src/app/actions/admin-hackathon.ts).
 alter table hackathon_teams add column if not exists status text not null default 'active';
 
--- Singleton row (id is always 1) holding the hackathon admin's event settings —
+-- Singleton row (id is always 1) holding the hackathon admin's event settings -
 -- registration window, key dates, venue, team-size limits, announcement copy.
 -- Read by the public hackathon page and enforced by createTeam/addTeamMember.
 create table if not exists hackathon_settings (
@@ -139,12 +139,12 @@ alter table hackathon_submissions add column if not exists video_link text;
 -- Answers to the fixed deliverables questionnaire (see src/app/hackathon-deliverables.ts),
 -- keyed by question id. Editable any time (draft-friendly) until the event wraps up.
 alter table hackathon_submissions add column if not exists answers jsonb not null default '{}'::jsonb;
--- Once a team clicks "Submit" (as opposed to "Save draft"), is_final locks the submission —
+-- Once a team clicks "Submit" (as opposed to "Save draft"), is_final locks the submission -
 -- server actions refuse further edits until an admin reopens it (see reopenSubmissionAdmin).
 alter table hackathon_submissions add column if not exists is_final boolean not null default false;
 alter table hackathon_submissions add column if not exists final_submitted_at timestamptz;
 
--- Multiple files per submission. file_data holds the raw bytes directly — fine
+-- Multiple files per submission. file_data holds the raw bytes directly - fine
 -- at pdf/pptx sizes, no external storage needed. Validated to .pdf/.pptx and
 -- size-capped in the server action.
 create table if not exists hackathon_submission_files (
@@ -192,3 +192,17 @@ create table if not exists hackathon_join_requests (
 );
 create unique index if not exists hackathon_join_requests_one_pending_per_person
   on hackathon_join_requests(requester_email) where status = 'pending';
+
+-- One scoresheet per judge per team - multiple judges can independently score
+-- the same team (see src/app/judging-rubric.ts for category ids/weights and
+-- src/app/actions/judge.ts for the save/read logic). scores is a jsonb map
+-- keyed by rubric category id, e.g. {"businessValue": 22, "prototypeQuality": 12}.
+create table if not exists hackathon_scores (
+  id uuid primary key default gen_random_uuid(),
+  team_id uuid not null references hackathon_teams(id) on delete cascade,
+  judge_email text not null references users(email) on delete cascade,
+  scores jsonb not null default '{}'::jsonb,
+  remarks text,
+  updated_at timestamptz not null default now(),
+  unique (team_id, judge_email)
+);

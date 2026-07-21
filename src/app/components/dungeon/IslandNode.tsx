@@ -9,8 +9,8 @@ const REQUIREMENT_META: Record<ModuleRequirement, { label: string; color: string
   optional: { label: 'Specialized', color: '#64748b' },
 };
 
-/** One stop on a track's island path. Free-roam — always clickable, no lock
- * state — the alternating left/right offset is purely decorative "snake
+/** One stop on a track's island path. Free-roam - always clickable, no lock
+ * state - the alternating left/right offset is purely decorative "snake
  * path" flavor around a shared vertical rope rendered by the parent. */
 export default function IslandNode({
   module,

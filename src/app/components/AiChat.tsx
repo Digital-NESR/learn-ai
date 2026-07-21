@@ -18,7 +18,7 @@ const GREETING: Message = {
   content: "Hi! I'm the AI Verse assistant. Ask me anything about AI or the courses.",
 };
 
-/** Compact Markdown rendering for chat bubbles — no typography plugin, just
+/** Compact Markdown rendering for chat bubbles - no typography plugin, just
  * tight element-level overrides so headings/lists/code don't blow out the
  * bubble's spacing. */
 const MARKDOWN_COMPONENTS = {
@@ -67,7 +67,7 @@ export default function AiChat() {
   }, [messages, loading, open]);
 
   // Let other parts of the app (e.g. the landing "AI Assistant" card) open the
-  // widget — optionally pre-filling a suggested prompt.
+  // widget - optionally pre-filling a suggested prompt.
   useEffect(() => {
     function onOpen(e: Event) {
       setOpen(true);
@@ -84,7 +84,7 @@ export default function AiChat() {
     if (hidden) setOpen(false);
   }, [hidden]);
 
-  // The widget is for signed-in, in-app pages only — never on the login
+  // The widget is for signed-in, in-app pages only - never on the login
   // screen, and never during a timed quiz (so it can't be used to cheat).
   if (pathname === '/login' || hidden) return null;
 
@@ -116,7 +116,7 @@ export default function AiChat() {
     } catch {
       setMessages([
         ...next,
-        { role: 'assistant', content: 'Network error — please try again.', error: true },
+        { role: 'assistant', content: 'Network error - please try again.', error: true },
       ]);
     } finally {
       setLoading(false);
@@ -132,7 +132,7 @@ export default function AiChat() {
 
   return (
     <>
-      {/* Floating trigger — also opened via the "AI Verse Assistant" card /
+      {/* Floating trigger - also opened via the "AI Verse Assistant" card /
           prompt chips (aiverse:open-chat custom event). */}
       {!open && (
         <button

@@ -21,10 +21,10 @@ export function SectionHeading({ children, accent }: { children: React.ReactNode
 
 export function Block({ block, accent }: { block: ContentBlock; accent: string; accentSoft?: string }) {
   // Soft tints are computed from `accent` (low-alpha hex) rather than a static
-  // per-theme color, so they read correctly in both light and dark mode —
+  // per-theme color, so they read correctly in both light and dark mode -
   // a low-alpha wash lightens on a light card and darkens on a dark one.
-  const wash = `${accent}14`; // ~8% — large background washes (lead blocks)
-  const pill = `${accent}26`; // ~15% — small badges/chips
+  const wash = `${accent}14`; // ~8% - large background washes (lead blocks)
+  const pill = `${accent}26`; // ~15% - small badges/chips
 
   switch (block.kind) {
     case 'lead':
@@ -179,7 +179,7 @@ export function Block({ block, accent }: { block: ContentBlock; accent: string; 
       return (
         <div>
           {block.heading && <SectionHeading accent={accent}>{block.heading}</SectionHeading>}
-          {/* Responsive 16:9 embed — fills the content column on any screen size. */}
+          {/* Responsive 16:9 embed - fills the content column on any screen size. */}
           <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-[var(--border)] bg-black">
             <iframe
               className="absolute inset-0 h-full w-full"

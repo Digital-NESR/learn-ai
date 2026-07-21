@@ -1,7 +1,7 @@
 export type ShipPhase = 'idle' | 'ignition' | 'launch';
 
 /**
- * A sleek, minimalist spaceship — deliberately abstract/geometric rather than
+ * A sleek, minimalist spaceship - deliberately abstract/geometric rather than
  * cartoonish, matching the enterprise-friendly black/neon-green theme.
  * Purely presentational: the phase prop drives which CSS animation classes
  * apply, all defined in globals.css (and folded into the site's existing
@@ -37,7 +37,7 @@ export default function Spaceship({ phase }: { phase: ShipPhase }) {
           </linearGradient>
         </defs>
 
-        {/* Exhaust trail — only meaningful during launch */}
+        {/* Exhaust trail - only meaningful during launch */}
         {phase === 'launch' && (
           <rect x="62" y="270" width="36" height="140" fill="url(#trail)" className="animate-trail-stretch" style={{ transformOrigin: '80px 270px' }} />
         )}

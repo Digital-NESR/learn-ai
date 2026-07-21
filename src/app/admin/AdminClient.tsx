@@ -49,9 +49,9 @@ interface Draft {
 }
 
 const REQUIREMENT_LABEL: Record<ModuleRequirement, string> = {
-  required: 'Required — everyone must complete it',
-  half: 'Important — at least half of this bucket is required',
-  optional: 'Specialized — only a couple across the whole bucket are required',
+  required: 'Required - everyone must complete it',
+  half: 'Important - at least half of this bucket is required',
+  optional: 'Specialized - only a couple across the whole bucket are required',
 };
 
 function moduleToDraft(trackId: TrackId, m: Module): Draft {
@@ -87,7 +87,7 @@ function blankDraft(trackId: TrackId, nextPart: number): Draft {
 }
 
 /** Best-effort read of the first video block, for the quick-edit fields. Returns null if the
- * sections JSON is currently invalid or has no video block — the raw textarea is still the
+ * sections JSON is currently invalid or has no video block - the raw textarea is still the
  * source of truth. */
 function firstVideoBlock(sectionsJson: string): { youtubeId: string; caption: string } | null {
   try {
@@ -264,7 +264,7 @@ export default function AdminClient({
       sections = JSON.parse(draft.sectionsJson);
       if (!Array.isArray(sections)) throw new Error('Sections must be a JSON array');
     } catch {
-      setError('Sections is not valid JSON — fix it before saving.');
+      setError('Sections is not valid JSON - fix it before saving.');
       return;
     }
 
@@ -326,7 +326,7 @@ export default function AdminClient({
       <header className="border-b border-[var(--border)] bg-[var(--card)] px-6 lg:px-8 py-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <ShieldCheck className="w-5 h-5 text-[var(--brand)]" />
-          <h1 className="text-lg font-bold tracking-tight">NESR AI Verse — Admin</h1>
+          <h1 className="text-lg font-bold tracking-tight">NESR AI Verse - Admin</h1>
         </div>
         <ThemeToggle />
       </header>
@@ -571,7 +571,7 @@ export default function AdminClient({
                 {/* Raw sections JSON */}
                 <div>
                   <label className="block text-xs font-medium text-[var(--muted)] mb-1">
-                    Sections (raw JSON — lead/cards/compare/steps/flow/glossary/list/checklist/video blocks)
+                    Sections (raw JSON - lead/cards/compare/steps/flow/glossary/list/checklist/video blocks)
                   </label>
                   <textarea
                     value={draft.sectionsJson}
@@ -583,7 +583,7 @@ export default function AdminClient({
                     }`}
                   />
                   {!sectionsValid && (
-                    <p className="mt-1 text-xs text-[var(--danger)]">Not valid JSON — this won&apos;t save until fixed.</p>
+                    <p className="mt-1 text-xs text-[var(--danger)]">Not valid JSON - this won&apos;t save until fixed.</p>
                   )}
                 </div>
 
@@ -669,7 +669,7 @@ export default function AdminClient({
                       </div>
                     ))}
                     {draft.quiz.length === 0 && (
-                      <p className="text-sm text-[var(--muted)]">No questions yet — add at least one.</p>
+                      <p className="text-sm text-[var(--muted)]">No questions yet - add at least one.</p>
                     )}
                   </div>
                 </div>

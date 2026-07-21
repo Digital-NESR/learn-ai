@@ -213,7 +213,7 @@ export default function TeamRegisterClient({
         )}
 
         {atCap ? (
-          <p className="text-sm text-[var(--muted)]">Team is full — remove someone to add another.</p>
+          <p className="text-sm text-[var(--muted)]">Team is full - remove someone to add another.</p>
         ) : (
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)] pointer-events-none" />
@@ -249,7 +249,7 @@ export default function TeamRegisterClient({
         )}
         {belowMin && (
           <p className="mt-2 text-xs text-[var(--muted)]">
-            Teams need at least {minTeamSize} member{minTeamSize === 1 ? '' : 's'} — you can register now and add more later.
+            Teams need at least {minTeamSize} member{minTeamSize === 1 ? '' : 's'} - you can register now and add more later.
           </p>
         )}
       </div>

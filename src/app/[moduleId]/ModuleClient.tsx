@@ -59,7 +59,7 @@ function Quiz({
   const scoreRef = useRef(score);
   scoreRef.current = score;
 
-  // The timer — and the AI assistant being hidden — is active for the whole
+  // The timer - and the AI assistant being hidden - is active for the whole
   // time the quiz is un-submitted, restarting on retake. Time running out
   // force-submits whatever's answered, same as clicking submit manually.
   useEffect(() => {
@@ -416,7 +416,7 @@ export default function ModuleClient({
                 style={{ background: track.accent }}
               >
                 <CheckCircle2 className="w-4 h-4" />
-                Finish — back to series
+                Finish - back to series
               </Link>
             )}
           </div>

@@ -4,7 +4,7 @@
  * Scaffolding note: this Map lives in the server instance's memory, so limits
  * are per-instance and reset on cold start. Good enough to keep the n8n chat
  * from being hammered in the interim. For hard, cross-instance limits in
- * production, back this with a shared store (e.g. Upstash Redis) — the
+ * production, back this with a shared store (e.g. Upstash Redis) - the
  * `rateLimit()` signature can stay the same.
  */
 

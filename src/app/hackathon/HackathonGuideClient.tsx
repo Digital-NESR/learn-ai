@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Download } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, ShieldCheck } from 'lucide-react';
 import { Block } from '../components/ContentBlocks';
 import Accordion from '../components/Accordion';
 import type { ContentBlock } from '../content';
 import type { GuideChapter } from '../hackathon-guide';
 
-/** Only 'lead' blocks have no heading — everything else does. */
+/** Only 'lead' blocks have no heading - everything else does. */
 function blockHeading(block: ContentBlock): string | undefined {
   return block.kind === 'lead' ? undefined : block.heading;
 }
@@ -66,6 +66,16 @@ export default function HackathonGuideClient({
         >
           <Download className="h-4 w-4" />
           Download Slideset
+        </a>
+
+        <a
+          href="/hackathon-rules-and-tools.pdf"
+          download
+          className="flex shrink-0 items-center justify-center gap-2 rounded-xl border-2 px-3.5 py-2.5 text-sm font-bold shadow-sm transition-opacity hover:opacity-80 lg:w-full"
+          style={{ borderColor: accent, color: accent }}
+        >
+          <ShieldCheck className="h-4 w-4" />
+          Rules &amp; Tools
         </a>
       </nav>
 

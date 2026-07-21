@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import { Rocket, Users, Sparkles, Trophy, ArrowLeft, Megaphone } from 'lucide-react';
+import { Rocket, Users, Sparkles, Trophy, ArrowLeft, Megaphone, Gavel } from 'lucide-react';
 import AiLearningHeader from '../components/AiLearningHeader';
 import HackathonGuideClient from './HackathonGuideClient';
 import HackathonTeamClient from './HackathonTeamClient';
 import CountdownTimer from './CountdownTimer';
 import { GUIDE_CHAPTERS, HACKATHON_ACCENT, HACKATHON_NEON } from '../hackathon-guide';
 import { authOptions } from '@/lib/auth';
+import { isJudgeEmail } from '@/lib/judge';
 import { getMyTeam, getPublicHackathonSettings, getMyJoinRequest, listJoinRequestsForMyTeam } from '../actions/hackathon';
 
 export const metadata: Metadata = { title: 'Hackathon | NESR AI Verse' };
@@ -37,12 +38,12 @@ const STATUS_COPY: Record<string, { badge: string; badgeCls: string; blurb: stri
     badgeCls: 'bg-white/10 text-white/70',
     blurb:
       'Finish the courses, then put your new skills to the test. A hands-on AI build ' +
-      'challenge for NESR teams is on the way — start prepping with the guide below.',
+      'challenge for NESR teams is on the way - start prepping with the guide below.',
   },
   open: {
     badge: 'Registration open',
     badgeCls: 'bg-[#4ade80]/15 text-[#4ade80]',
-    blurb: 'Registration is open — form your team below and start prepping with the guide.',
+    blurb: 'Registration is open - form your team below and start prepping with the guide.',
   },
   closed: {
     badge: 'Registration closed',
@@ -80,13 +81,15 @@ export default async function HackathonPage() {
 
   const eventHasStarted = settings.eventStartAt ? new Date(settings.eventStartAt) <= new Date() : false;
   const registrationOpen = settings.status === 'open';
+  const isJudge = isJudgeEmail(currentUserEmail);
+  const judgingUnlocked = Boolean(settings.submissionDeadlineAt && new Date() > new Date(settings.submissionDeadlineAt));
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg)] font-sans text-[var(--text)]">
       <AiLearningHeader />
 
       <main className="flex-1 w-full">
-        {/* ── Event teaser — same dark hero treatment as the home page ── */}
+        {/* ── Event teaser - same dark hero treatment as the home page ── */}
         <section className="relative overflow-hidden bg-[#070b09] text-white">
           <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[#307c4c]/40 blur-3xl animate-aurora" />
           <div
@@ -188,6 +191,32 @@ export default async function HackathonPage() {
               </div>
             )}
 
+            {isJudge && (
+              <div className="mt-8 flex justify-center">
+                {judgingUnlocked ? (
+                  <Link
+                    href="/judge"
+                    className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-base font-extrabold uppercase tracking-wide text-white shadow-lg transition-transform hover:scale-105"
+                    style={{ background: HACKATHON_ACCENT }}
+                  >
+                    <Gavel className="h-5 w-5" />
+                    Start Judging
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    title="Opens once the submission deadline has passed"
+                    className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-base font-extrabold uppercase tracking-wide text-white opacity-40 cursor-not-allowed"
+                    style={{ background: HACKATHON_ACCENT }}
+                  >
+                    <Gavel className="h-5 w-5" />
+                    Start Judging
+                  </button>
+                )}
+              </div>
+            )}
+
             <div className="mt-10 grid gap-4 sm:grid-cols-3 text-left">
               {HIGHLIGHTS.map(({ icon: Icon, title, body }) => (
                 <div key={title} className="rounded-xl border border-white/15 bg-white/5 p-5">
@@ -233,7 +262,7 @@ export default async function HackathonPage() {
           <div className="mb-6 text-center">
             <h2 className="text-2xl font-bold tracking-tight text-[var(--text)]">Enter your team</h2>
             <p className="mt-2 text-[var(--muted)]">
-              Create a team or wait for a teammate to add you — everyone needs an NESR email on file.
+              Create a team or wait for a teammate to add you - everyone needs an NESR email on file.
             </p>
           </div>
           <HackathonTeamClient

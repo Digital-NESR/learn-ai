@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'NESR AI Verse',
   description:
-    'NESR AI Verse — beginner AI courses for business and technical teams, with a quiz after every part.',
+    'NESR AI Verse - beginner AI courses for business and technical teams, with a quiz after every part.',
   icons: {
     icon: '/nesr-logo-circle.png',
   },

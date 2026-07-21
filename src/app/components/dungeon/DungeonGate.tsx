@@ -2,7 +2,7 @@
 
 import { Flame, Swords } from 'lucide-react';
 
-/** The entry screen — replaces the old plain hero. Always-dark regardless of
+/** The entry screen - replaces the old plain hero. Always-dark regardless of
  * site theme, same convention as the rest of the app's cinematic banners
  * (see the login page's launch sequence). Green (NESR brand), not orange. */
 export default function DungeonGate({
