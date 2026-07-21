@@ -19,12 +19,12 @@ const TRACK_CHAINS: AchievementId[][] = [
 
 const TILE_META: Record<AchievementId, { group: string; title: string }> = {
   'general-beginner': { group: 'GENERAL TRACK', title: 'Beginner Cleared' },
-  'general-intermediate': { group: 'GENERAL TRACK', title: 'Intermediate Cleared' },
-  'general-advanced': { group: 'GENERAL TRACK', title: 'Advanced Cleared' },
   'technical-beginner': { group: 'TECHNICAL TRACK', title: 'Beginner Cleared' },
-  'technical-intermediate': { group: 'TECHNICAL TRACK', title: 'Intermediate Cleared' },
-  'technical-advanced': { group: 'TECHNICAL TRACK', title: 'Advanced Cleared' },
   productivity: { group: 'PRODUCTIVITY', title: 'Productivity Track' },
+  'general-intermediate': { group: 'GENERAL TRACK', title: 'Intermediate Cleared' },
+  'technical-intermediate': { group: 'TECHNICAL TRACK', title: 'Intermediate Cleared' },
+  'general-advanced': { group: 'GENERAL TRACK', title: 'Advanced Cleared' },
+  'technical-advanced': { group: 'TECHNICAL TRACK', title: 'Advanced Cleared' },
   'general-realm': { group: 'REALM', title: 'General Realm' },
   'technical-realm': { group: 'REALM', title: 'Technical Realm' },
   certified: { group: 'CERTIFICATION', title: 'Certified' },
