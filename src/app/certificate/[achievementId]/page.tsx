@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Home } from 'lucide-react';
 import AiLearningHeader from '../../components/AiLearningHeader';
 import { getMyAchievementCertificate } from '../../actions/progress';
 import { isAchievementId, type AchievementId } from '@/lib/achievements';
@@ -33,10 +33,20 @@ export default async function AchievementCertificatePage({
   const cert = await getMyAchievementCertificate(achievementId);
   const meta = ACHIEVEMENT_CERT_META[achievementId];
 
+  const dashboardButton = (
+    <Link
+      href="/"
+      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-sm font-medium text-[var(--text)] transition-colors hover:bg-[var(--card-2)]"
+    >
+      <Home className="h-4 w-4" />
+      Dashboard
+    </Link>
+  );
+
   if (!cert) {
     return (
       <div className="min-h-screen flex flex-col bg-[var(--bg)] font-sans text-[var(--text)]">
-        <AiLearningHeader />
+        <AiLearningHeader rightExtra={dashboardButton} />
         <main className="flex-1 flex flex-col items-center justify-center px-6 text-center gap-4">
           <p className="text-lg font-semibold text-[var(--text)]">Not earned yet</p>
           <p className="text-[var(--muted)] max-w-sm">
@@ -64,7 +74,7 @@ export default async function AchievementCertificatePage({
         }
       `}</style>
       <div className="cert-chrome">
-        <AiLearningHeader />
+        <AiLearningHeader rightExtra={dashboardButton} />
       </div>
       <main className="flex-1 w-full">
         <CertificateDetailView achievementId={achievementId} recipientName={cert.recipientName} issuedAt={cert.issuedAt} />

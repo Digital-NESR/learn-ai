@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { Home } from 'lucide-react';
 import AiLearningHeader from '../components/AiLearningHeader';
 import { getEffectiveTracks } from '@/lib/content-resolver';
 import { getMyProgress, getMyEarnedCertificates, getMyCertificateStatus } from '../actions/progress';
@@ -107,9 +109,19 @@ export default async function TrophyHallPage() {
   const master = buildTile('dungeon-master');
   const recipientName = earned[0]?.recipientName ?? '';
 
+  const dashboardButton = (
+    <Link
+      href="/"
+      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-sm font-medium text-[var(--text)] transition-colors hover:bg-[var(--card-2)]"
+    >
+      <Home className="h-4 w-4" />
+      Dashboard
+    </Link>
+  );
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)]">
-      <AiLearningHeader />
+      <AiLearningHeader rightExtra={dashboardButton} />
       <main className="flex-1">
         <TrophyHallClient
           tiles={tiles}
