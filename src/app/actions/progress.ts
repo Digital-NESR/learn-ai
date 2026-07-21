@@ -3,8 +3,15 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import aiversePool from '@/lib/db-aiverse';
-import { getEffectiveAllModules } from '@/lib/content-resolver';
+import { getEffectiveAllModules, getEffectiveTracks } from '@/lib/content-resolver';
 import { computeCertificateStatus, type CertificateStatus } from '@/lib/certificate';
+import { computeEarnedAchievements, type AchievementId } from '@/lib/achievements';
+
+export interface EarnedCertificate {
+  achievementId: AchievementId;
+  recipientName: string;
+  issuedAt: string;
+}
 
 export interface ModuleResult {
   score: number;
@@ -70,22 +77,25 @@ export async function recordModuleResult(
     [email, moduleId, score, total, completedAt, keepBestScore],
   );
 
-  const effectiveModules = await getEffectiveAllModules();
+  const [effectiveModules, tracks] = await Promise.all([getEffectiveAllModules(), getEffectiveTracks()]);
   const { rows: completedRows } = await aiversePool.query(
     `select module_id from module_progress where user_email = $1`,
     [email],
   );
-  const completedIds = new Set(completedRows.map(r => r.module_id));
+  const completedIds = new Set<string>(completedRows.map(r => r.module_id));
   const status = computeCertificateStatus(effectiveModules.map(m => m.module), completedIds);
+  const achievements = computeEarnedAchievements(tracks, completedIds, status.earned);
 
   let certificateEarned = false;
-  if (status.earned) {
+  for (const a of achievements) {
+    if (!a.earned) continue;
     const res = await aiversePool.query(
-      `insert into certificates (user_email, recipient_name) values ($1, $2)
-       on conflict (user_email) do nothing`,
-      [email, name],
+      `insert into achievement_certificates (user_email, achievement_id, recipient_name)
+       values ($1, $2, $3)
+       on conflict (user_email, achievement_id) do nothing`,
+      [email, a.id, name],
     );
-    certificateEarned = (res.rowCount ?? 0) > 0;
+    if (a.id === 'certified' && (res.rowCount ?? 0) > 0) certificateEarned = true;
   }
 
   return { certificateEarned };
@@ -106,14 +116,40 @@ export async function getMyCertificateStatus(): Promise<CertificateStatus> {
   return computeCertificateStatus(effectiveModules.map(m => m.module), completedIds);
 }
 
+/** The "Certified" achievement's certificate — same milestone the old
+ * single-certificate flow used to gate on (used by the dashboard's "View
+ * your certificate" chip). */
 export async function getMyCertificate(): Promise<{ recipientName: string; issuedAt: string } | null> {
+  return getMyAchievementCertificate('certified');
+}
+
+export async function getMyAchievementCertificate(
+  achievementId: AchievementId,
+): Promise<{ recipientName: string; issuedAt: string } | null> {
   const session = await getServerSession(authOptions);
   const email = session?.user?.email?.toLowerCase();
   if (!email) return null;
   const { rows } = await aiversePool.query(
-    `select recipient_name, issued_at from certificates where user_email = $1`,
-    [email],
+    `select recipient_name, issued_at from achievement_certificates
+     where user_email = $1 and achievement_id = $2`,
+    [email, achievementId],
   );
   if (!rows.length) return null;
   return { recipientName: rows[0].recipient_name, issuedAt: rows[0].issued_at.toISOString() };
+}
+
+export async function getMyEarnedCertificates(): Promise<EarnedCertificate[]> {
+  const session = await getServerSession(authOptions);
+  const email = session?.user?.email?.toLowerCase();
+  if (!email) return [];
+  const { rows } = await aiversePool.query(
+    `select achievement_id, recipient_name, issued_at from achievement_certificates
+     where user_email = $1 order by issued_at asc`,
+    [email],
+  );
+  return rows.map(r => ({
+    achievementId: r.achievement_id as AchievementId,
+    recipientName: r.recipient_name,
+    issuedAt: r.issued_at.toISOString(),
+  }));
 }

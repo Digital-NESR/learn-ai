@@ -19,10 +19,24 @@ create table if not exists module_progress (
 );
 
 -- One grand certificate per person, issued once every track/module is complete.
+-- Superseded by achievement_certificates below (the 'certified' row there is
+-- the same milestone) - kept as-is, just no longer written to.
 create table if not exists certificates (
   user_email text primary key references users(email) on delete cascade,
   recipient_name text not null,
   issued_at timestamptz not null default now()
+);
+
+-- One row per earned achievement per person (see src/lib/achievements.ts for
+-- the 11 valid achievement_id values, and src/lib/achievement-certificates.ts
+-- for the certificate design each one renders with). Awarded once, in
+-- recordModuleResult, the moment an achievement is first earned.
+create table if not exists achievement_certificates (
+  user_email text not null references users(email) on delete cascade,
+  achievement_id text not null,
+  recipient_name text not null,
+  issued_at timestamptz not null default now(),
+  primary key (user_email, achievement_id)
 );
 
 create table if not exists hackathon_teams (
