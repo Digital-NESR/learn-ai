@@ -1,95 +1,118 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowLeft, ChevronRight } from 'lucide-react';
 import AiLearningHeader from '../components/AiLearningHeader';
-import { getMyEarnedCertificates, getMyCertificateStatus, type EarnedCertificate } from '../actions/progress';
-import { ACHIEVEMENT_CERT_META, TIER_STYLE } from '@/lib/achievement-certificates';
+import { getEffectiveTracks } from '@/lib/content-resolver';
+import { getMyProgress, getMyEarnedCertificates, getMyCertificateStatus } from '../actions/progress';
+import { ACHIEVEMENT_IDS, computeEarnedAchievements, type AchievementId } from '@/lib/achievements';
+import { ACHIEVEMENT_CERT_META } from '@/lib/achievement-certificates';
+import TrophyHallClient, { type TrophyTile } from './TrophyHallClient';
 
-export const metadata: Metadata = { title: 'My Certificates | NESR AI Verse' };
+export const metadata: Metadata = { title: 'The Trophy Hall | NESR AI Verse' };
 export const dynamic = 'force-dynamic';
 
-function CertificateSummaryCard({ cert }: { cert: EarnedCertificate }) {
-  const meta = ACHIEVEMENT_CERT_META[cert.achievementId];
-  const style = TIER_STYLE[meta.tier];
-  const issuedDate = new Date(cert.issuedAt).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-  return (
-    <Link
-      href={`/certificate/${cert.achievementId}`}
-      className="group flex items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-    >
-      <div className="relative h-14 w-14 shrink-0 rounded-full" style={{ background: style.ringGrad }}>
-        <div
-          className="absolute inset-[3px] flex items-center justify-center rounded-full"
-          style={{ background: style.medalBg }}
-        >
-          <span className="text-[10px] leading-none" style={{ color: style.accent }}>
-            {style.pips}
-          </span>
-        </div>
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: style.accent }}>
-          {meta.tierName}
-        </p>
-        <h3 className="truncate text-sm font-semibold text-[var(--text)]">{meta.heading}</h3>
-        <p className="text-xs text-[var(--muted)]">Issued {issuedDate}</p>
-      </div>
-      <ChevronRight className="h-4 w-4 shrink-0 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
-    </Link>
-  );
+/** Which achievements gate one another, in order — used to pick the single
+ * "up next" tile per chain, and to explain why a locked tile is locked. */
+const TRACK_CHAINS: AchievementId[][] = [
+  ['general-beginner', 'general-intermediate', 'general-advanced'],
+  ['technical-beginner', 'technical-intermediate', 'technical-advanced'],
+  ['productivity'],
+];
+
+const TILE_META: Record<AchievementId, { group: string; title: string }> = {
+  'general-beginner': { group: 'GENERAL TRACK', title: 'Beginner Cleared' },
+  'general-intermediate': { group: 'GENERAL TRACK', title: 'Intermediate Cleared' },
+  'general-advanced': { group: 'GENERAL TRACK', title: 'Advanced Cleared' },
+  'technical-beginner': { group: 'TECHNICAL TRACK', title: 'Beginner Cleared' },
+  'technical-intermediate': { group: 'TECHNICAL TRACK', title: 'Intermediate Cleared' },
+  'technical-advanced': { group: 'TECHNICAL TRACK', title: 'Advanced Cleared' },
+  productivity: { group: 'PRODUCTIVITY', title: 'Productivity Track' },
+  'general-realm': { group: 'REALM', title: 'General Realm' },
+  'technical-realm': { group: 'REALM', title: 'Technical Realm' },
+  certified: { group: 'CERTIFICATION', title: 'Certified' },
+  'dungeon-master': { group: 'FINAL HONOUR', title: 'Dungeon Master' },
+};
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
-export default async function CertificateGalleryPage() {
-  const [certs, status] = await Promise.all([getMyEarnedCertificates(), getMyCertificateStatus()]);
+export default async function TrophyHallPage() {
+  const [tracks, progress, earned, status] = await Promise.all([
+    getEffectiveTracks(),
+    getMyProgress(),
+    getMyEarnedCertificates(),
+    getMyCertificateStatus(),
+  ]);
 
-  if (certs.length === 0) {
-    return (
-      <div className="min-h-screen flex flex-col bg-[var(--bg)] font-sans text-[var(--text)]">
-        <AiLearningHeader />
-        <main className="flex-1 flex flex-col items-center justify-center px-6 text-center gap-4">
-          <p className="text-lg font-semibold text-[var(--text)]">No certificates yet</p>
-          <p className="text-[var(--muted)] max-w-sm">
-            Clear a track, conquer a realm, or meet the certificate requirements below to earn your first one.
-          </p>
-          <div className="flex flex-col gap-1 text-sm text-[var(--muted)]">
-            <span>Required: {status.required.done} / {status.required.total}</span>
-            <span>Important: {status.half.done} / {status.half.needed} needed (of {status.half.total})</span>
-            <span>Specialized: {status.optional.done} / {status.optional.needed} needed (of {status.optional.total})</span>
-          </div>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--brand)] hover:underline"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to the courses
-          </Link>
-        </main>
-      </div>
-    );
+  const completedIds = new Set(Object.keys(progress));
+  const earnedByAchievement = new Map(earned.map(c => [c.achievementId, c] as const));
+  const results = computeEarnedAchievements(tracks, completedIds, status.earned);
+  const earnedIds = new Set(results.filter(a => a.earned).map(a => a.id));
+
+  // The first not-yet-earned id in each chain is the one worth highlighting.
+  const nextIds = new Set<AchievementId>();
+  for (const chain of TRACK_CHAINS) {
+    for (const id of chain) {
+      if (!earnedIds.has(id)) {
+        nextIds.add(id);
+        break;
+      }
+    }
   }
 
+  function requirementFor(id: AchievementId): string {
+    const track = tracks.find(t => t.id === id);
+    if (track) {
+      if (nextIds.has(id)) {
+        const remaining = track.modules.length - track.modules.filter(m => completedIds.has(m.id)).length;
+        return `Finish the remaining ${remaining} part${remaining === 1 ? '' : 's'} of ${track.title} to claim this tier.`;
+      }
+      const chain = TRACK_CHAINS.find(c => c.includes(id))!;
+      const prevId = chain[chain.indexOf(id) - 1];
+      return `Clear the ${ACHIEVEMENT_CERT_META[prevId].tierName} tier first.`;
+    }
+    if (id === 'general-realm') return 'Earn all three General Track tiers to conquer the realm.';
+    if (id === 'technical-realm') return 'Earn all three Technical Track tiers to conquer the realm.';
+    if (id === 'certified') {
+      return `Complete every Required part, at least half of Important, and ${status.optional.needed} of Specialized to get certified.`;
+    }
+    return 'Earn every one of the ten honours above to attain 100% completion of the NESR AI Verse — the highest rank we bestow.';
+  }
+
+  function buildTile(id: AchievementId): TrophyTile {
+    const meta = ACHIEVEMENT_CERT_META[id];
+    const cert = earnedByAchievement.get(id);
+    const isEarned = earnedIds.has(id);
+    return {
+      id,
+      group: TILE_META[id].group,
+      title: TILE_META[id].title,
+      tier: meta.tier,
+      tierName: meta.tierName,
+      description: meta.description,
+      earned: isEarned,
+      next: !isEarned && nextIds.has(id),
+      date: cert ? formatDate(cert.issuedAt) : undefined,
+      issuedAt: cert?.issuedAt,
+      requirement: isEarned ? undefined : requirementFor(id),
+    };
+  }
+
+  const tileIds = ACHIEVEMENT_IDS.filter(id => id !== 'dungeon-master');
+  const tiles = tileIds.map(buildTile);
+  const master = buildTile('dungeon-master');
+  const recipientName = earned[0]?.recipientName ?? '';
+
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--bg)] font-sans text-[var(--text)]">
+    <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)]">
       <AiLearningHeader />
-      <main className="flex-1 w-full">
-        <div className="mx-auto max-w-3xl px-6 py-10 lg:px-8">
-          <div className="mb-6 flex flex-col gap-1">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--muted)]">NESR AI Verse</p>
-            <h1 className="text-2xl font-bold leading-tight text-[var(--text)]">Your certificates</h1>
-            <p className="text-sm text-[var(--muted)]">
-              {certs.length} earned so far — click one to view and print it.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            {certs.map(c => (
-              <CertificateSummaryCard key={c.achievementId} cert={c} />
-            ))}
-          </div>
-        </div>
+      <main className="flex-1">
+        <TrophyHallClient
+          tiles={tiles}
+          master={master}
+          earnedCount={earnedIds.size}
+          total={ACHIEVEMENT_IDS.length}
+          recipientName={recipientName}
+        />
       </main>
     </div>
   );
