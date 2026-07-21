@@ -22,11 +22,13 @@ import {
 import type { Track, TrackId } from './content';
 import type { ProgressMap } from './actions/progress';
 import type { CertificateStatus, RequirementBucket } from '@/lib/certificate';
+import type { Leaderboards as LeaderboardsData } from './actions/leaderboards';
 import { computeEarnedAchievements } from '@/lib/achievements';
 import AiLearningHeader from './components/AiLearningHeader';
 import RegionCard from './components/dungeon/RegionCard';
 import IslandNode from './components/dungeon/IslandNode';
 import AchievementsMenu, { type Achievement } from './components/dungeon/AchievementsMenu';
+import Leaderboards from './components/dashboard/Leaderboards';
 
 /* ─── Animated neural-network hero overlay ───────────────────────────── */
 
@@ -116,12 +118,14 @@ export default function AiLearningHomeClient({
   initialProgress,
   certificate,
   certificateStatus,
+  leaderboards,
 }: {
   tracks: Track[];
   totalModules: number;
   initialProgress: ProgressMap;
   certificate: { recipientName: string; issuedAt: string } | null;
   certificateStatus: CertificateStatus;
+  leaderboards: LeaderboardsData;
 }) {
   const router = useRouter();
   const [progress] = useState<ProgressMap>(initialProgress);
@@ -162,8 +166,9 @@ export default function AiLearningHomeClient({
       <AiLearningHeader rightExtra={headerRight} />
 
       {view.kind === 'dashboard' && (
-        /* ── Hero (always-dark animated banner) — the whole dashboard now ── */
-        <section className="relative flex-1 overflow-hidden bg-[#070b09] text-white">
+        <>
+        {/* ── Hero (always-dark animated banner) ── */}
+        <section className="relative overflow-hidden bg-[#070b09] text-white">
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[#307c4c]/40 blur-3xl animate-aurora" />
             <div
@@ -248,6 +253,11 @@ export default function AiLearningHomeClient({
             </button>
           </div>
         </section>
+
+        <main className="flex-1">
+          <Leaderboards data={leaderboards} />
+        </main>
+        </>
       )}
 
       {view.kind === 'regions' && (
