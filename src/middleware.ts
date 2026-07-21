@@ -26,7 +26,10 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    // Protect everything except Next internals and the logo asset.
-    '/((?!_next/static|_next/image|favicon.ico|nesr-logo-circle.png).*)',
+    // Protect everything except Next internals, the logo, and the hackathon
+    // prep-guide downloads (meant to be grabbed via a plain <a download> link,
+    // which shouldn't ever bounce through /login if a session token is momentarily
+    // missing for that request).
+    '/((?!_next/static|_next/image|favicon.ico|nesr-logo-circle.png|hackathon-slide-deck.pdf|hackathon-rules-and-tools.pdf).*)',
   ],
 };
