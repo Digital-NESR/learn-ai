@@ -74,19 +74,8 @@ function AchievementRows({ achievements, onNavigate }: { achievements: Achieveme
   );
 }
 
-/**
- * "pinned" - a normal, always-visible in-flow sidebar (used on the dungeon's
- * region-select page, so progress is visible without an extra click).
- * "drawer" (default) - a header trigger that slides in a full-height panel,
- * used on the gate/path pages where screen space is tighter.
- */
-export default function AchievementsMenu({
-  achievements,
-  variant = 'drawer',
-}: {
-  achievements: Achievement[];
-  variant?: 'drawer' | 'pinned';
-}) {
+/** A header trigger that slides in a full-height achievements panel. */
+export default function AchievementsMenu({ achievements }: { achievements: Achievement[] }) {
   const [open, setOpen] = useState(false);
   // The drawer/backdrop are portaled to <body> (see below) - an ancestor with
   // backdrop-filter/transform (the sticky header's backdrop-blur, in this
@@ -98,25 +87,13 @@ export default function AchievementsMenu({
   const earnedCount = achievements.filter(a => a.earned).length;
 
   useEffect(() => {
-    if (variant !== 'drawer' || !open) return;
+    if (!open) return;
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') setOpen(false);
     }
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [variant, open]);
-
-  if (variant === 'pinned') {
-    return (
-      <aside className="flex h-fit flex-col rounded-2xl border border-[var(--border)] bg-[var(--card)]">
-        <div className="flex items-center gap-3 border-b border-[var(--border)] px-5 py-4">
-          <Trophy className="h-5 w-5 shrink-0 text-amber-500" />
-          <AchievementsProgress earned={earnedCount} total={achievements.length} />
-        </div>
-        <AchievementRows achievements={achievements} />
-      </aside>
-    );
-  }
+  }, [open]);
 
   return (
     <>

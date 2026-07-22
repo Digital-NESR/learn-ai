@@ -3,32 +3,19 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import {
-  ArrowLeft,
-  Award,
-  BookOpen,
-  CheckCircle2,
-  Circle,
-  Cpu,
-  FlaskConical,
-  Home,
-  Layers,
-  Network,
-  Rocket,
-  Sparkles,
-  Swords,
-  Wand2,
-} from 'lucide-react';
+import { ArrowLeft, Award, BookOpen, CheckCircle2, Circle, Home, Sparkles, Swords } from 'lucide-react';
 import type { Track, TrackId } from './content';
 import type { ProgressMap } from './actions/progress';
 import type { CertificateStatus, RequirementBucket } from '@/lib/certificate';
 import type { Leaderboards as LeaderboardsData } from './actions/leaderboards';
 import { computeEarnedAchievements } from '@/lib/achievements';
+import { ACHIEVEMENT_CERT_META, type CertTier } from '@/lib/achievement-certificates';
 import AiLearningHeader from './components/AiLearningHeader';
-import RegionCard from './components/dungeon/RegionCard';
+import RealmGate from './components/dungeon/RealmGate';
 import IslandNode from './components/dungeon/IslandNode';
 import AchievementsMenu, { type Achievement } from './components/dungeon/AchievementsMenu';
 import Leaderboards from './components/dashboard/Leaderboards';
+import { certificateFontVars } from './certificate/fonts';
 
 /* ─── Animated neural-network hero overlay ───────────────────────────── */
 
@@ -75,17 +62,46 @@ function NeuralNet() {
   );
 }
 
-/* ─── Icons per track ──────────────────────────────────────────────────── */
+/* ─── Dungeon Gates hall (the 'regions' view) ───────────────────────────
+   Reproduces "Realm Select.dc.html" from the shared Claude Design project -
+   do not restyle without updating the design project too. ── */
 
-const TRACK_ICON: Record<TrackId, typeof BookOpen> = {
-  'general-beginner': BookOpen,
-  'general-intermediate': Layers,
-  'general-advanced': Rocket,
-  'technical-beginner': Cpu,
-  'technical-intermediate': Network,
-  'technical-advanced': FlaskConical,
-  productivity: Wand2,
+const GATE_FAMILY_GLOW: Record<'general' | 'technical' | 'productivity', string> = {
+  general: '#34d399',
+  technical: '#f0705f',
+  productivity: '#5aa2f5',
 };
+const GATE_TIER_ACCENT: Record<CertTier, string> = {
+  bronze: '#E7B673',
+  silver: '#CBD2DC',
+  gold: '#EAD08A',
+  realm: '#EAD08A',
+  certified: '#EAD08A',
+  master: '#EAD08A',
+};
+const GATE_TIER_DEPTH: Partial<Record<CertTier, string>> = { bronze: 'I', silver: 'II', gold: 'III' };
+const GATE_TIER_LABEL: Partial<Record<TrackId, string>> = { productivity: 'Business Track' };
+
+// Display order: general (I/II/III) + productivity, then technical (I/II/III) - matches the design.
+const GATE_ORDER: TrackId[] = [
+  'general-beginner',
+  'general-intermediate',
+  'general-advanced',
+  'productivity',
+  'technical-beginner',
+  'technical-intermediate',
+  'technical-advanced',
+];
+
+function gateFamily(id: TrackId): 'general' | 'technical' | 'productivity' {
+  if (id.startsWith('general-')) return 'general';
+  if (id.startsWith('technical-')) return 'technical';
+  return 'productivity';
+}
+
+function gateTierLabel(t: Track): string {
+  return GATE_TIER_LABEL[t.id] ?? t.eyebrow.split('·')[1]?.trim() ?? t.eyebrow;
+}
 
 /* ─── Certificate requirement chip (hero progress readout) ─────────────── */
 
@@ -135,8 +151,6 @@ export default function AiLearningHomeClient({
     router.push(href);
   }
 
-  const completedCount = tracks.reduce((n, t) => n + t.modules.filter(m => progress[m.id]).length, 0);
-
   // Single source of truth shared with the server-side awarding logic in
   // recordModuleResult (src/app/actions/progress.ts) — see src/lib/achievements.ts.
   const completedIds = new Set(Object.keys(progress));
@@ -145,6 +159,9 @@ export default function AiLearningHomeClient({
   );
 
   const selectedTrack = view.kind === 'path' ? (tracks.find(t => t.id === view.trackId) ?? null) : null;
+
+  const gateTracks = GATE_ORDER.map(id => tracks.find(t => t.id === id)).filter((t): t is Track => !!t);
+  const clearedRealms = gateTracks.filter(t => t.modules.length > 0 && t.modules.every(m => progress[m.id])).length;
 
   const headerRight = (
     <div className="flex items-center gap-2">
@@ -157,7 +174,7 @@ export default function AiLearningHomeClient({
           Dashboard
         </button>
       )}
-      {view.kind !== 'dashboard' && view.kind !== 'regions' && <AchievementsMenu achievements={achievements} />}
+      {view.kind !== 'dashboard' && <AchievementsMenu achievements={achievements} />}
     </div>
   );
 
@@ -262,37 +279,96 @@ export default function AiLearningHomeClient({
 
       {view.kind === 'regions' && (
         <main className="flex-1">
-          <div className="mx-auto max-w-6xl px-6 py-10 lg:px-8">
-            <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-              <div>
-                <div className="mb-8 flex flex-col gap-1">
-                  <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--muted)]">
-                    The Dungeon Map
+          <div className="mx-auto max-w-[1200px] px-6 py-10 lg:px-8">
+            <div
+              className={`${certificateFontVars} relative overflow-hidden rounded-3xl px-6 py-12 sm:px-10`}
+                style={{
+                  background:
+                    'radial-gradient(125% 85% at 50% -8%, #3a3841 0%, #211f27 42%, #131218 72%, #0b0a0e 100%)',
+                }}
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-50"
+                  style={{
+                    backgroundImage:
+                      'repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 30px,rgba(0,0,0,.22) 30px 32px),repeating-linear-gradient(90deg,transparent 0 72px,rgba(0,0,0,.24) 72px 74px)',
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background: 'radial-gradient(65% 42% at 50% 0%, rgba(234,208,138,.10), transparent 70%)',
+                  }}
+                />
+
+                <div className="relative flex flex-col items-center text-center">
+                  <p
+                    className="text-[13px] tracking-[.42em] text-[#C9A24B]"
+                    style={{ fontFamily: 'var(--font-cinzel), serif' }}
+                  >
+                    NESR AI VERSE
                   </p>
-                  <h1 className="text-2xl font-bold leading-tight text-[var(--text)]">Choose a realm</h1>
-                  <p className="text-sm text-[var(--muted)]">
-                    {completedCount} of {totalModules} islands cleared across all realms.
+                  <h1
+                    className="mt-2 text-3xl font-bold tracking-wide text-[#F4F1EA] sm:text-4xl"
+                    style={{ fontFamily: 'var(--font-cinzel), serif' }}
+                  >
+                    The Dungeon Gates
+                  </h1>
+                  <p
+                    className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#B4AC9C]"
+                    style={{ fontFamily: 'var(--font-eb-garamond), serif' }}
+                  >
+                    Seven realms of learning stand open, and the Trophy Room lies beyond. Step through whichever
+                    gate you please — no set path, no locked doors.
                   </p>
+
+                  <div className="mt-6 flex items-center gap-3.5 rounded-full border border-[#C9A24B4d] bg-white/[0.04] px-5 py-2 backdrop-blur">
+                    <span
+                      className="text-[11px] tracking-[.18em] text-[#C9A24B]"
+                      style={{ fontFamily: 'var(--font-cinzel), serif' }}
+                    >
+                      REALMS CLEARED
+                    </span>
+                    <span className="h-4 w-px bg-[#C9A24B66]" />
+                    <span className="text-lg text-[#F4F1EA]" style={{ fontFamily: 'var(--font-cormorant-garamond), serif' }}>
+                      <b className="text-[#EAD08A]">{clearedRealms}</b> / {gateTracks.length}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {tracks.map(track => (
-                    <RegionCard
-                      key={track.id}
-                      track={track}
-                      icon={TRACK_ICON[track.id]}
-                      completed={track.modules.filter(m => progress[m.id]).length}
-                      onSelect={() => setView({ kind: 'path', trackId: track.id })}
-                    />
-                  ))}
+                <div className="relative mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+                  {gateTracks.map(track => {
+                    const tier = ACHIEVEMENT_CERT_META[track.id].tier;
+                    const completed = track.modules.filter(m => progress[m.id]).length;
+                    return (
+                      <RealmGate
+                        key={track.id}
+                        trackLabel={gateFamily(track.id).toUpperCase()}
+                        title={track.title}
+                        tierLabel={gateTierLabel(track)}
+                        glow={GATE_FAMILY_GLOW[gateFamily(track.id)]}
+                        accent={GATE_TIER_ACCENT[tier]}
+                        depth={GATE_TIER_DEPTH[tier]}
+                        progressLabel={`${completed} / ${track.modules.length}`}
+                        cta="ENTER"
+                        onSelect={() => setView({ kind: 'path', trackId: track.id })}
+                      />
+                    );
+                  })}
+                  <RealmGate
+                    trackLabel="YOUR HONOURS"
+                    title="Trophy Room"
+                    tierLabel="Every certificate earned"
+                    glow="#EAD08A"
+                    accent="#EAD08A"
+                    cta="OPEN"
+                    isTrophy
+                    onSelect={() => open('/certificate')}
+                  />
                 </div>
               </div>
-
-              {/* Always visible here — this is the dungeon's main/landing page,
-                  so progress toward every achievement should be in view without
-                  an extra click. */}
-              <AchievementsMenu achievements={achievements} variant="pinned" />
-            </div>
           </div>
         </main>
       )}
