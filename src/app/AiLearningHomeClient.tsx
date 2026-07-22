@@ -278,97 +278,92 @@ export default function AiLearningHomeClient({
       )}
 
       {view.kind === 'regions' && (
-        <main className="flex-1">
-          <div className="mx-auto max-w-[1200px] px-6 py-10 lg:px-8">
-            <div
-              className={`${certificateFontVars} relative overflow-hidden rounded-3xl px-6 py-12 sm:px-10`}
-                style={{
-                  background:
-                    'radial-gradient(125% 85% at 50% -8%, #3a3841 0%, #211f27 42%, #131218 72%, #0b0a0e 100%)',
-                }}
+        <main
+          className={`${certificateFontVars} relative flex flex-1 flex-col overflow-hidden`}
+          style={{
+            background: 'radial-gradient(125% 85% at 50% -8%, #3a3841 0%, #211f27 42%, #131218 72%, #0b0a0e 100%)',
+          }}
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-50"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 30px,rgba(0,0,0,.22) 30px 32px),repeating-linear-gradient(90deg,transparent 0 72px,rgba(0,0,0,.24) 72px 74px)',
+            }}
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{ background: 'radial-gradient(65% 42% at 50% 0%, rgba(234,208,138,.10), transparent 70%)' }}
+          />
+
+          <div className="relative mx-auto flex w-full max-w-[1200px] flex-1 flex-col justify-center px-6 py-14 sm:px-10 lg:px-8">
+            <div className="flex flex-col items-center text-center">
+              <p
+                className="text-[13px] tracking-[.42em] text-[#C9A24B]"
+                style={{ fontFamily: 'var(--font-cinzel), serif' }}
               >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-50"
-                  style={{
-                    backgroundImage:
-                      'repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 30px,rgba(0,0,0,.22) 30px 32px),repeating-linear-gradient(90deg,transparent 0 72px,rgba(0,0,0,.24) 72px 74px)',
-                  }}
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background: 'radial-gradient(65% 42% at 50% 0%, rgba(234,208,138,.10), transparent 70%)',
-                  }}
-                />
+                NESR AI VERSE
+              </p>
+              <h1
+                className="mt-2 text-3xl font-bold tracking-wide text-[#F4F1EA] sm:text-4xl"
+                style={{ fontFamily: 'var(--font-cinzel), serif' }}
+              >
+                The Dungeon Gates
+              </h1>
+              <p
+                className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#B4AC9C]"
+                style={{ fontFamily: 'var(--font-eb-garamond), serif' }}
+              >
+                Seven realms of learning stand open, and the Trophy Room lies beyond. Step through whichever gate
+                you please — no set path, no locked doors.
+              </p>
 
-                <div className="relative flex flex-col items-center text-center">
-                  <p
-                    className="text-[13px] tracking-[.42em] text-[#C9A24B]"
-                    style={{ fontFamily: 'var(--font-cinzel), serif' }}
-                  >
-                    NESR AI VERSE
-                  </p>
-                  <h1
-                    className="mt-2 text-3xl font-bold tracking-wide text-[#F4F1EA] sm:text-4xl"
-                    style={{ fontFamily: 'var(--font-cinzel), serif' }}
-                  >
-                    The Dungeon Gates
-                  </h1>
-                  <p
-                    className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#B4AC9C]"
-                    style={{ fontFamily: 'var(--font-eb-garamond), serif' }}
-                  >
-                    Seven realms of learning stand open, and the Trophy Room lies beyond. Step through whichever
-                    gate you please — no set path, no locked doors.
-                  </p>
-
-                  <div className="mt-6 flex items-center gap-3.5 rounded-full border border-[#C9A24B4d] bg-white/[0.04] px-5 py-2 backdrop-blur">
-                    <span
-                      className="text-[11px] tracking-[.18em] text-[#C9A24B]"
-                      style={{ fontFamily: 'var(--font-cinzel), serif' }}
-                    >
-                      REALMS CLEARED
-                    </span>
-                    <span className="h-4 w-px bg-[#C9A24B66]" />
-                    <span className="text-lg text-[#F4F1EA]" style={{ fontFamily: 'var(--font-cormorant-garamond), serif' }}>
-                      <b className="text-[#EAD08A]">{clearedRealms}</b> / {gateTracks.length}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="relative mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
-                  {gateTracks.map(track => {
-                    const tier = ACHIEVEMENT_CERT_META[track.id].tier;
-                    const completed = track.modules.filter(m => progress[m.id]).length;
-                    return (
-                      <RealmGate
-                        key={track.id}
-                        trackLabel={gateFamily(track.id).toUpperCase()}
-                        title={track.title}
-                        tierLabel={gateTierLabel(track)}
-                        glow={GATE_FAMILY_GLOW[gateFamily(track.id)]}
-                        accent={GATE_TIER_ACCENT[tier]}
-                        depth={GATE_TIER_DEPTH[tier]}
-                        progressLabel={`${completed} / ${track.modules.length}`}
-                        cta="ENTER"
-                        onSelect={() => setView({ kind: 'path', trackId: track.id })}
-                      />
-                    );
-                  })}
-                  <RealmGate
-                    trackLabel="YOUR HONOURS"
-                    title="Trophy Room"
-                    tierLabel="Every certificate earned"
-                    glow="#EAD08A"
-                    accent="#EAD08A"
-                    cta="OPEN"
-                    isTrophy
-                    onSelect={() => open('/certificate')}
-                  />
-                </div>
+              <div className="mt-6 flex items-center gap-3.5 rounded-full border border-[#C9A24B4d] bg-white/[0.04] px-5 py-2 backdrop-blur">
+                <span
+                  className="text-[11px] tracking-[.18em] text-[#C9A24B]"
+                  style={{ fontFamily: 'var(--font-cinzel), serif' }}
+                >
+                  REALMS CLEARED
+                </span>
+                <span className="h-4 w-px bg-[#C9A24B66]" />
+                <span className="text-lg text-[#F4F1EA]" style={{ fontFamily: 'var(--font-cormorant-garamond), serif' }}>
+                  <b className="text-[#EAD08A]">{clearedRealms}</b> / {gateTracks.length}
+                </span>
               </div>
+            </div>
+
+            <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+              {gateTracks.map(track => {
+                const tier = ACHIEVEMENT_CERT_META[track.id].tier;
+                const completed = track.modules.filter(m => progress[m.id]).length;
+                return (
+                  <RealmGate
+                    key={track.id}
+                    trackLabel={gateFamily(track.id).toUpperCase()}
+                    title={track.title}
+                    tierLabel={gateTierLabel(track)}
+                    glow={GATE_FAMILY_GLOW[gateFamily(track.id)]}
+                    accent={GATE_TIER_ACCENT[tier]}
+                    depth={GATE_TIER_DEPTH[tier]}
+                    progressLabel={`${completed} / ${track.modules.length}`}
+                    cta="ENTER"
+                    onSelect={() => setView({ kind: 'path', trackId: track.id })}
+                  />
+                );
+              })}
+              <RealmGate
+                trackLabel="YOUR HONOURS"
+                title="Trophy Room"
+                tierLabel="Every certificate earned"
+                glow="#EAD08A"
+                accent="#EAD08A"
+                cta="OPEN"
+                isTrophy
+                onSelect={() => open('/certificate')}
+              />
+            </div>
           </div>
         </main>
       )}
