@@ -15,7 +15,7 @@ interface Message {
 
 const GREETING: Message = {
   role: 'assistant',
-  content: "Hi! I'm the AI Verse assistant. Ask me anything about AI or the courses.",
+  content: "Hi! I'm Saphira, the AI Verse assistant. Ask me anything about AI or the courses.",
 };
 
 /** Compact Markdown rendering for chat bubbles - no typography plugin, just
@@ -57,6 +57,7 @@ export default function AiChat() {
   const pathname = usePathname();
   const { hidden } = useChatVisibility();
   const [open, setOpen] = useState(false);
+  const [showBubble, setShowBubble] = useState(true);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([GREETING]);
   const [loading, setLoading] = useState(false);
@@ -135,13 +136,30 @@ export default function AiChat() {
       {/* Floating trigger - also opened via the "AI Verse Assistant" card /
           prompt chips (aiverse:open-chat custom event). */}
       {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          aria-label="Open AI Verse Assistant"
-          className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-lg transition-transform hover:scale-105 hover:bg-[#276041]"
-        >
-          <Sparkles className="h-6 w-6" />
-        </button>
+        <>
+          {showBubble && (
+            <div className="animate-fade-up fixed bottom-9 right-24 z-50 max-w-[200px] rounded-2xl rounded-br-sm border border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-sm text-[var(--text)] shadow-lg relative">
+              <button
+                onClick={() => setShowBubble(false)}
+                aria-label="Dismiss"
+                className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--card)] text-[var(--muted)] shadow-sm hover:text-[var(--text)]"
+              >
+                <X className="h-3 w-3" />
+              </button>
+              Hi, I&apos;m Saphira 👋 Ask me anything about AI or the courses!
+            </div>
+          )}
+          <button
+            onClick={() => {
+              setOpen(true);
+              setShowBubble(false);
+            }}
+            aria-label="Open AI Verse Assistant"
+            className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-lg transition-transform hover:scale-105 hover:bg-[#276041]"
+          >
+            <Sparkles className="h-6 w-6" />
+          </button>
+        </>
       )}
 
       {/* Panel */}
@@ -152,7 +170,7 @@ export default function AiChat() {
             <div className="flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
               <div className="leading-tight">
-                <p className="text-sm font-semibold">AI Verse Assistant</p>
+                <p className="text-sm font-semibold">Saphira</p>
                 <p className="text-[11px] text-white/70">Ask about AI &amp; the courses</p>
               </div>
             </div>

@@ -35,7 +35,7 @@ export default function LoginForm({
         />
       </div>
 
-      <p className="relative z-10 mt-3 shrink-0 text-center text-xs text-white/50">NESR Digital Supply Chain</p>
+      <p className="relative z-10 mt-3 shrink-0 text-center text-xs text-white/50">NESR Digital</p>
 
       {/* Masks the underlying page navigation once the ship is mid-launch. */}
       <div

@@ -1,6 +1,12 @@
 // Deterministic pseudo-random positions (no Math.random()/Date.now() at
 // render time) so server and client output match exactly and React never
 // warns about a hydration mismatch.
+//
+// Stars are excluded from a central "safe zone" where the ship + login panel
+// sit — a twinkling dot behind the headline/button text reads as a flashing
+// artifact and hurts contrast there, so keep the whole starfield in the margins.
+const SAFE_ZONE = { xMin: 12, xMax: 88, yMin: 8, yMax: 95 };
+
 function seededStars(count: number) {
   const stars: { x: number; y: number; r: number; delay: number }[] = [];
   let seed = 42;
@@ -8,13 +14,13 @@ function seededStars(count: number) {
     seed = (seed * 9301 + 49297) % 233280;
     return seed / 233280;
   };
-  for (let i = 0; i < count; i++) {
-    stars.push({
-      x: next() * 100,
-      y: next() * 100,
-      r: 0.4 + next() * 1.1,
-      delay: next() * 4,
-    });
+  while (stars.length < count) {
+    const x = next() * 100;
+    const y = next() * 100;
+    const r = 0.4 + next() * 1.1;
+    const delay = next() * 4;
+    if (x >= SAFE_ZONE.xMin && x <= SAFE_ZONE.xMax && y >= SAFE_ZONE.yMin && y <= SAFE_ZONE.yMax) continue;
+    stars.push({ x, y, r, delay });
   }
   return stars;
 }

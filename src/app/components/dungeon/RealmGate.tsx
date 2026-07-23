@@ -29,7 +29,9 @@ export interface RealmGateProps {
   progressLabel?: string;
   cta: string;
   isTrophy?: boolean;
-  /** Gate is greyed out, unclickable, and reads "UNDER CONSTRUCTION" instead of progress/CTA. */
+  /** Reads "UNDER CONSTRUCTION" / "SOON" instead of progress/CTA - shown to everyone regardless of `locked`. */
+  underConstruction?: boolean;
+  /** Gate is greyed out and unclickable (non-admins on an under-construction track). */
   locked?: boolean;
   onSelect: () => void;
 }
@@ -47,6 +49,7 @@ export default function RealmGate({
   progressLabel,
   cta,
   isTrophy,
+  underConstruction,
   locked,
   onSelect,
 }: RealmGateProps) {
@@ -116,7 +119,7 @@ export default function RealmGate({
                 className="absolute inset-x-0 bottom-2.5 text-center text-[9px] font-bold tracking-[.16em]"
                 style={{ color: accent }}
               >
-                {locked ? 'UNDER CONSTRUCTION' : progressLabel}
+                {underConstruction ? 'UNDER CONSTRUCTION' : progressLabel}
               </div>
             </>
           )}
@@ -172,7 +175,7 @@ export default function RealmGate({
         >
           {tierLabel}
         </div>
-        {locked ? (
+        {underConstruction && locked ? (
           <div className="mt-2.5 text-[10px] font-bold tracking-[.14em] text-[#9c968a]">SOON</div>
         ) : (
           <div

@@ -135,6 +135,7 @@ export default function AiLearningHomeClient({
   certificate,
   certificateStatus,
   leaderboards,
+  isAdmin,
 }: {
   tracks: Track[];
   totalModules: number;
@@ -142,6 +143,7 @@ export default function AiLearningHomeClient({
   certificate: { recipientName: string; issuedAt: string } | null;
   certificateStatus: CertificateStatus;
   leaderboards: LeaderboardsData;
+  isAdmin: boolean;
 }) {
   const router = useRouter();
   const [progress] = useState<ProgressMap>(initialProgress);
@@ -349,7 +351,8 @@ export default function AiLearningHomeClient({
                     depth={GATE_TIER_DEPTH[tier]}
                     progressLabel={`${completed} / ${track.modules.length}`}
                     cta="ENTER"
-                    locked={track.id === 'productivity'}
+                    underConstruction={track.id === 'productivity'}
+                    locked={track.id === 'productivity' && !isAdmin}
                     onSelect={() => setView({ kind: 'path', trackId: track.id })}
                   />
                 );
