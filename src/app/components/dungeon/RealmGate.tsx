@@ -29,6 +29,8 @@ export interface RealmGateProps {
   progressLabel?: string;
   cta: string;
   isTrophy?: boolean;
+  /** Gate is greyed out, unclickable, and reads "UNDER CONSTRUCTION" instead of progress/CTA. */
+  locked?: boolean;
   onSelect: () => void;
 }
 
@@ -45,6 +47,7 @@ export default function RealmGate({
   progressLabel,
   cta,
   isTrophy,
+  locked,
   onSelect,
 }: RealmGateProps) {
   const frameTop = isTrophy ? '#6b5f3f' : '#5a5661';
@@ -52,8 +55,13 @@ export default function RealmGate({
 
   return (
     <button
-      onClick={onSelect}
-      className="group relative flex w-full flex-col items-center text-left transition-transform duration-200 hover:-translate-y-[7px]"
+      onClick={locked ? undefined : onSelect}
+      disabled={locked}
+      aria-disabled={locked}
+      className={`group relative flex w-full flex-col items-center text-left transition-transform duration-200 ${
+        locked ? 'cursor-not-allowed grayscale' : 'hover:-translate-y-[7px]'
+      }`}
+      style={locked ? { opacity: 0.55 } : undefined}
     >
       <span className="animate-torch-flicker-a" style={{ ...FLAME_BASE, left: -16 }} aria-hidden />
       <span className="animate-torch-flicker-b" style={{ ...FLAME_BASE, right: -16 }} aria-hidden />
@@ -108,7 +116,7 @@ export default function RealmGate({
                 className="absolute inset-x-0 bottom-2.5 text-center text-[9px] font-bold tracking-[.16em]"
                 style={{ color: accent }}
               >
-                {progressLabel}
+                {locked ? 'UNDER CONSTRUCTION' : progressLabel}
               </div>
             </>
           )}
@@ -164,12 +172,16 @@ export default function RealmGate({
         >
           {tierLabel}
         </div>
-        <div
-          className="mt-2.5 translate-y-1.5 text-[10px] font-bold tracking-[.14em] opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100"
-          style={{ color: accent }}
-        >
-          {cta} →
-        </div>
+        {locked ? (
+          <div className="mt-2.5 text-[10px] font-bold tracking-[.14em] text-[#9c968a]">SOON</div>
+        ) : (
+          <div
+            className="mt-2.5 translate-y-1.5 text-[10px] font-bold tracking-[.14em] opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100"
+            style={{ color: accent }}
+          >
+            {cta} →
+          </div>
+        )}
       </div>
     </button>
   );

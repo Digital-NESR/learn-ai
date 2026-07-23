@@ -349,6 +349,7 @@ export default function AiLearningHomeClient({
                     depth={GATE_TIER_DEPTH[tier]}
                     progressLabel={`${completed} / ${track.modules.length}`}
                     cta="ENTER"
+                    locked={track.id === 'productivity'}
                     onSelect={() => setView({ kind: 'path', trackId: track.id })}
                   />
                 );
