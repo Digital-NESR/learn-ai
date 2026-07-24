@@ -3231,7 +3231,7 @@ const productivityModules: Module[] = [
     part: 5,
     title: 'Claude Projects: Organizing Persistent Context',
     tagline: 'Stop re-explaining yourself every conversation - set up a Project once and let Claude carry the context forward.',
-    requirement: 'required',
+    requirement: 'optional',
     minutes: 15,
     sections: [
       {
@@ -3296,7 +3296,7 @@ const productivityModules: Module[] = [
     part: 6,
     title: 'Claude Artifacts: Building Inline Docs, Code & Mini-Apps',
     tagline: 'Turn a Claude conversation into a working document, dashboard, or interactive tool without leaving the chat.',
-    requirement: 'required',
+    requirement: 'optional',
     minutes: 5,
     sections: [
       {
@@ -3354,7 +3354,7 @@ const productivityModules: Module[] = [
     part: 7,
     title: 'Custom Instructions & Styles: Tuning Claude to Your Team',
     tagline: "Set Claude's tone and output format once - as a Style - instead of correcting it in every single reply.",
-    requirement: 'required',
+    requirement: 'optional',
     minutes: 6,
     sections: [
       {
@@ -3412,7 +3412,7 @@ const productivityModules: Module[] = [
     part: 8,
     title: 'Claude for Research & Document Analysis',
     tagline: 'Use Claude to work through long reports and multiple documents faster - from literature reviews to data analysis.',
-    requirement: 'required',
+    requirement: 'optional',
     minutes: 15,
     sections: [
       {
@@ -3470,7 +3470,7 @@ const productivityModules: Module[] = [
     part: 9,
     title: 'Copilot in Outlook',
     tagline: 'Turn overflowing inboxes and long threads into quick summaries and ready-to-send drafts.',
-    requirement: 'required',
+    requirement: 'half',
     minutes: 5,
     sections: [
       {
@@ -3528,7 +3528,7 @@ const productivityModules: Module[] = [
     part: 10,
     title: 'Copilot in Teams',
     tagline: 'Catch up on meetings, chats, and action items you missed - without watching the whole recording.',
-    requirement: 'required',
+    requirement: 'half',
     minutes: 9,
     sections: [
       {
@@ -3587,7 +3587,7 @@ const productivityModules: Module[] = [
     part: 11,
     title: 'Copilot Studio: Building a Custom Agent',
     tagline: 'Build a simple, no-code AI agent tailored to your own workflow.',
-    requirement: 'required',
+    requirement: 'optional',
     minutes: 20,
     sections: [
       {
@@ -3646,7 +3646,7 @@ const productivityModules: Module[] = [
     part: 12,
     title: 'Copilot Notebooks: A Workspace for Deeper Research',
     tagline: 'A persistent, multi-turn workspace for pulling together sources, notes, and research on one topic.',
-    requirement: 'required',
+    requirement: 'optional',
     minutes: 12,
     sections: [
       {
@@ -3704,7 +3704,7 @@ const productivityModules: Module[] = [
     part: 13,
     title: 'Copilot Free vs. Copilot Pro',
     tagline: 'Know exactly what the $20/month upgrade unlocks before you ask your team to pay for it.',
-    requirement: 'required',
+    requirement: 'half',
     minutes: 19,
     sections: [
       {
@@ -3784,7 +3784,7 @@ const productivityModules: Module[] = [
     part: 14,
     title: 'Prompting AI for Business Documents',
     tagline: 'Use the same drafting technique to get a usable first pass on job descriptions, policies, and meeting agendas.',
-    requirement: 'required',
+    requirement: 'half',
     minutes: 8,
     sections: [
       {
@@ -3842,7 +3842,7 @@ const productivityModules: Module[] = [
     part: 15,
     title: 'Analyzing Spreadsheet Data Without Writing Formulas',
     tagline: 'Ask Copilot in Excel plain-English questions about a sheet and get trends, outliers, and charts back - no formulas required.',
-    requirement: 'required',
+    requirement: 'half',
     minutes: 14,
     sections: [
       {
@@ -3901,7 +3901,7 @@ const productivityModules: Module[] = [
     part: 16,
     title: 'Turning Raw Notes into Status Reports with AI',
     tagline: 'Feed Copilot or Claude your messy notes and get back a clean, structured report in minutes.',
-    requirement: 'required',
+    requirement: 'half',
     minutes: 10,
     sections: [
       {
