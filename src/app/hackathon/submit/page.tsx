@@ -21,7 +21,6 @@ export default async function SubmitProjectPage() {
   ]);
   if (!team) redirect('/hackathon');
   const eventHasStarted = settings.eventStartAt ? new Date(settings.eventStartAt) <= new Date() : false;
-  if (!eventHasStarted) redirect('/hackathon');
 
   const submission = await getMySubmission().catch(() => null);
 
@@ -36,7 +35,7 @@ export default async function SubmitProjectPage() {
             deck. Submitting again replaces the previous file.
           </p>
         </div>
-        <SubmissionClient initialSubmission={submission} accent={HACKATHON_ACCENT} />
+        <SubmissionClient initialSubmission={submission} accent={HACKATHON_ACCENT} eventHasStarted={eventHasStarted} />
       </main>
     </div>
   );
