@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Search, Crown, Users, UserPlus, Clock, X } from 'lucide-react';
+import Link from 'next/link';
+import { Search, Crown, Users, UserPlus, Clock, X, Home } from 'lucide-react';
 import { requestToJoinTeam, cancelJoinRequest, type JoinableTeam, type MyJoinRequest } from '../../actions/hackathon';
 
 const INPUT_CLS =
@@ -74,17 +75,25 @@ export default function JoinTeamClient({
         <div className="rounded-xl border border-[var(--warning-border)] bg-[var(--warning-soft)] px-4 py-3 flex items-center justify-between gap-3">
           <p className="text-sm font-medium text-[var(--text)] flex items-center gap-2">
             <Clock className="w-4 h-4 shrink-0 text-[var(--warning)]" />
-            Request sent to join <span className="font-semibold">{myRequest.teamName}</span> - waiting for the
-            team leader to approve.
+            Request sent to <span className="font-semibold">{myRequest.teamName}</span> - waiting for approval.
           </p>
-          <button
-            onClick={handleCancel}
-            disabled={cancelling}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--muted)] hover:text-[var(--danger)] disabled:opacity-50 transition-colors shrink-0"
-          >
-            <X className="w-3.5 h-3.5" />
-            Cancel
-          </button>
+          <div className="flex items-center gap-3 shrink-0">
+            <Link
+              href="/hackathon"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--muted)] hover:text-[var(--text)] transition-colors"
+            >
+              <Home className="w-3.5 h-3.5" />
+              Back to home
+            </Link>
+            <button
+              onClick={handleCancel}
+              disabled={cancelling}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--muted)] hover:text-[var(--danger)] disabled:opacity-50 transition-colors"
+            >
+              <X className="w-3.5 h-3.5" />
+              Cancel
+            </button>
+          </div>
         </div>
       )}
 

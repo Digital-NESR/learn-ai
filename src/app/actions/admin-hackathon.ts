@@ -336,7 +336,7 @@ export async function createTeamAdmin(
           [teamId, email, dir.display_name, dir.department, dir.job_title],
         );
       } catch (err) {
-        if (err instanceof Error && /unique/i.test(err.message)) throw new Error(`${dir.display_name} is already on a team`);
+        if (err instanceof Error && /unique/i.test(err.message)) throw new Error(`${dir.display_name} is already in a team`);
         throw err;
       }
     }
@@ -387,7 +387,7 @@ export async function addTeamMemberAdmin(teamId: string, memberEmail: string): P
       [teamId, target, dirRows[0].display_name, dirRows[0].department, dirRows[0].job_title],
     );
   } catch (err) {
-    if (err instanceof Error && /unique/i.test(err.message)) throw new Error('That person is already on a team');
+    if (err instanceof Error && /unique/i.test(err.message)) throw new Error('This person is already in a team');
     throw err;
   }
 }

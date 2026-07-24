@@ -30,6 +30,6 @@ export const config = {
     // prep-guide downloads (meant to be grabbed via a plain <a download> link,
     // which shouldn't ever bounce through /login if a session token is momentarily
     // missing for that request).
-    '/((?!_next/static|_next/image|favicon.ico|nesr-logo-circle.png|hackathon-slide-deck.pdf|hackathon-rules-and-tools.pdf).*)',
+    '/((?!_next/static|_next/image|favicon.ico|nesr-logo-circle.png|hackathon-slide-deck.pdf|hackathon-rules-and-tools.pdf|hackathon-beginners-guide.pdf).*)',
   ],
 };

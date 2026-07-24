@@ -24,8 +24,19 @@ export interface JudgeTeamSummary {
   myRemarks: string;
 }
 
+/** Masks a name for bias-free judging: keeps each word's first letter, stars out the rest
+ * (e.g. "Sakina Bagalkot" -> "S***** B********"). Judges score on the work, not who did it. */
+function maskName(name: string): string {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map(word => word[0] + '*'.repeat(Math.max(word.length - 1, 0)))
+    .join(' ');
+}
+
 /** Every active team, with its submission (if any) and this judge's own existing
- * scoresheet (if they've already scored it) - other judges' scores are never exposed. */
+ * scoresheet (if they've already scored it) - other judges' scores are never exposed.
+ * Member names are masked (initials only) so scoring stays anonymous. */
 export async function listTeamsForJudging(): Promise<JudgeTeamSummary[]> {
   const judgeEmail = await requireJudge();
 
@@ -42,7 +53,7 @@ export async function listTeamsForJudging(): Promise<JudgeTeamSummary[]> {
     const list = membersByTeam.get(m.team_id) ?? [];
     list.push({
       email: m.email,
-      displayName: m.display_name,
+      displayName: maskName(m.display_name),
       department: m.department,
       jobTitle: m.job_title,
       joinedAt: m.joined_at.toISOString(),

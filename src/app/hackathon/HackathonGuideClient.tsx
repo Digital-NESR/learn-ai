@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Download, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, ShieldCheck, GraduationCap } from 'lucide-react';
 import { Block } from '../components/ContentBlocks';
 import Accordion from '../components/Accordion';
 import type { ContentBlock } from '../content';
@@ -76,6 +76,16 @@ export default function HackathonGuideClient({
         >
           <ShieldCheck className="h-4 w-4" />
           Rules &amp; Tools
+        </a>
+
+        <a
+          href="/hackathon-beginners-guide.pdf"
+          download
+          className="flex shrink-0 items-center justify-center gap-2 rounded-xl border-2 px-3.5 py-2.5 text-sm font-bold shadow-sm transition-opacity hover:opacity-80 lg:w-full"
+          style={{ borderColor: accent, color: accent }}
+        >
+          <GraduationCap className="h-4 w-4" />
+          Beginner&apos;s Guide
         </a>
       </nav>
 

@@ -25,9 +25,11 @@ function fmtDate(iso: string): string {
 export default function SubmissionClient({
   initialSubmission,
   accent,
+  eventHasStarted,
 }: {
   initialSubmission: SubmissionMeta | null;
   accent: string;
+  eventHasStarted: boolean;
 }) {
   const [submission, setSubmission] = useState<SubmissionMeta | null>(initialSubmission);
   const [title, setTitle] = useState(initialSubmission?.title ?? '');
@@ -193,7 +195,7 @@ export default function SubmissionClient({
             {submission.videoLink && (
               <li className="flex items-center gap-2 rounded-lg bg-[var(--card)] border border-[var(--border)] px-3 py-1.5">
                 <Video className="h-3.5 w-3.5 shrink-0 text-[var(--muted)]" />
-                <span className="text-sm text-[var(--text)] flex-1 min-w-0 truncate">Video link (OneDrive)</span>
+                <span className="text-sm text-[var(--text)] flex-1 min-w-0 truncate">Video link (OneDrive / MS Stream)</span>
                 <a
                   href={submission.videoLink}
                   target="_blank"
@@ -226,7 +228,7 @@ export default function SubmissionClient({
 
           <div>
             <label className="block text-xs font-medium text-[var(--muted)] mb-1.5">
-              Video link (OneDrive) - for mp4 submissions
+              Video link (OneDrive or MS Stream only) - for mp4 submissions
             </label>
             <input
               type="url"
@@ -235,6 +237,10 @@ export default function SubmissionClient({
               placeholder="https://onedrive.live.com/..."
               className={INPUT_CLS}
             />
+            <p className="mt-1 text-xs text-[var(--muted)]">
+              Make sure sharing is set to public / anyone with the link can view - judges won&apos;t be able to
+              open a private or restricted link.
+            </p>
           </div>
 
           <div className="pt-2 border-t border-[var(--border)]">
@@ -322,8 +328,9 @@ export default function SubmissionClient({
               <button
                 type="button"
                 onClick={handleFinalSubmit}
-                disabled={submitting || finalizing}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold text-white disabled:opacity-50 transition-colors"
+                disabled={submitting || finalizing || !eventHasStarted}
+                title={eventHasStarted ? undefined : 'Submitting opens once the hackathon starts'}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 style={{ background: accent }}
               >
                 <Send className="h-4 w-4" />
@@ -335,13 +342,15 @@ export default function SubmissionClient({
         {!isLocked && (
           <p className="text-xs text-center text-[var(--muted)] -mt-2">
             {readyToSubmit
-              ? 'Ready to submit - Submit locks your project in as final.'
+              ? eventHasStarted
+                ? 'Ready to submit - Submit locks your project in as final.'
+                : 'Ready to submit once the hackathon starts - keep editing your draft until then.'
               : 'You can save a draft and keep editing anytime before the submission deadline.'}
           </p>
         )}
 
         <Link
-          href="/"
+          href="/hackathon"
           className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold border border-[var(--border)] text-[var(--text)] hover:bg-[var(--card-2)] transition-colors"
         >
           <Home className="h-4 w-4" />

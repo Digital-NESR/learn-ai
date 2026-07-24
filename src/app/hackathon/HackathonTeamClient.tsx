@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
-import { Users, Search, UserPlus, LogOut, Crown, Upload, ListChecks, Clock, X, Check } from 'lucide-react';
+import { Users, Search, UserPlus, LogOut, Crown, ListChecks, Clock, X, Check } from 'lucide-react';
 import {
   addTeamMember,
   leaveTeam,
@@ -22,7 +22,6 @@ export default function HackathonTeamClient({
   currentUserEmail,
   accent,
   registrationOpen,
-  submissionsOpen,
   initialMyJoinRequest,
   initialIncomingRequests,
 }: {
@@ -30,7 +29,6 @@ export default function HackathonTeamClient({
   currentUserEmail: string;
   accent: string;
   registrationOpen: boolean;
-  submissionsOpen: boolean;
   initialMyJoinRequest: MyJoinRequest | null;
   initialIncomingRequests: IncomingJoinRequest[];
 }) {
@@ -142,8 +140,7 @@ export default function HackathonTeamClient({
             <div className="rounded-xl border border-[var(--warning-border)] bg-[var(--warning-soft)] px-4 py-3 flex items-center justify-between gap-3">
               <p className="text-sm font-medium text-[var(--text)] flex items-center gap-2">
                 <Clock className="w-4 h-4 shrink-0 text-[var(--warning)]" />
-                Request sent to join <span className="font-semibold">{myJoinRequest.teamName}</span> - waiting for
-                the team leader to approve.
+                Request sent - waiting for approval.
               </p>
               <button
                 onClick={handleCancelRequest}
@@ -304,28 +301,7 @@ export default function HackathonTeamClient({
             )}
           </div>
 
-          <div className="flex items-center justify-between gap-3">
-            {submissionsOpen ? (
-              <Link
-                href="/hackathon/submit"
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
-                style={{ background: accent }}
-              >
-                <Upload className="w-4 h-4" />
-                Submit project
-              </Link>
-            ) : (
-              <button
-                type="button"
-                disabled
-                title="Submissions open once the hackathon starts"
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white opacity-50 cursor-not-allowed"
-                style={{ background: accent }}
-              >
-                <Upload className="w-4 h-4" />
-                Submit project
-              </button>
-            )}
+          <div className="flex items-center justify-end gap-3">
             <button
               onClick={handleLeave}
               disabled={isPending}

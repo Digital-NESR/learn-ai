@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import { Rocket, Users, Sparkles, Trophy, ArrowLeft, Megaphone, Gavel } from 'lucide-react';
+import { Rocket, Users, Sparkles, Trophy, ArrowLeft, Megaphone, Gavel, Pencil, CheckCircle2 } from 'lucide-react';
 import AiLearningHeader from '../components/AiLearningHeader';
 import HackathonGuideClient from './HackathonGuideClient';
 import HackathonTeamClient from './HackathonTeamClient';
@@ -10,6 +10,7 @@ import { GUIDE_CHAPTERS, HACKATHON_ACCENT, HACKATHON_NEON } from '../hackathon-g
 import { authOptions } from '@/lib/auth';
 import { isJudgeEmail } from '@/lib/judge';
 import { getMyTeam, getPublicHackathonSettings, getMyJoinRequest, listJoinRequestsForMyTeam } from '../actions/hackathon';
+import { getMySubmission } from '../actions/hackathon-submission';
 
 export const metadata: Metadata = { title: 'Hackathon | NESR AI Verse' };
 export const dynamic = 'force-dynamic';
@@ -66,6 +67,8 @@ export default async function HackathonPage() {
     getMyJoinRequest().catch(() => null),
   ]);
   const incomingJoinRequests = myTeam?.createdByEmail === currentUserEmail ? await listJoinRequestsForMyTeam() : [];
+  const mySubmission = myTeam ? await getMySubmission().catch(() => null) : null;
+  const submissionStatus: 'none' | 'draft' | 'final' = !mySubmission ? 'none' : mySubmission.isFinal ? 'final' : 'draft';
   const statusCopy = STATUS_COPY[settings.status] ?? STATUS_COPY.draft;
 
   const details: { label: string; value: string }[] = [];
@@ -174,7 +177,7 @@ export default async function HackathonPage() {
               </dl>
             )}
 
-            {registrationOpen && !myTeam && (
+            {registrationOpen && !myTeam && !myJoinRequest && !isJudge && (
               <div className="mt-8 flex justify-center">
                 <Link
                   href="/hackathon/register"
@@ -187,6 +190,37 @@ export default async function HackathonPage() {
                 >
                   <Rocket className="h-5 w-5" />
                   Register Now
+                </Link>
+              </div>
+            )}
+
+            {!isJudge && myTeam && (
+              <div className="mt-8 flex justify-center">
+                <Link
+                  href="/hackathon/submit"
+                  className="animate-glow-pulse inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-base font-extrabold uppercase tracking-wide text-white shadow-lg transition-transform hover:scale-105"
+                  style={{
+                    background: HACKATHON_ACCENT,
+                    ['--glow-color' as string]: `${HACKATHON_ACCENT}99`,
+                    ['--glow-color-transparent' as string]: `${HACKATHON_ACCENT}00`,
+                  }}
+                >
+                  {submissionStatus === 'draft' ? (
+                    <>
+                      <Pencil className="h-5 w-5" />
+                      Edit draft submission
+                    </>
+                  ) : submissionStatus === 'final' ? (
+                    <>
+                      <CheckCircle2 className="h-5 w-5" />
+                      View submission
+                    </>
+                  ) : (
+                    <>
+                      <Rocket className="h-5 w-5" />
+                      Submit project
+                    </>
+                  )}
                 </Link>
               </div>
             )}
@@ -257,24 +291,25 @@ export default async function HackathonPage() {
           </div>
         </div>
 
-        {/* ── Team entry ── */}
-        <div className="max-w-2xl mx-auto px-6 lg:px-8 py-14">
-          <div className="mb-6 text-center">
-            <h2 className="text-2xl font-bold tracking-tight text-[var(--text)]">Enter your team</h2>
-            <p className="mt-2 text-[var(--muted)]">
-              Create a team or wait for a teammate to add you - everyone needs an NESR email on file.
-            </p>
+        {/* ── Team entry (judges don't register/join - they only judge) ── */}
+        {!isJudge && (
+          <div className="max-w-2xl mx-auto px-6 lg:px-8 py-14">
+            <div className="mb-6 text-center">
+              <h2 className="text-2xl font-bold tracking-tight text-[var(--text)]">Enter your team</h2>
+              <p className="mt-2 text-[var(--muted)]">
+                Create a team or wait for a teammate to add you - everyone needs an NESR email on file.
+              </p>
+            </div>
+            <HackathonTeamClient
+              initialTeam={myTeam}
+              currentUserEmail={currentUserEmail}
+              accent={HACKATHON_ACCENT}
+              registrationOpen={registrationOpen}
+              initialMyJoinRequest={myJoinRequest}
+              initialIncomingRequests={incomingJoinRequests}
+            />
           </div>
-          <HackathonTeamClient
-            initialTeam={myTeam}
-            currentUserEmail={currentUserEmail}
-            accent={HACKATHON_ACCENT}
-            registrationOpen={registrationOpen}
-            submissionsOpen={eventHasStarted}
-            initialMyJoinRequest={myJoinRequest}
-            initialIncomingRequests={incomingJoinRequests}
-          />
-        </div>
+        )}
 
         <div className="py-10 text-center">
           <Link

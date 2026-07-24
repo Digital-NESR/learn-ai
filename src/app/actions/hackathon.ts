@@ -153,7 +153,15 @@ export async function createTeam(teamName: string): Promise<Team> {
     `select team_id from hackathon_team_members where email = $1`,
     [email],
   );
-  if (existing.rows.length) throw new Error('You are already on a team');
+  if (existing.rows.length) throw new Error('You are already in a team');
+
+  const existingRequest = await aiversePool.query(
+    `select id from hackathon_join_requests where requester_email = $1 and status = 'pending'`,
+    [email],
+  );
+  if (existingRequest.rows.length) {
+    throw new Error('You already have a pending request to join a team - cancel it first to create your own');
+  }
 
   const { rows: dirRows } = await employeeDirectoryPool.query(
     `select department, job_title from azure_ad_users_staging where mail ilike $1 limit 1`,
@@ -217,7 +225,7 @@ export async function addTeamMember(teamId: string, memberEmail: string): Promis
     );
   } catch (err) {
     if (err instanceof Error && /unique/i.test(err.message)) {
-      throw new Error('That person is already on a team');
+      throw new Error('This person is already in a team');
     }
     throw err;
   }
@@ -294,7 +302,7 @@ export async function requestToJoinTeam(teamId: string): Promise<MyJoinRequest> 
     `select team_id from hackathon_team_members where email = $1`,
     [email],
   );
-  if (existingTeam.rows.length) throw new Error('You are already on a team');
+  if (existingTeam.rows.length) throw new Error('You are already in a team');
 
   const existingRequest = await aiversePool.query(
     `select id from hackathon_join_requests where requester_email = $1 and status = 'pending'`,

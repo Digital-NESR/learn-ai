@@ -14,6 +14,7 @@ import {
   Save,
   CheckCircle2,
   ArrowLeft,
+  EyeOff,
 } from 'lucide-react';
 import { saveJudgeScore, type JudgeTeamSummary } from '../actions/judge';
 import { RUBRIC_CATEGORIES, RUBRIC_TOTAL_MAX } from '../judging-rubric';
@@ -166,10 +167,14 @@ export default function JudgeClient({ initialTeams }: { initialTeams: JudgeTeamS
         {/* Team + submission */}
         <div className="flex flex-col gap-5">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-1">
               <Users className="w-5 h-5" style={{ color: ACCENT }} />
               <h1 className="text-xl font-bold text-[var(--text)]">{team.name}</h1>
             </div>
+            <p className="flex items-center gap-1 mb-3 text-xs text-[var(--muted)]">
+              <EyeOff className="w-3 h-3" />
+              Member names are masked to keep scoring unbiased.
+            </p>
             <ul className="flex flex-col gap-2">
               {team.members.map(m => (
                 <li
@@ -184,7 +189,7 @@ export default function JudgeClient({ initialTeams }: { initialTeams: JudgeTeamS
                       )}
                     </p>
                     <p className="text-xs text-[var(--muted)] truncate">
-                      {[m.jobTitle, m.department].filter(Boolean).join(' · ') || m.email}
+                      {[m.jobTitle, m.department].filter(Boolean).join(' · ') || 'Team member'}
                     </p>
                   </div>
                 </li>

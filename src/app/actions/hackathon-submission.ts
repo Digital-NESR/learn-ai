@@ -115,7 +115,7 @@ async function upsertSubmission(formData: FormData, final: boolean): Promise<Sub
   const eventStartAt = settingsRows[0]?.event_start_at as Date | null;
   const submissionDeadlineAt = settingsRows[0]?.submission_deadline_at as Date | null;
   const now = new Date();
-  if (eventStartAt && now < eventStartAt) throw new Error('Submissions open once the hackathon starts');
+  if (final && eventStartAt && now < eventStartAt) throw new Error('Submitting opens once the hackathon starts');
   const crossedDeadline = Boolean(submissionDeadlineAt && now > submissionDeadlineAt);
 
   const title = String(formData.get('title') ?? '').trim();
