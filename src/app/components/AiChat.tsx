@@ -138,7 +138,7 @@ export default function AiChat() {
       {!open && (
         <>
           {showBubble && (
-            <div className="animate-fade-up fixed bottom-9 right-24 z-50 max-w-[200px] rounded-2xl rounded-br-sm border border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-sm text-[var(--text)] shadow-lg relative">
+            <div className="animate-fade-up fixed bottom-24 right-6 z-50 max-w-[200px] rounded-2xl rounded-br-sm border border-[var(--border)] bg-[var(--card)] px-3.5 py-2.5 text-sm text-[var(--text)] shadow-lg">
               <button
                 onClick={() => setShowBubble(false)}
                 aria-label="Dismiss"
